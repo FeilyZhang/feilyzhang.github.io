@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Creation and basic operation of NumPy vector (group) - Feily Zhang</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="Creation and basic operation of NumPy vector (group)" />
+<meta property="og:description" content="NumPy的主要操作对象是同类型的多维数组，若干个数组具有相同的长度及类型，各数组元素可以通过非负整数索引。在NumPy当中，数组的维度被称为轴(axes)。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://feily.tech/posts/quickstart-tutorial/" />
+<meta property="article:published_time" content="2020-07-23T15:43:05+08:00" />
+<meta property="article:modified_time" content="2020-07-23T15:43:05+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Creation and basic operation of NumPy vector (group)"/>
+<meta name="twitter:description" content="NumPy的主要操作对象是同类型的多维数组，若干个数组具有相同的长度及类型，各数组元素可以通过非负整数索引。在NumPy当中，数组的维度被称为轴(axes)。"/>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:200,300" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" media="screen" href="https://feily.tech/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://feily.tech/css/main.css" /><link rel="stylesheet" type="text/css" href="https://feily.tech/css/dark.css" media="(prefers-color-scheme: dark)" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+	<script src="https://feily.tech/js/main.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+	<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+	<script>
+	  document.addEventListener("DOMContentLoaded", function() {
+	    renderMathInElement( document.body, {
+	      delimiters: [
+	        {left: "$$", right: "$$", display: true},
+	        {left: "[%", right: "%]", display: true},
+	        {left: "$", right: "$", display: false}
+	      ]}
+	    );
+	  });
+	</script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title"><a href="https://feily.tech/">Feily Zhang</a></h1>
+	<div class="site-description"><h2>Software Developer, Machine Learning, Astronomy Enthusiast.</h2><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/FeilyZhang" title="Github"><i data-feather="github"></i></a><a href="https://twitter.com/FeilyZhang" title="Twitter"><i data-feather="twitter"></i></a><a href="/index.xml" title="RSS"><i data-feather="rss"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/">Home</a>
+			</li>
+			
+			<li>
+				<a href="/posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="/about">About</a>
+			</li>
+			
+			<li>
+				<a href="/tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h1 class="title">Creation and basic operation of NumPy vector (group)</h1>
+			<div class="meta">Posted at &mdash; Jul 23, 2020</div>
+		</div>
+
+		<div class="markdown">
+			<p>NumPy的主要操作对象是同类型的多维数组，若干个数组具有相同的长度及类型，各数组元素可以通过非负整数索引。在NumPy当中，数组的维度被称为轴(axes)。</p>
+<h2 id="如何理解轴axes"><strong>如何理解轴(axes)</strong></h2>
+<p>举个例子，三维空间中一点的坐标$[1, 2, 1]$有一个轴，该轴有三个元素，即长度为3。对于二维数组$[[ 1., 0., 0.], [ 0., 1., 2.]]$，其包含两个轴，第一个轴长度为2，第二个轴的长度为3。从而，对于轴这一概念，可以得到如下结论</p>
+<ol>
+<li>NumPy中的轴就是编程语言中数组的维度，即一个轴就是数组的一个维度，也就是说若数组为一维数组，那么就有一个轴，若为$n$维数组，那么就有$n$个轴，但是各个轴的长度未必一致;</li>
+<li>NumPy中轴的长度就是当前轴的元素个数，即使是轴，也算一个元素;</li>
+<li>NumPy中，由于轴等同于数组的维度，那么第一个轴的长度就是数组第一维的长度，第二个轴的长度就是数组第二维（第一维的元素就是第二维）的长度，以此类推。</li>
+</ol>
+<p>由于NumPy主要涉及矩阵运算，那么<strong>轴等于维度</strong>这一结论如何对标线性代数中的维度呢？</p>
+<p>线性代数中，维度就是向量的分量个数，对于三维空间中一点的坐标$[1, 2, 1]$，其为三维向量，但是在NumPy或编程语言中，它却是一维。如何理解呢？</p>
+<p>NumPy及编程语言中，最后一个轴或者说维度，事实上代表的就是一个向量，但是仅仅能说明这是一个向量，对于该向量的维度，是通过轴的长度来指明的。倒数第二个轴或者维度，一定是向量的集合，即向量组，向量组中向量的个数是通过该轴的长度来指明的，这也说明了向量组可以通过二维数组来描述。若存在三维数组，即三个轴，那么第一维或者说第一个轴一定是向量组的集合，其中各个向量组可以通过下标来索引。例如</p>
+<ul>
+<li>对于向量$[1, 2, 1]^T$，编程语言中通过<strong>一维</strong>数组(包含<strong>一个轴</strong>)$[1, 2, 1]$来说明这是一个向量，通过$[1, 2, 1].length$，来说明这是一个三维向量;</li>
+<li>对于向量组$[ 1., 0., 0.]^T, [ 0., 1., 2.]^T$，编程语言通过<strong>二维</strong>数组(包含<strong>两个轴</strong>)来说明这是一个向量组，其第一个维度（第一个轴）的长度为2，代表这个向量组包含两个向量，这也指明了第二个轴是向量，那么第二个轴的长度自然就是向量的维数。</li>
+</ul>
+<p>综上，从数组维度的角度看，NumPy中的轴（其本质就是数组的维度）其实就是向量（或向量组）的一种组织方式，若一数组有一个轴，那么说明该数组代表的是一个向量，如果数组为二维，那么说明其为向量组，若为三维，那么就是向量组构成的集合，该集合可以通过索引来查改，等等</p>
+<h2 id="numpy中如何创建向量组"><strong>NumPy中如何创建向量组</strong></h2>
+<p>NumPy中的数组类型被称为<code>ndarray</code>，意为$n$维数组，不同于Python中只具备基本操作的列表类型，NumPy中在该类型的对象上施加了诸多的方法，可以完成众多对向量(组)的操作。</p>
+<h3 id="将已知数组转化为向量组"><strong>将已知数组转化为向量组</strong></h3>
+<p>如果已经知道要创建的向量组，那么直接使用<code>np.array()</code>方法进行创建，其参数为若干维数组。例如参数为一维数组</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>array([<span style="color:#2aa198">2</span>,<span style="color:#2aa198">3</span>,<span style="color:#2aa198">4</span>])
+<span style="color:#719e07">print</span>(a)    <span style="color:#586e75"># [2 3 4]</span>
+<span style="color:#719e07">print</span>(a<span style="color:#719e07">.</span>ndim)    <span style="color:#586e75"># 1</span>
+<span style="color:#719e07">print</span>(a<span style="color:#719e07">.</span>shape)    <span style="color:#586e75"># (3,)</span>
+</code></pre></div><p>参数为2维数组，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>array([[<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>], [<span style="color:#2aa198">2</span>,<span style="color:#2aa198">3</span>,<span style="color:#2aa198">4</span>]])
+attrs <span style="color:#719e07">=</span> [<span style="color:#2aa198">&#39;a.ndim&#39;</span>, <span style="color:#2aa198">&#39;a.shape&#39;</span>, <span style="color:#2aa198">&#39;a.size&#39;</span>, <span style="color:#2aa198">&#39;a.dtype&#39;</span>, <span style="color:#2aa198">&#39;a.itemsize&#39;</span>, <span style="color:#2aa198">&#39;a.data&#39;</span>]
+<span style="color:#719e07">for</span> attr <span style="color:#719e07">in</span> attrs:
+    <span style="color:#719e07">print</span>(attr <span style="color:#719e07">+</span> <span style="color:#2aa198">&#34; : &#34;</span> <span style="color:#719e07">+</span> <span style="color:#b58900">str</span>(<span style="color:#b58900">eval</span>(attr)))
+</code></pre></div><p>上述代码演示了类<code>ndarray</code>实例的诸多属性，对其解释如下</p>
+<ol>
+<li><code>ndarray.ndim</code>，数组的维度或轴，对应于向量组的向量个数;</li>
+<li><code>ndarray.shape</code>，由数组的维度及各维度长度构成的二元组，对应于向量组的个数以及各向量的维数;</li>
+<li><code>ndarray.size</code>，$n$维数组中元素的个数，为<code>ndarray.shape</code>中二元组元素的乘积;</li>
+<li><code>ndarray.dtype</code>，数组中基本元素的类型;</li>
+<li><code>ndarray.itemsize</code>，数组中每个基本元素的字节数;</li>
+<li><code>ndarray.data</code>，包含数组实际元素的缓冲区，基本上不用它.</li>
+</ol>
+<p>上述代码输出如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">a<span style="color:#719e07">.</span>ndim : <span style="color:#2aa198">2</span>
+a<span style="color:#719e07">.</span>shape : (<span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>)
+a<span style="color:#719e07">.</span>size : <span style="color:#2aa198">6</span>
+a<span style="color:#719e07">.</span>dtype : int32
+a<span style="color:#719e07">.</span>itemsize : <span style="color:#2aa198">4</span>
+a<span style="color:#719e07">.</span>data : <span style="color:#719e07">&lt;</span>memory at <span style="color:#2aa198">0x00000214316FB480</span><span style="color:#719e07">&gt;</span>
+</code></pre></div><h3 id="生成某个范围的向量组"><strong>生成某个范围的向量组</strong></h3>
+<p>那么如何创建指定范围内连续元素的向量呢？使用<code>arange()</code>方法即可</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>arange(<span style="color:#2aa198">15</span>)
+<span style="color:#719e07">print</span>(a)    <span style="color:#586e75"># [ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14]</span>
+</code></pre></div><p>事实上，<code>arange()</code>方法的原型为</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">def</span> <span style="color:#268bd2">arange</span>([start,] stop[, step,], dtype<span style="color:#719e07">=</span><span style="color:#268bd2">None</span>)
+</code></pre></div><p>其中第一个参数<code>start</code>默认为0，参数<code>step</code>为步长默认为1，参数<code>dtype</code>为该方法返回数组的元素类型默认为<code>None</code>.</p>
+<p>若省略start参数，但是不省略步长，那么必须指明步长的属性名；如果不省略参数start，若需要指明步长，那么可以省略step属性名；dtype的类型为<code>np</code>的一个枚举量或者字符串，同样若前三个参数均存在，那么可以省略属性名。对于这三种情况分别演示如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>arange(<span style="color:#2aa198">5</span>, step <span style="color:#719e07">=</span> <span style="color:#2aa198">1.5</span>)
+<span style="color:#719e07">print</span>(a)    <span style="color:#586e75"># [0.  1.5 3.  4.5]</span>
+b <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>arange(<span style="color:#2aa198">0</span>, <span style="color:#2aa198">5</span>, <span style="color:#2aa198">1.2</span>)
+<span style="color:#719e07">print</span>(b)    <span style="color:#586e75"># [0.  1.2 2.4 3.6 4.8]</span>
+c <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>arange(<span style="color:#2aa198">0</span>, <span style="color:#2aa198">5</span>, <span style="color:#2aa198">1</span>, <span style="color:#2aa198">&#39;float64&#39;</span>)
+<span style="color:#719e07">print</span>(c)    <span style="color:#586e75"># [0. 1. 2. 3. 4.]</span>
+</code></pre></div><p>上面通过<code>arange()</code>方法创建的都是向量组中只有一个向量的$n$维向量，那么如何创建向量组呢？这就需要调整一维向量的尺寸。通过链式调用$reshape()$方法即可实现，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>arange(<span style="color:#2aa198">15</span>)<span style="color:#719e07">.</span>reshape(<span style="color:#2aa198">3</span>, <span style="color:#2aa198">5</span>)
+<span style="color:#719e07">print</span>(a)
+</code></pre></div><p>输出为</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[[ <span style="color:#2aa198">0</span>  <span style="color:#2aa198">1</span>  <span style="color:#2aa198">2</span>  <span style="color:#2aa198">3</span>  <span style="color:#2aa198">4</span>]
+ [ <span style="color:#2aa198">5</span>  <span style="color:#2aa198">6</span>  <span style="color:#2aa198">7</span>  <span style="color:#2aa198">8</span>  <span style="color:#2aa198">9</span>]
+ [<span style="color:#2aa198">10</span> <span style="color:#2aa198">11</span> <span style="color:#2aa198">12</span> <span style="color:#2aa198">13</span> <span style="color:#2aa198">14</span>]]
+</code></pre></div><p>即创建了一个包含三个向量的向量组，其中每个向量的维数为5。该方法是一个类方法，这意味着是可以直接作用在ndarray上的，如</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">np<span style="color:#719e07">.</span>array([<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">4</span>, <span style="color:#2aa198">5</span>, <span style="color:#2aa198">6</span>])<span style="color:#719e07">.</span>reshape(<span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>)
+</code></pre></div><p>对于<code>reshape()</code>方法，其接受的参数之积一定要等于原<code>shape()</code>方法二元组元素之积。</p>
+<h3 id="如何创建指定范围内固定数量元素的向量组"><strong>如何创建指定范围内固定数量元素的向量组</strong></h3>
+<p><code>arange()</code>方法可以用步长来创建向量（组），但问题在于数目不好计算（对于浮点数步长来说）。有一种办法是在给定范围内创建某干个元素，元素间距相同，这可以通过<code>linspace()</code>方法来实现，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>linspace(<span style="color:#2aa198">0</span>, <span style="color:#2aa198">9</span>, <span style="color:#2aa198">10</span>)
+<span style="color:#719e07">print</span>(a)    <span style="color:#586e75"># [0. 1. 2. 3. 4. 5. 6. 7. 8. 9.]</span>
+</code></pre></div><p>该函数原型为</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">def</span> <span style="color:#268bd2">linspace</span>(start, stop, num<span style="color:#719e07">=</span><span style="color:#2aa198">50</span>, endpoint<span style="color:#719e07">=</span><span style="color:#268bd2">True</span>, retstep<span style="color:#719e07">=</span><span style="color:#268bd2">False</span>, dtype<span style="color:#719e07">=</span><span style="color:#268bd2">None</span>,
+             axis<span style="color:#719e07">=</span><span style="color:#2aa198">0</span>):
+</code></pre></div><p>我们只需要关注参数<code>num</code>，该参数说明若省略元素个数，那么默认生成50个元素。对于该函数同样可以链式调用，例如</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>linspace(<span style="color:#2aa198">0</span>, <span style="color:#2aa198">9</span>, <span style="color:#2aa198">10</span>)<span style="color:#719e07">.</span>reshape((<span style="color:#2aa198">2</span>, <span style="color:#2aa198">5</span>))
+<span style="color:#719e07">print</span>(a)
+</code></pre></div><p>输出为</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[[<span style="color:#2aa198">0.</span> <span style="color:#2aa198">1.</span> <span style="color:#2aa198">2.</span> <span style="color:#2aa198">3.</span> <span style="color:#2aa198">4.</span>]
+ [<span style="color:#2aa198">5.</span> <span style="color:#2aa198">6.</span> <span style="color:#2aa198">7.</span> <span style="color:#2aa198">8.</span> <span style="color:#2aa198">9.</span>]]
+</code></pre></div><h3 id="创建元素均为0或者1的向量组"><strong>创建元素均为0或者1的向量组</strong></h3>
+<p>可以通过<code>zeros()</code>和<code>ones()</code>方法创建元素均为0或者1的任意尺寸合法的向量（组），其参数为一个元组，分别为向量的个数以及向量的维数，例如</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>zeros((<span style="color:#2aa198">3</span>, <span style="color:#2aa198">5</span>))
+<span style="color:#719e07">print</span>(a)
+b <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>ones((<span style="color:#2aa198">3</span>, <span style="color:#2aa198">5</span>))
+<span style="color:#719e07">print</span>(b)
+c <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>ones((<span style="color:#2aa198">3</span>,))
+<span style="color:#719e07">print</span>(c)
+</code></pre></div><p>输出如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[[<span style="color:#2aa198">0.</span> <span style="color:#2aa198">0.</span> <span style="color:#2aa198">0.</span> <span style="color:#2aa198">0.</span> <span style="color:#2aa198">0.</span>]
+ [<span style="color:#2aa198">0.</span> <span style="color:#2aa198">0.</span> <span style="color:#2aa198">0.</span> <span style="color:#2aa198">0.</span> <span style="color:#2aa198">0.</span>]
+ [<span style="color:#2aa198">0.</span> <span style="color:#2aa198">0.</span> <span style="color:#2aa198">0.</span> <span style="color:#2aa198">0.</span> <span style="color:#2aa198">0.</span>]]
+[[<span style="color:#2aa198">1.</span> <span style="color:#2aa198">1.</span> <span style="color:#2aa198">1.</span> <span style="color:#2aa198">1.</span> <span style="color:#2aa198">1.</span>]
+ [<span style="color:#2aa198">1.</span> <span style="color:#2aa198">1.</span> <span style="color:#2aa198">1.</span> <span style="color:#2aa198">1.</span> <span style="color:#2aa198">1.</span>]
+ [<span style="color:#2aa198">1.</span> <span style="color:#2aa198">1.</span> <span style="color:#2aa198">1.</span> <span style="color:#2aa198">1.</span> <span style="color:#2aa198">1.</span>]]
+[<span style="color:#2aa198">1.</span> <span style="color:#2aa198">1.</span> <span style="color:#2aa198">1.</span>]
+</code></pre></div><h3 id="创建合法尺寸的随机向量组"><strong>创建合法尺寸的随机向量组</strong></h3>
+<p>首先需要获取一个numpy的随机数实例，代码为</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">rdm <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>random<span style="color:#719e07">.</span>default_rng(<span style="color:#2aa198">1</span>)
+</code></pre></div><p>其参数为一个种子（seed）。然后就可以使用该实例创建随机向量组，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">a <span style="color:#719e07">=</span> rdm<span style="color:#719e07">.</span>random((<span style="color:#2aa198">3</span>, <span style="color:#2aa198">3</span>), dtype <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>float64)
+</code></pre></div><p>随机数的范围在$[0.0, 1.0)$，所生成的随机数类型为<code>float64</code>，不可以设置<code>dtype</code>为整型，另一个可选值就是<code>float32</code>。</p>
+<h2 id="向量组的基本操作"><strong>向量组的基本操作</strong></h2>
+<h3 id="向量组的加法数乘乘法及幂"><strong>向量组的加法、数乘、乘法及幂</strong></h3>
+<p>向量组的基本操作包括加法（+）、数乘（*）、以及乘法（@），示例如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>array([<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">4</span>])
+b <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>array([<span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">4</span>, <span style="color:#2aa198">5</span>])
+<span style="color:#719e07">print</span>(a <span style="color:#719e07">+</span> b)    <span style="color:#586e75"># [3 5 7 9]</span>
+<span style="color:#719e07">print</span>(<span style="color:#2aa198">2</span> <span style="color:#719e07">*</span> b)    <span style="color:#586e75"># [ 4  6  8 10]</span>
+<span style="color:#719e07">print</span>(a @ b<span style="color:#719e07">.</span>T) <span style="color:#586e75"># 40</span>
+</code></pre></div><p>特别地，对于算符<code>*</code>，若一个操作数为标量，那么对应的就是向量（组）的数乘，否则在两向量（组）尺寸相同的情况下会进行逐行逐列元素的相乘。</p>
+<p>对于向量（组）乘法，在尺寸对应的情况下，即可以使用算符<code>@</code>，也可以使用方法<code>dot()</code>，即上面的向量乘法也可以这么写</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">print</span>(a<span style="color:#719e07">.</span>dot(b<span style="color:#719e07">.</span>T)) <span style="color:#586e75"># 40</span>
+</code></pre></div><p>向量组乘法的尺寸一定要相互对应，如</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>array([[<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>], [<span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>], [<span style="color:#2aa198">3</span>, <span style="color:#2aa198">4</span>]])
+b <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>array([[<span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">4</span>], [<span style="color:#2aa198">3</span>, <span style="color:#2aa198">4</span>, <span style="color:#2aa198">5</span>]])
+<span style="color:#719e07">print</span>(a @ b)
+<span style="color:#719e07">print</span>(a<span style="color:#719e07">.</span>T @ b<span style="color:#719e07">.</span>T)
+</code></pre></div><p>输出为</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[[ <span style="color:#2aa198">8</span> <span style="color:#2aa198">11</span> <span style="color:#2aa198">14</span>]
+ [<span style="color:#2aa198">13</span> <span style="color:#2aa198">18</span> <span style="color:#2aa198">23</span>]
+ [<span style="color:#2aa198">18</span> <span style="color:#2aa198">25</span> <span style="color:#2aa198">32</span>]]
+[[<span style="color:#2aa198">20</span> <span style="color:#2aa198">26</span>]
+ [<span style="color:#2aa198">29</span> <span style="color:#2aa198">38</span>]]
+</code></pre></div><p>上述演示的向量组的基本操作，其本质上都新创建了一个向量（组），然后将运算的结果填充进去。另一种方法是，直接利用现有的尺寸满足运算结果的向量，这样就不用新创建向量组了，那么加法及数乘算符自然变成了<code>+=</code>以及<code>*=</code>，乘法则不一定，因为尺寸不一定吻合。</p>
+<p>还有就是向量组的幂运算<code>**</code>，其左侧操作数一定为向量，右侧为一个标量，顺序不能搞反了，示例如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>array([<span style="color:#2aa198">1</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">5</span>])
+<span style="color:#719e07">print</span>((a <span style="color:#719e07">*</span> a) <span style="color:#719e07">*</span> a <span style="color:#719e07">==</span> a <span style="color:#719e07">**</span> <span style="color:#2aa198">3</span>)
+b <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>array([[<span style="color:#2aa198">1</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">5</span>], [<span style="color:#2aa198">2</span>, <span style="color:#2aa198">4</span>, <span style="color:#2aa198">6</span>]])
+<span style="color:#719e07">print</span>((b <span style="color:#719e07">*</span> b) <span style="color:#719e07">*</span> b <span style="color:#719e07">==</span> b <span style="color:#719e07">**</span> <span style="color:#2aa198">3</span>)
+</code></pre></div><p>结果为</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[ <span style="color:#268bd2">True</span>  <span style="color:#268bd2">True</span>  <span style="color:#268bd2">True</span>]
+[[ <span style="color:#268bd2">True</span>  <span style="color:#268bd2">True</span>  <span style="color:#268bd2">True</span>]
+ [ <span style="color:#268bd2">True</span>  <span style="color:#268bd2">True</span>  <span style="color:#268bd2">True</span>]]
+</code></pre></div><p>显然，通过对向量组施加$n - 1$次向量组逐元素相乘，等同于向量组的$n$次幂运算。</p>
+<p>如果参与运算的两个同尺寸的向量具有不同的元素类型，那么最终的结果一定会转型到最精确的一种类型，即向上转型（upcasting），如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+<span style="color:#719e07">import</span> math
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>ones(<span style="color:#2aa198">3</span>, dtype <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>int32)
+b <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>linspace(<span style="color:#2aa198">0</span>, math<span style="color:#719e07">.</span>pi, <span style="color:#2aa198">3</span>)
+<span style="color:#719e07">print</span>((a <span style="color:#719e07">+</span> b)<span style="color:#719e07">.</span>dtype<span style="color:#719e07">.</span>name)    <span style="color:#586e75"># float64</span>
+</code></pre></div><h3 id="向量组的最值和"><strong>向量组的最值、和</strong></h3>
+<p>可以通过方法<code>sum()</code>,<code>max()</code>,<code>min()</code>来分别计算向量组中的和、最大值、最小值。如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>arange(<span style="color:#2aa198">0</span>, <span style="color:#2aa198">10</span>)<span style="color:#719e07">.</span>reshape(<span style="color:#2aa198">2</span>, <span style="color:#2aa198">5</span>)
+<span style="color:#719e07">print</span>(a<span style="color:#719e07">.</span>sum())    <span style="color:#586e75"># 45</span>
+<span style="color:#719e07">print</span>(a<span style="color:#719e07">.</span>max())    <span style="color:#586e75"># 9</span>
+<span style="color:#719e07">print</span>(a<span style="color:#719e07">.</span>min())    <span style="color:#586e75"># 0</span>
+</code></pre></div><p>上述三个方法都可以通过axis参数来指明其轴。以求和为例，对于含有$n$个轴的数组$（n \ge 2）$，当取值为$n - 1$时，按行计算数组的和，为$n - 2$时，按列计算数组的和。无论数组包含几个轴，这种方法同样适用，其计算是以二维数组为单位的，所以才存在行和列。以下述四维数组为例</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>array([[[[<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>], [<span style="color:#2aa198">4</span>, <span style="color:#2aa198">5</span>, <span style="color:#2aa198">6</span>]], [[<span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">4</span>], [<span style="color:#2aa198">5</span>, <span style="color:#2aa198">6</span>, <span style="color:#2aa198">7</span>]]], [[[<span style="color:#2aa198">1</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">5</span>], [<span style="color:#2aa198">4</span>, <span style="color:#2aa198">6</span>, <span style="color:#2aa198">8</span>]], [[<span style="color:#2aa198">2</span>, <span style="color:#2aa198">4</span>, <span style="color:#2aa198">6</span>], [<span style="color:#2aa198">5</span>, <span style="color:#2aa198">7</span>, <span style="color:#2aa198">9</span>]]]])
+<span style="color:#719e07">print</span>(a)
+<span style="color:#719e07">print</span>(<span style="color:#2aa198">&#39;-&#39;</span> <span style="color:#719e07">*</span> <span style="color:#2aa198">10</span>)
+<span style="color:#719e07">print</span>(a<span style="color:#719e07">.</span>sum(axis <span style="color:#719e07">=</span> <span style="color:#2aa198">3</span>))
+<span style="color:#719e07">print</span>(a<span style="color:#719e07">.</span>sum(axis <span style="color:#719e07">=</span> <span style="color:#2aa198">2</span>))
+</code></pre></div><p>其输出为</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[[[[<span style="color:#2aa198">1</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span>]
+   [<span style="color:#2aa198">4</span> <span style="color:#2aa198">5</span> <span style="color:#2aa198">6</span>]]
+
+  [[<span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span> <span style="color:#2aa198">4</span>]
+   [<span style="color:#2aa198">5</span> <span style="color:#2aa198">6</span> <span style="color:#2aa198">7</span>]]]
+
+
+ [[[<span style="color:#2aa198">1</span> <span style="color:#2aa198">3</span> <span style="color:#2aa198">5</span>]
+   [<span style="color:#2aa198">4</span> <span style="color:#2aa198">6</span> <span style="color:#2aa198">8</span>]]
+
+  [[<span style="color:#2aa198">2</span> <span style="color:#2aa198">4</span> <span style="color:#2aa198">6</span>]
+   [<span style="color:#2aa198">5</span> <span style="color:#2aa198">7</span> <span style="color:#2aa198">9</span>]]]]
+<span style="color:#719e07">----------</span>
+[[[ <span style="color:#2aa198">6</span> <span style="color:#2aa198">15</span>]
+  [ <span style="color:#2aa198">9</span> <span style="color:#2aa198">18</span>]]
+
+ [[ <span style="color:#2aa198">9</span> <span style="color:#2aa198">18</span>]
+  [<span style="color:#2aa198">12</span> <span style="color:#2aa198">21</span>]]]
+[[[ <span style="color:#2aa198">5</span>  <span style="color:#2aa198">7</span>  <span style="color:#2aa198">9</span>]
+  [ <span style="color:#2aa198">7</span>  <span style="color:#2aa198">9</span> <span style="color:#2aa198">11</span>]]
+
+ [[ <span style="color:#2aa198">5</span>  <span style="color:#2aa198">9</span> <span style="color:#2aa198">13</span>]
+  [ <span style="color:#2aa198">7</span> <span style="color:#2aa198">11</span> <span style="color:#2aa198">15</span>]]]
+</code></pre></div><p>可以看到，以二维数组为单位进行求和，然后将结果包装在一个一维数组里最终替换该二维数组，对$n$维数组中若干个二维数组进行相同的操作之后，将其一维数组包装的所有结果再次包装在$n$维数组当中，此时，最终的结果将变成了$n - 1$维。</p>
+<p>四位数组可能略有抽象，但是二维数组就很明显了，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>arange(<span style="color:#2aa198">12</span>)<span style="color:#719e07">.</span>reshape((<span style="color:#2aa198">2</span>, <span style="color:#2aa198">6</span>))
+<span style="color:#719e07">print</span>(a)
+<span style="color:#719e07">print</span>(<span style="color:#2aa198">&#39;-&#39;</span> <span style="color:#719e07">*</span> <span style="color:#2aa198">10</span>)
+<span style="color:#719e07">print</span>(a<span style="color:#719e07">.</span>sum(axis <span style="color:#719e07">=</span> <span style="color:#2aa198">1</span>))
+<span style="color:#719e07">print</span>(a<span style="color:#719e07">.</span>sum(axis <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>))
+</code></pre></div><p>结果为</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[[ <span style="color:#2aa198">0</span>  <span style="color:#2aa198">1</span>  <span style="color:#2aa198">2</span>  <span style="color:#2aa198">3</span>  <span style="color:#2aa198">4</span>  <span style="color:#2aa198">5</span>]
+ [ <span style="color:#2aa198">6</span>  <span style="color:#2aa198">7</span>  <span style="color:#2aa198">8</span>  <span style="color:#2aa198">9</span> <span style="color:#2aa198">10</span> <span style="color:#2aa198">11</span>]]
+<span style="color:#719e07">----------</span>
+[<span style="color:#2aa198">15</span> <span style="color:#2aa198">51</span>]
+[ <span style="color:#2aa198">6</span>  <span style="color:#2aa198">8</span> <span style="color:#2aa198">10</span> <span style="color:#2aa198">12</span> <span style="color:#2aa198">14</span> <span style="color:#2aa198">16</span>]
+</code></pre></div><p>可以看到按行按列计算之后，结果由二维变成了一维。</p>
+<p>ndarray实例的cumsum()方法用来逐行计算$n$维数组的累计和，如果是2维，那么先累计第一行，第一行累计完后，再在此基础之上累计下一行，即从第一维数组的第一个元素开始，以此类推。二维数组和四维数组累计和如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>arange(<span style="color:#2aa198">12</span>)<span style="color:#719e07">.</span>reshape((<span style="color:#2aa198">2</span>, <span style="color:#2aa198">6</span>))
+<span style="color:#719e07">print</span>(a)
+<span style="color:#719e07">print</span>(a<span style="color:#719e07">.</span>cumsum())
+
+<span style="color:#719e07">print</span>(<span style="color:#2aa198">&#39;-&#39;</span> <span style="color:#719e07">*</span> <span style="color:#2aa198">10</span>)
+
+b <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>array([[[[<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>], [<span style="color:#2aa198">4</span>, <span style="color:#2aa198">5</span>, <span style="color:#2aa198">6</span>]], [[<span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">4</span>], [<span style="color:#2aa198">5</span>, <span style="color:#2aa198">6</span>, <span style="color:#2aa198">7</span>]]], [[[<span style="color:#2aa198">1</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">5</span>], [<span style="color:#2aa198">4</span>, <span style="color:#2aa198">6</span>, <span style="color:#2aa198">8</span>]], [[<span style="color:#2aa198">2</span>, <span style="color:#2aa198">4</span>, <span style="color:#2aa198">6</span>], [<span style="color:#2aa198">5</span>, <span style="color:#2aa198">7</span>, <span style="color:#2aa198">9</span>]]]])
+<span style="color:#719e07">print</span>(b)
+<span style="color:#719e07">print</span>(b<span style="color:#719e07">.</span>cumsum())
+</code></pre></div><p>输出为</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[[ <span style="color:#2aa198">0</span>  <span style="color:#2aa198">1</span>  <span style="color:#2aa198">2</span>  <span style="color:#2aa198">3</span>  <span style="color:#2aa198">4</span>  <span style="color:#2aa198">5</span>]
+ [ <span style="color:#2aa198">6</span>  <span style="color:#2aa198">7</span>  <span style="color:#2aa198">8</span>  <span style="color:#2aa198">9</span> <span style="color:#2aa198">10</span> <span style="color:#2aa198">11</span>]]
+[ <span style="color:#2aa198">0</span>  <span style="color:#2aa198">1</span>  <span style="color:#2aa198">3</span>  <span style="color:#2aa198">6</span> <span style="color:#2aa198">10</span> <span style="color:#2aa198">15</span> <span style="color:#2aa198">21</span> <span style="color:#2aa198">28</span> <span style="color:#2aa198">36</span> <span style="color:#2aa198">45</span> <span style="color:#2aa198">55</span> <span style="color:#2aa198">66</span>]
+<span style="color:#719e07">----------</span>
+[[[[<span style="color:#2aa198">1</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span>]
+   [<span style="color:#2aa198">4</span> <span style="color:#2aa198">5</span> <span style="color:#2aa198">6</span>]]
+
+  [[<span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span> <span style="color:#2aa198">4</span>]
+   [<span style="color:#2aa198">5</span> <span style="color:#2aa198">6</span> <span style="color:#2aa198">7</span>]]]
+
+
+ [[[<span style="color:#2aa198">1</span> <span style="color:#2aa198">3</span> <span style="color:#2aa198">5</span>]
+   [<span style="color:#2aa198">4</span> <span style="color:#2aa198">6</span> <span style="color:#2aa198">8</span>]]
+
+  [[<span style="color:#2aa198">2</span> <span style="color:#2aa198">4</span> <span style="color:#2aa198">6</span>]
+   [<span style="color:#2aa198">5</span> <span style="color:#2aa198">7</span> <span style="color:#2aa198">9</span>]]]]
+[  <span style="color:#2aa198">1</span>   <span style="color:#2aa198">3</span>   <span style="color:#2aa198">6</span>  <span style="color:#2aa198">10</span>  <span style="color:#2aa198">15</span>  <span style="color:#2aa198">21</span>  <span style="color:#2aa198">23</span>  <span style="color:#2aa198">26</span>  <span style="color:#2aa198">30</span>  <span style="color:#2aa198">35</span>  <span style="color:#2aa198">41</span>  <span style="color:#2aa198">48</span>  <span style="color:#2aa198">49</span>  <span style="color:#2aa198">52</span>  <span style="color:#2aa198">57</span>  <span style="color:#2aa198">61</span>  <span style="color:#2aa198">67</span>  <span style="color:#2aa198">75</span>
+  <span style="color:#2aa198">77</span>  <span style="color:#2aa198">81</span>  <span style="color:#2aa198">87</span>  <span style="color:#2aa198">92</span>  <span style="color:#2aa198">99</span> <span style="color:#2aa198">108</span>]
+</code></pre></div><p>该函数同样接受一个轴参数axis，其用法与上述示例的<code>sum()</code>函数一致。示例如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>arange(<span style="color:#2aa198">12</span>)<span style="color:#719e07">.</span>reshape((<span style="color:#2aa198">2</span>, <span style="color:#2aa198">6</span>))
+<span style="color:#719e07">print</span>(a)
+<span style="color:#719e07">print</span>(a<span style="color:#719e07">.</span>cumsum(axis <span style="color:#719e07">=</span> <span style="color:#2aa198">1</span>))
+
+<span style="color:#719e07">print</span>(<span style="color:#2aa198">&#39;-&#39;</span> <span style="color:#719e07">*</span> <span style="color:#2aa198">10</span>)
+
+b <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>array([[[[<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>], [<span style="color:#2aa198">4</span>, <span style="color:#2aa198">5</span>, <span style="color:#2aa198">6</span>]], [[<span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">4</span>], [<span style="color:#2aa198">5</span>, <span style="color:#2aa198">6</span>, <span style="color:#2aa198">7</span>]]], [[[<span style="color:#2aa198">1</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">5</span>], [<span style="color:#2aa198">4</span>, <span style="color:#2aa198">6</span>, <span style="color:#2aa198">8</span>]], [[<span style="color:#2aa198">2</span>, <span style="color:#2aa198">4</span>, <span style="color:#2aa198">6</span>], [<span style="color:#2aa198">5</span>, <span style="color:#2aa198">7</span>, <span style="color:#2aa198">9</span>]]]])
+<span style="color:#586e75">#print(b)</span>
+<span style="color:#719e07">print</span>(b<span style="color:#719e07">.</span>cumsum(axis <span style="color:#719e07">=</span> <span style="color:#2aa198">3</span>))
+</code></pre></div><div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[[ <span style="color:#2aa198">0</span>  <span style="color:#2aa198">1</span>  <span style="color:#2aa198">2</span>  <span style="color:#2aa198">3</span>  <span style="color:#2aa198">4</span>  <span style="color:#2aa198">5</span>]
+ [ <span style="color:#2aa198">6</span>  <span style="color:#2aa198">7</span>  <span style="color:#2aa198">8</span>  <span style="color:#2aa198">9</span> <span style="color:#2aa198">10</span> <span style="color:#2aa198">11</span>]]
+[[ <span style="color:#2aa198">0</span>  <span style="color:#2aa198">1</span>  <span style="color:#2aa198">3</span>  <span style="color:#2aa198">6</span> <span style="color:#2aa198">10</span> <span style="color:#2aa198">15</span>]
+ [ <span style="color:#2aa198">6</span> <span style="color:#2aa198">13</span> <span style="color:#2aa198">21</span> <span style="color:#2aa198">30</span> <span style="color:#2aa198">40</span> <span style="color:#2aa198">51</span>]]
+<span style="color:#719e07">----------</span>
+[[[[ <span style="color:#2aa198">1</span>  <span style="color:#2aa198">3</span>  <span style="color:#2aa198">6</span>]
+   [ <span style="color:#2aa198">4</span>  <span style="color:#2aa198">9</span> <span style="color:#2aa198">15</span>]]
+
+  [[ <span style="color:#2aa198">2</span>  <span style="color:#2aa198">5</span>  <span style="color:#2aa198">9</span>]
+   [ <span style="color:#2aa198">5</span> <span style="color:#2aa198">11</span> <span style="color:#2aa198">18</span>]]]
+
+
+ [[[ <span style="color:#2aa198">1</span>  <span style="color:#2aa198">4</span>  <span style="color:#2aa198">9</span>]
+   [ <span style="color:#2aa198">4</span> <span style="color:#2aa198">10</span> <span style="color:#2aa198">18</span>]]
+
+  [[ <span style="color:#2aa198">2</span>  <span style="color:#2aa198">6</span> <span style="color:#2aa198">12</span>]
+   [ <span style="color:#2aa198">5</span> <span style="color:#2aa198">12</span> <span style="color:#2aa198">21</span>]]]]
+</code></pre></div><h2 id="通用函数"><strong>通用函数</strong></h2>
+<p>考虑到数组乃至高维数组并非为向量组（的集合），有可能仅仅是数据的简单组织。NumPy也提供了对这类数据的通用数学处理函数，例如math包中的sin、exp等功能的函数，NumPy中的这类函数被称为通用函数(Universal Functions)。通用函数的特点是，它会分别施加在数组中的每个元素当中，然后返回一个相同维度的数组。通用函数直接通过numpy别名或者numpy以成员运算符的形式进行调用。</p>
+<p>比如，对随机生成的float64类型的$2 \times 6$矩阵，首先将其映射到$[0, 10)$区间内，然后对其向上取整</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>ceil(<span style="color:#2aa198">10</span> <span style="color:#719e07">*</span> ram<span style="color:#719e07">.</span>random((<span style="color:#2aa198">2</span>, <span style="color:#2aa198">6</span>), np<span style="color:#719e07">.</span>float64), dtype <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>float64)
+</code></pre></div><p>还可以对上述矩阵进行以元素为单位（标量）的加法操作，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+ram <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>random<span style="color:#719e07">.</span>default_rng(<span style="color:#2aa198">1</span>)
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>ceil(<span style="color:#2aa198">10</span> <span style="color:#719e07">*</span> ram<span style="color:#719e07">.</span>random((<span style="color:#2aa198">2</span>, <span style="color:#2aa198">6</span>), np<span style="color:#719e07">.</span>float64), dtype <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>float64)
+b <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>arange(<span style="color:#2aa198">12</span>)<span style="color:#719e07">.</span>reshape((<span style="color:#2aa198">2</span>, <span style="color:#2aa198">6</span>))
+<span style="color:#719e07">print</span>(a)
+<span style="color:#719e07">print</span>(b)
+<span style="color:#719e07">print</span>(np<span style="color:#719e07">.</span>add(a, b, dtype <span style="color:#719e07">=</span> <span style="color:#2aa198">&#39;float64&#39;</span>))
+</code></pre></div><p>结果为</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[[ <span style="color:#2aa198">6.</span> <span style="color:#2aa198">10.</span>  <span style="color:#2aa198">2.</span> <span style="color:#2aa198">10.</span>  <span style="color:#2aa198">4.</span>  <span style="color:#2aa198">5.</span>]
+ [ <span style="color:#2aa198">9.</span>  <span style="color:#2aa198">5.</span>  <span style="color:#2aa198">6.</span>  <span style="color:#2aa198">1.</span>  <span style="color:#2aa198">8.</span>  <span style="color:#2aa198">6.</span>]]
+[[ <span style="color:#2aa198">0</span>  <span style="color:#2aa198">1</span>  <span style="color:#2aa198">2</span>  <span style="color:#2aa198">3</span>  <span style="color:#2aa198">4</span>  <span style="color:#2aa198">5</span>]
+ [ <span style="color:#2aa198">6</span>  <span style="color:#2aa198">7</span>  <span style="color:#2aa198">8</span>  <span style="color:#2aa198">9</span> <span style="color:#2aa198">10</span> <span style="color:#2aa198">11</span>]]
+[[ <span style="color:#2aa198">6.</span> <span style="color:#2aa198">11.</span>  <span style="color:#2aa198">4.</span> <span style="color:#2aa198">13.</span>  <span style="color:#2aa198">8.</span> <span style="color:#2aa198">10.</span>]
+ [<span style="color:#2aa198">15.</span> <span style="color:#2aa198">12.</span> <span style="color:#2aa198">14.</span> <span style="color:#2aa198">10.</span> <span style="color:#2aa198">18.</span> <span style="color:#2aa198">17.</span>]]
+</code></pre></div><p>通用函数有很多，类似的包括<code>all, any, apply_along_axis, argmax, argmin, argsort, average, bincount, ceil, clip, conj, corrcoef, cov, cross, cumprod, cumsum, diff, dot, floor, inner, invert, lexsort, max, maximum, mean, median, min, minimum, nonzero, outer, prod, re, round, sort, std, sum, trace, transpose, var, vdot, vectorize, where</code>等。相关函数的介绍可以通过下述链接访问</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css"><span style="color:#268bd2">https</span><span style="color:#719e07">://</span><span style="color:#268bd2">numpy</span>.<span style="color:#268bd2">org</span><span style="color:#719e07">/</span><span style="color:#268bd2">doc</span><span style="color:#719e07">/</span><span style="color:#268bd2">stable</span><span style="color:#719e07">/</span><span style="color:#268bd2">reference</span><span style="color:#719e07">/</span><span style="color:#268bd2">generated</span><span style="color:#719e07">/</span><span style="color:#268bd2">numpy</span><span style="color:#719e07">.</span>{{ufunc}}.<span style="color:#268bd2">html</span>
+</code></pre></div><p>将上述连接的模板变量ufunc替换为实际的函数名即可。例如要访问<code>add()</code>函数的文档，那么通过下面的链接即可</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css"><span style="color:#268bd2">https</span><span style="color:#719e07">://</span><span style="color:#268bd2">numpy</span>.<span style="color:#268bd2">org</span><span style="color:#719e07">/</span><span style="color:#268bd2">doc</span><span style="color:#719e07">/</span><span style="color:#268bd2">stable</span><span style="color:#719e07">/</span><span style="color:#268bd2">reference</span><span style="color:#719e07">/</span><span style="color:#268bd2">generated</span><span style="color:#719e07">/</span><span style="color:#268bd2">numpy</span>.<span style="color:#268bd2">add</span>.<span style="color:#268bd2">html</span>
+</code></pre></div><h2 id="索引切片及迭代"><strong>索引、切片及迭代</strong></h2>
+<p>同Python中的所有序列一样，ndarray同样可以进行索引、切片和迭代操作。NumPy文档上说的是一维数组可以被索引、切片和迭代，但是这有一个隐含的意思，即一维是相对的。对于$n$维数组来说，其一维元素就是$n - 1$维，对于该$n - 1$维元素而言，$n - 2$维又是其第一维。了解了这个前提，接下来就会很方便。</p>
+<h3 id="一维数组的索引切片及迭代"><strong>一维数组的索引、切片及迭代</strong></h3>
+<p>当然是通过索引来访问。但是一次性只能访问一个元素，如何访问多个连续元素呢？和Python一样</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+ram <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>random<span style="color:#719e07">.</span>default_rng(<span style="color:#2aa198">1</span>)
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>ceil(<span style="color:#2aa198">10</span> <span style="color:#719e07">*</span> ram<span style="color:#719e07">.</span>random((<span style="color:#2aa198">9</span>,), np<span style="color:#719e07">.</span>float64), dtype <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>float64)
+<span style="color:#719e07">print</span>(a)    <span style="color:#586e75"># [ 6. 10.  2. 10.  4.  5.  9.  5.  6.]</span>
+<span style="color:#719e07">print</span>(a[<span style="color:#2aa198">0</span>])    <span style="color:#586e75"># 6.0</span>
+<span style="color:#719e07">print</span>(a[<span style="color:#2aa198">1</span> : <span style="color:#2aa198">5</span>])    <span style="color:#586e75"># [10.  2. 10.  4.]</span>
+</code></pre></div><p>如果想访问索引不连续的元素呢？用dnarray对象将索引包含然后作为索引访问即可，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+ram <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>random<span style="color:#719e07">.</span>default_rng(<span style="color:#2aa198">1</span>)
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>ceil(<span style="color:#2aa198">10</span> <span style="color:#719e07">*</span> ram<span style="color:#719e07">.</span>random((<span style="color:#2aa198">9</span>,), np<span style="color:#719e07">.</span>float64), dtype <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>float64)
+<span style="color:#719e07">print</span>(a)    <span style="color:#586e75"># [ 6. 10.  2. 10.  4.  5.  9.  5.  6.]</span>
+<span style="color:#719e07">print</span>(a[<span style="color:#2aa198">0</span>])    <span style="color:#586e75"># 6.0</span>
+<span style="color:#719e07">print</span>(a[<span style="color:#2aa198">1</span> : <span style="color:#2aa198">5</span>])    <span style="color:#586e75"># [10.  2. 10.  4.]</span>
+<span style="color:#719e07">print</span>(a[np<span style="color:#719e07">.</span>array([<span style="color:#2aa198">1</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">5</span>])])    <span style="color:#586e75"># [ 10.  10.  5.]</span>
+</code></pre></div><p>上述访问多个元素的操作本质就是创建了切片，然而切片的还有一种操作就是从起始位置开始每隔若干个元素进行一次元素修改，即如果切片操作为<code>a[1 : 6 : 3] = 100</code>的话，那么数组的第一个元素将会被修改为100，然后从下一个元素开始数第三个元素再次修改，以此类推，示例如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+ram <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>random<span style="color:#719e07">.</span>default_rng(<span style="color:#2aa198">1</span>)
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>ceil(<span style="color:#2aa198">10</span> <span style="color:#719e07">*</span> ram<span style="color:#719e07">.</span>random((<span style="color:#2aa198">9</span>,), np<span style="color:#719e07">.</span>float64), dtype <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>float64)
+<span style="color:#719e07">print</span>(a)    <span style="color:#586e75"># [ 6. 10.  2. 10.  4.  5.  9.  5.  6.]</span>
+a[<span style="color:#2aa198">1</span> : <span style="color:#2aa198">6</span> : <span style="color:#2aa198">3</span>] <span style="color:#719e07">=</span> <span style="color:#2aa198">100</span>
+<span style="color:#719e07">print</span>(a)    <span style="color:#586e75"># [  6. 100.   2.  10. 100.   5.   9.   5.   6.]</span>
+</code></pre></div><p><code>a[ : : -1]</code>表示反转一维数组a。</p>
+<p>对于一维数组的迭代，依然通过<code>for in</code>循环来遍历其元素（标量）</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">for</span> ele <span style="color:#719e07">in</span> a:
+    <span style="color:#719e07">print</span>(ele)
+</code></pre></div><h3 id="二维数组的索引切片及迭代"><strong>二维数组的索引、切片及迭代</strong></h3>
+<p>二维数组的访问，需要通过两个下标来定位一个标量，分别为行和列，均从0开始计数。事实上，行标指明了二维数组中的某个向量，而列标指明了该向量中的某个分量，从而便能准确的定位一个标量。</p>
+<p>如果访问或切片二维数组的某个子式呢？如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+ram <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>random<span style="color:#719e07">.</span>default_rng(<span style="color:#2aa198">1</span>)
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>ceil(<span style="color:#2aa198">10</span> <span style="color:#719e07">*</span> ram<span style="color:#719e07">.</span>random((<span style="color:#2aa198">6</span>, <span style="color:#2aa198">6</span>), np<span style="color:#719e07">.</span>float64), dtype <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>float64)
+<span style="color:#719e07">print</span>(a[<span style="color:#2aa198">1</span> : <span style="color:#2aa198">3</span>, <span style="color:#2aa198">3</span> : <span style="color:#2aa198">5</span>])
+</code></pre></div><p>从而上述代码实现访问子式或者创建切片，其特点就是子式是原数组中完整的部分。当然索引可以为负，只是最小的负数一定要在<code>:</code>之前，否则什么也取不到，因为最小的负数所代表的行的真实行标大于较大的负数所代表的真实行标,如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">print</span>(a[<span style="color:#719e07">-</span><span style="color:#2aa198">3</span> : <span style="color:#719e07">-</span><span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span> : <span style="color:#2aa198">4</span>])
+</code></pre></div><p>在二维数组中若<code>[]</code>中只存在一个数字，那么其为行标，列默认为全部列。即下式成立</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">a[<span style="color:#719e07">-</span><span style="color:#2aa198">3</span>] <span style="color:#719e07">==</span> a[<span style="color:#719e07">-</span><span style="color:#2aa198">3</span>, <span style="color:#2aa198">0</span> : <span style="color:#b58900">len</span>(a[<span style="color:#719e07">-</span><span style="color:#2aa198">3</span>])]    <span style="color:#586e75"># [ True  True  True  True  True  True]</span>
+</code></pre></div><p>对于二维数组的遍历，一种常见的方法是通过两层循环来实现，即</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">for</span> arr <span style="color:#719e07">in</span> a:
+    <span style="color:#719e07">for</span> ele <span style="color:#719e07">in</span> arr:
+        <span style="color:#719e07">print</span>(ele)
+</code></pre></div><p>因为第一层循环拿到的只是一个一维数组，所以必须使用两层循环。另一种实现遍历的方法是，通过ndarray对象的flat属性，该属性为数组元素的迭代器，使用方式如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">for</span> ele <span style="color:#719e07">in</span> a<span style="color:#719e07">.</span>flat:
+    <span style="color:#719e07">print</span>(ele)
+</code></pre></div><h3 id="针对高维数组的dots"><strong>针对高维数组的dots(&hellip;)</strong></h3>
+<p>NumPy中三个点代表省略若干尺度信息。省略信息的多少取决于该符号前后的明确表示的尺度信息，该符号的意思就是若干个连续的<code>:</code>，也就是将某个维度全选了。以二维数组为例，下式完全成立</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">a[<span style="color:#719e07">-</span><span style="color:#2aa198">3</span>] <span style="color:#719e07">==</span> a[<span style="color:#719e07">-</span><span style="color:#2aa198">3</span>, <span style="color:#2aa198">0</span> : <span style="color:#b58900">len</span>(a[<span style="color:#719e07">-</span><span style="color:#2aa198">3</span>])]    <span style="color:#586e75"># [ True  True  True  True  True  True]</span>
+a[<span style="color:#719e07">-</span><span style="color:#2aa198">3</span>] <span style="color:#719e07">==</span> a[<span style="color:#719e07">-</span><span style="color:#2aa198">3</span>, <span style="color:#719e07">...</span>]    <span style="color:#586e75"># [ True  True  True  True  True  True]</span>
+</code></pre></div><p>含义为选中该二维数组的倒数第三行的全部，因为一维数组的信息被省略了，即全选。这种方式主要应用在高维数组中，比如，对于三维数组<code>np.ceil(10 * np.random.default_rng(1).random((3, 6, 6), np.float64), dtype = np.float64)</code>，下式必然成立</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">a[<span style="color:#719e07">-</span><span style="color:#2aa198">2</span>, <span style="color:#719e07">...</span>] <span style="color:#719e07">==</span> a[<span style="color:#719e07">-</span><span style="color:#2aa198">2</span>]
+</code></pre></div><p>即选中倒数第二个向量组。下式也恒成立</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">a[<span style="color:#719e07">-</span><span style="color:#2aa198">2</span>, <span style="color:#719e07">...</span>, <span style="color:#719e07">-</span><span style="color:#2aa198">1</span>] <span style="color:#719e07">==</span> a[<span style="color:#719e07">-</span><span style="color:#2aa198">2</span>, <span style="color:#2aa198">0</span> : <span style="color:#b58900">len</span>(a[<span style="color:#719e07">-</span><span style="color:#2aa198">2</span>]), <span style="color:#719e07">-</span><span style="color:#2aa198">1</span>]
+</code></pre></div><p>即选中倒数第二个向量组的所有行的倒数第一个标量，最终必然是一个列向量（但是以行向量表示）。</p>
+
+		</div>
+
+		<div class="post-tags">
+			
+				
+					<nav class="nav tags">
+							<ul class="flat">
+								
+								<li><a href="/tags/numpy">NumPy</a></li>
+								
+							</ul>
+					</nav>
+				
+			
+		</div>
+		</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div> © Copyright feily.tech |  <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a> | Built with <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+
+<script>feather.replace()</script>
+</body>
+</html>

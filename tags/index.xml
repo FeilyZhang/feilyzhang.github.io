@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Feily Zhang</title>
+    <link>https://feily.tech/tags/</link>
+    <description>Recent content in Tags on Feily Zhang</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright feily.tech</copyright>
+    <lastBuildDate>Sat, 18 Apr 2020 18:56:29 +0800</lastBuildDate>
+    
+	<atom:link href="https://feily.tech/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Microeconomics</title>
+      <link>https://feily.tech/tags/microeconomics/</link>
+      <pubDate>Thu, 06 Aug 2020 16:12:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/tags/microeconomics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>NumPy</title>
+      <link>https://feily.tech/tags/numpy/</link>
+      <pubDate>Fri, 31 Jul 2020 15:37:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/tags/numpy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linear algebra</title>
+      <link>https://feily.tech/tags/linear-algebra/</link>
+      <pubDate>Sun, 19 Jul 2020 19:34:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/tags/linear-algebra/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>essay</title>
+      <link>https://feily.tech/tags/essay/</link>
+      <pubDate>Tue, 02 Jun 2020 17:32:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/tags/essay/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Dynamic programming</title>
+      <link>https://feily.tech/tags/dynamic-programming/</link>
+      <pubDate>Wed, 15 Apr 2020 10:47:37 +0800</pubDate>
+      
+      <guid>https://feily.tech/tags/dynamic-programming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Decrease and conquer</title>
+      <link>https://feily.tech/tags/decrease-and-conquer/</link>
+      <pubDate>Sat, 11 Apr 2020 17:48:52 +0800</pubDate>
+      
+      <guid>https://feily.tech/tags/decrease-and-conquer/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Brute force</title>
+      <link>https://feily.tech/tags/brute-force/</link>
+      <pubDate>Fri, 10 Apr 2020 21:26:27 +0800</pubDate>
+      
+      <guid>https://feily.tech/tags/brute-force/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Algorithm</title>
+      <link>https://feily.tech/tags/algorithm/</link>
+      <pubDate>Thu, 09 Apr 2020 21:22:21 +0800</pubDate>
+      
+      <guid>https://feily.tech/tags/algorithm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Racket</title>
+      <link>https://feily.tech/tags/racket/</link>
+      <pubDate>Wed, 01 Apr 2020 20:23:14 +0800</pubDate>
+      
+      <guid>https://feily.tech/tags/racket/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux kernel</title>
+      <link>https://feily.tech/tags/linux-kernel/</link>
+      <pubDate>Fri, 27 Dec 2019 18:56:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/tags/linux-kernel/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>JVM</title>
+      <link>https://feily.tech/tags/jvm/</link>
+      <pubDate>Thu, 25 Apr 2019 10:31:14 +0800</pubDate>
+      
+      <guid>https://feily.tech/tags/jvm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Concurrent</title>
+      <link>https://feily.tech/tags/concurrent/</link>
+      <pubDate>Sat, 20 Apr 2019 15:07:23 +0800</pubDate>
+      
+      <guid>https://feily.tech/tags/concurrent/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Artificial neural network</title>
+      <link>https://feily.tech/tags/artificial-neural-network/</link>
+      <pubDate>Tue, 26 Mar 2019 15:55:25 +0800</pubDate>
+      
+      <guid>https://feily.tech/tags/artificial-neural-network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Decision tree</title>
+      <link>https://feily.tech/tags/decision-tree/</link>
+      <pubDate>Sat, 23 Mar 2019 15:55:25 +0800</pubDate>
+      
+      <guid>https://feily.tech/tags/decision-tree/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

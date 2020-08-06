@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Decrease and conquer on Feily Zhang</title>
+    <link>https://feily.tech/tags/decrease-and-conquer/</link>
+    <description>Recent content in Decrease and conquer on Feily Zhang</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright feily.tech</copyright>
+    <lastBuildDate>Sat, 11 Apr 2020 17:48:52 +0800</lastBuildDate>
+    
+	<atom:link href="https://feily.tech/tags/decrease-and-conquer/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Decrease and conquer algorithm</title>
+      <link>https://feily.tech/posts/decrease-and-conquer-algorithm/</link>
+      <pubDate>Sat, 11 Apr 2020 17:48:52 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/decrease-and-conquer-algorithm/</guid>
+      <description>折半查找 对非降序数组元素的查找，通过减常因子实现，效率很高，代码如下</description>
+    </item>
+    
+  </channel>
+</rss>

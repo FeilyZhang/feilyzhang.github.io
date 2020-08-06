@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>NumPy object copy and broadcasting rules - Feily Zhang</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="NumPy object copy and broadcasting rules" />
+<meta property="og:description" content="当操作数组的时候，有时候需要将数据拷贝到一个新的数组中，有时候不需要。其实无论是在编程语言中还是NumPy中，都主要涉及以下三种情况。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://feily.tech/posts/numpy-object-copy-and-broadcasting-rules/" />
+<meta property="article:published_time" content="2020-07-30T20:32:05+08:00" />
+<meta property="article:modified_time" content="2020-07-30T20:32:05+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="NumPy object copy and broadcasting rules"/>
+<meta name="twitter:description" content="当操作数组的时候，有时候需要将数据拷贝到一个新的数组中，有时候不需要。其实无论是在编程语言中还是NumPy中，都主要涉及以下三种情况。"/>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:200,300" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" media="screen" href="https://feily.tech/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://feily.tech/css/main.css" /><link rel="stylesheet" type="text/css" href="https://feily.tech/css/dark.css" media="(prefers-color-scheme: dark)" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+	<script src="https://feily.tech/js/main.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+	<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+	<script>
+	  document.addEventListener("DOMContentLoaded", function() {
+	    renderMathInElement( document.body, {
+	      delimiters: [
+	        {left: "$$", right: "$$", display: true},
+	        {left: "[%", right: "%]", display: true},
+	        {left: "$", right: "$", display: false}
+	      ]}
+	    );
+	  });
+	</script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title"><a href="https://feily.tech/">Feily Zhang</a></h1>
+	<div class="site-description"><h2>Software Developer, Machine Learning, Astronomy Enthusiast.</h2><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/FeilyZhang" title="Github"><i data-feather="github"></i></a><a href="https://twitter.com/FeilyZhang" title="Twitter"><i data-feather="twitter"></i></a><a href="/index.xml" title="RSS"><i data-feather="rss"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/">Home</a>
+			</li>
+			
+			<li>
+				<a href="/posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="/about">About</a>
+			</li>
+			
+			<li>
+				<a href="/tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h1 class="title">NumPy object copy and broadcasting rules</h1>
+			<div class="meta">Posted at &mdash; Jul 30, 2020</div>
+		</div>
+
+		<div class="markdown">
+			<p>当操作数组的时候，有时候需要将数据拷贝到一个新的数组中，有时候不需要。其实无论是在编程语言中还是NumPy中，都主要涉及以下三种情况。</p>
+<h2 id="numpy数组拷贝"><strong>NumPy数组拷贝</strong></h2>
+<h3 id="完全没有复制no-copy-at-all"><strong>完全没有复制(No Copy at All)</strong></h3>
+<p>简单赋值不会发生对象或者对象数据的拷贝。如下所示<code>a、b</code>均持有同一个ndarray对象实例</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>array([<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>])
+b <span style="color:#719e07">=</span> a
+<span style="color:#719e07">print</span>(<span style="color:#b58900">id</span>(a) <span style="color:#719e07">==</span> <span style="color:#b58900">id</span>(b))    <span style="color:#586e75"># True</span>
+</code></pre></div><p>对象作为函数参数传递，传递的并非对象的值而是引用。因此函数调用实质上使用的是原对象，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+<span style="color:#719e07">def</span> <span style="color:#268bd2">addr</span>(obj):
+    <span style="color:#719e07">return</span> <span style="color:#b58900">id</span>(obj)
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>array([<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>])
+<span style="color:#719e07">print</span>(<span style="color:#b58900">id</span>(a) <span style="color:#719e07">==</span> addr(a))    <span style="color:#586e75"># True</span>
+</code></pre></div><h3 id="浅拷贝shallow-copy"><strong>浅拷贝(Shallow Copy）</strong></h3>
+<p>NumPy中<code>viwew()</code>方法可以创建一个当前ndarray对象的副本，特点是它们内部对象具有相同的数据相同的地址但是整个ndarray对象的地址不同。也就是说通过<code>view()</code>方法创建的ndarray对象本身是不持有自己的数据的，其数据引用创建该对象的数组的数据。可以通过一个例子来说明</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>array([[<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>], [<span style="color:#2aa198">4</span>, <span style="color:#2aa198">5</span>, <span style="color:#2aa198">6</span>]])
+b <span style="color:#719e07">=</span> a<span style="color:#719e07">.</span>view()
+<span style="color:#719e07">print</span>(a <span style="color:#719e07">is</span> b)    <span style="color:#586e75"># False, 整个ndaray的地址不同</span>
+<span style="color:#719e07">print</span>(b<span style="color:#719e07">.</span>flags<span style="color:#719e07">.</span>owndata)    <span style="color:#586e75"># False, 其本身不持有数据</span>
+<span style="color:#719e07">print</span>(a[<span style="color:#2aa198">0</span>])    <span style="color:#586e75"># [1 2 3]</span>
+b[<span style="color:#2aa198">0</span>] <span style="color:#719e07">=</span> [<span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">4</span>]
+<span style="color:#719e07">print</span>(a[<span style="color:#2aa198">0</span>])    <span style="color:#586e75"># [2 3 4]</span>
+<span style="color:#719e07">print</span>(b[<span style="color:#2aa198">0</span>])    <span style="color:#586e75"># [2 3 4]</span>
+</code></pre></div><p>可以看到，两个ndarray对象地址不同，但是内部为同一个引用。通过<code>view()</code>方法创建出的对象不持有自己的数据。</p>
+<h3 id="深拷贝deep-copy"><strong>深拷贝(Deep Copy)</strong></h3>
+<p><code>copy()</code>方法可以创建一个具有完整副本且内部对象地址不相同的ndarray副本。其持有的数据均是自己的，这就意味着修改数据不会使原数组发生变化。示例如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>array([[<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>], [<span style="color:#2aa198">4</span>, <span style="color:#2aa198">5</span>, <span style="color:#2aa198">6</span>]])
+b <span style="color:#719e07">=</span> a<span style="color:#719e07">.</span>copy()
+<span style="color:#719e07">print</span>(a <span style="color:#719e07">is</span> b)    <span style="color:#586e75"># False, 整个ndaray的地址不同</span>
+<span style="color:#719e07">print</span>(b<span style="color:#719e07">.</span>flags<span style="color:#719e07">.</span>owndata)    <span style="color:#586e75"># True, 其本身持有数据</span>
+<span style="color:#719e07">print</span>(a[<span style="color:#2aa198">0</span>])    <span style="color:#586e75"># [1 2 3]</span>
+b[<span style="color:#2aa198">0</span>] <span style="color:#719e07">=</span> [<span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">4</span>]
+<span style="color:#719e07">print</span>(a[<span style="color:#2aa198">0</span>])    <span style="color:#586e75"># [1 2 3]</span>
+<span style="color:#719e07">print</span>(b[<span style="color:#2aa198">0</span>])    <span style="color:#586e75"># [2 3 4]</span>
+</code></pre></div><p>数组的切片实际上是对该数组数据的浅拷贝（即使是原数组的一部分），比如</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>r_[<span style="color:#2aa198">1</span>:<span style="color:#2aa198">4</span>, <span style="color:#2aa198">0</span>, <span style="color:#2aa198">3</span>]
+b <span style="color:#719e07">=</span> a[<span style="color:#2aa198">1</span> : <span style="color:#2aa198">3</span>]
+<span style="color:#719e07">print</span>(a)    <span style="color:#586e75"># [1 2 3 0 3]</span>
+b[<span style="color:#2aa198">0</span>] <span style="color:#719e07">=</span> <span style="color:#2aa198">10</span>
+<span style="color:#719e07">print</span>(a)    <span style="color:#586e75"># [ 1 10  3  0  3]</span>
+<span style="color:#719e07">print</span>(b)    <span style="color:#586e75"># [10  3]</span>
+</code></pre></div><p>所以当使用切片时，如果无法保证对该切片不修改，那么就应该使用深拷贝，防止对原数组发生修改，上述代码可改为</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>r_[<span style="color:#2aa198">1</span>:<span style="color:#2aa198">4</span>, <span style="color:#2aa198">0</span>, <span style="color:#2aa198">3</span>]
+b <span style="color:#719e07">=</span> a[<span style="color:#2aa198">1</span> : <span style="color:#2aa198">3</span>]<span style="color:#719e07">.</span>copy()
+<span style="color:#719e07">print</span>(a)    <span style="color:#586e75"># [1 2 3 0 3]</span>
+b[<span style="color:#2aa198">0</span>] <span style="color:#719e07">=</span> <span style="color:#2aa198">10</span>
+<span style="color:#719e07">print</span>(a)    <span style="color:#586e75"># [1 2 3 0 3]</span>
+<span style="color:#719e07">print</span>(b)    <span style="color:#586e75"># [10  3]</span>
+</code></pre></div><h2 id="numpy广播规则broadcasting-rules"><strong>NumPy广播规则(Broadcasting rules)</strong></h2>
+<p>NumPy广播允许通用函数以一种有意义的方式对不同尺寸的输入进行处理。</p>
+<h3 id="最简单的广播规则"><strong>最简单的广播规则</strong></h3>
+<p>当一个数组与一个标量相运算时，标量将会被拉伸为一个与数组有着相同长度的数组，其元素均为标量的简单拷贝。这也就是向量的数乘运算可以通过符号*实现的原因，即向量数乘<code>2 * np.array([1, 2, 3])</code>实际上是<code>np.array([2, 2, 2]) * np.array([1, 2, 3])</code>。那么下面代码也是成立的</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">np<span style="color:#719e07">.</span>multiply(np<span style="color:#719e07">.</span>array([<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>]), <span style="color:#2aa198">2</span>) <span style="color:#719e07">==</span> np<span style="color:#719e07">.</span>multiply(np<span style="color:#719e07">.</span>array([<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>]), np<span style="color:#719e07">.</span>array([<span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>]))
+</code></pre></div><p>当然NumPy足够智能，实际上遇到标量与数组相运算时，并不会真正地去拷贝。</p>
+<h3 id="一般广播规则"><strong>一般广播规则</strong></h3>
+<p>在NumPy中，对于运算相兼容的尺寸包含两种，分别是</p>
+<ul>
+<li>第二个数组的维度与第一个数组的维度后兼容；</li>
+<li>第二个数组的维度为1，长度为1.</li>
+</ul>
+<p>我们先看第一种情况，这里的后兼容并不是通常意义上的向后兼容，而是尺寸上的吻合。比如，下面的这几种尺寸就吻合</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">(<span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>) <span style="color:#719e07">is</span> compatible <span style="color:#719e07">with</span> (<span style="color:#2aa198">2</span>,)
+(<span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>) <span style="color:#719e07">is</span> compatible <span style="color:#719e07">with</span> (<span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>)
+</code></pre></div><p>也就是说被运算的数组必须是第一个数组尺寸的一部分，且必须从尾部开始。无论被运算数组包含几个轴，只要与第一个数组后兼容即可。比如下面的尺寸就是不兼容的</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">(<span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>) <span style="color:#719e07">is</span> <span style="color:#719e07">not</span> compatible <span style="color:#719e07">with</span> (<span style="color:#2aa198">2</span>,)
+</code></pre></div><p>但是如果将尺寸<code>(2,)</code>改成<code>(3,)</code>，那么就兼容了。</p>
+<p>另一种情况，就是如果被运算数组只有一个轴，	且长度为一，那么和谁都兼容。即</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">(<span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>) <span style="color:#719e07">is</span> compatible <span style="color:#719e07">with</span> (<span style="color:#2aa198">2</span>,)
+(<span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>) <span style="color:#719e07">is</span> compatible <span style="color:#719e07">with</span> (<span style="color:#2aa198">2</span>,)
+(<span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>) <span style="color:#719e07">is</span> <span style="color:#719e07">not</span> compatible <span style="color:#719e07">with</span> (<span style="color:#2aa198">2</span>,)
+</code></pre></div><p>对于只含有一个长度为1的1个轴的数组，即<code>(1,)</code>，参与运算时会先将其拉伸为<code>(n,)</code>，这里的<code>n</code>与第一个数组的最后一个轴的长度一致。然后再按行与第一个数组的元素匹配计算。</p>
+
+		</div>
+
+		<div class="post-tags">
+			
+				
+					<nav class="nav tags">
+							<ul class="flat">
+								
+								<li><a href="/tags/numpy">NumPy</a></li>
+								
+							</ul>
+					</nav>
+				
+			
+		</div>
+		</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div> © Copyright feily.tech |  <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a> | Built with <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+
+<script>feather.replace()</script>
+</body>
+</html>

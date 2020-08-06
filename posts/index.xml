@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Feily Zhang</title>
+    <link>https://feily.tech/posts/</link>
+    <description>Recent content in Posts on Feily Zhang</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright feily.tech</copyright>
+    <lastBuildDate>Thu, 06 Aug 2020 16:12:05 +0800</lastBuildDate>
+    
+	<atom:link href="https://feily.tech/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Consumer equilibrium in microeconomics</title>
+      <link>https://feily.tech/posts/consumer-equilibrium-in-microeconomics/</link>
+      <pubDate>Thu, 06 Aug 2020 16:12:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/consumer-equilibrium-in-microeconomics/</guid>
+      <description>微观经济学中消费者行为选择以达到均衡状态的本质，就是选择约束条件下使得效用最大化的商品组合。基数效用论和序数效用论就这一均衡有不同的阐述，但是却殊途同归。</description>
+    </item>
+    
+    <item>
+      <title>Advanced indexing and index tricks</title>
+      <link>https://feily.tech/posts/advanced-indexing-and-index-tricks/</link>
+      <pubDate>Fri, 31 Jul 2020 15:37:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/advanced-indexing-and-index-tricks/</guid>
+      <description>相对于常规Python序列，NumPy提供了更多的索引便利。其异同主要体现在如下两个方面：</description>
+    </item>
+    
+    <item>
+      <title>NumPy object copy and broadcasting rules</title>
+      <link>https://feily.tech/posts/numpy-object-copy-and-broadcasting-rules/</link>
+      <pubDate>Thu, 30 Jul 2020 20:32:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/numpy-object-copy-and-broadcasting-rules/</guid>
+      <description>当操作数组的时候，有时候需要将数据拷贝到一个新的数组中，有时候不需要。其实无论是在编程语言中还是NumPy中，都主要涉及以下三种情况。</description>
+    </item>
+    
+    <item>
+      <title>Shape manipulation in NumPy</title>
+      <link>https://feily.tech/posts/shape-manipulation-in-numpy/</link>
+      <pubDate>Sun, 26 Jul 2020 12:16:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/shape-manipulation-in-numpy/</guid>
+      <description>NumPy中，已定义好的数组可以重新调整维度，但是调整后的维度包含的元素数目应该与调整之前的相同。</description>
+    </item>
+    
+    <item>
+      <title>Creation and basic operation of NumPy vector (group)</title>
+      <link>https://feily.tech/posts/quickstart-tutorial/</link>
+      <pubDate>Thu, 23 Jul 2020 15:43:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/quickstart-tutorial/</guid>
+      <description>NumPy的主要操作对象是同类型的多维数组，若干个数组具有相同的长度及类型，各数组元素可以通过非负整数索引。在NumPy当中，数组的维度被称为轴(axes)。</description>
+    </item>
+    
+    <item>
+      <title>How to understand matrix multiplication</title>
+      <link>https://feily.tech/posts/how-to-understand-matrix-multiplication/</link>
+      <pubDate>Sun, 19 Jul 2020 19:34:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/how-to-understand-matrix-multiplication/</guid>
+      <description>如何理解矩阵？这是线性代数的一个比较关键而本质的问题，对其是否正确形象的理解关系到线性代数学习和应用的全局，本文将解释矩阵其实对应着空间变换，其本质是映射或运动.</description>
+    </item>
+    
+    <item>
+      <title>Solution space and structure of linear equations</title>
+      <link>https://feily.tech/posts/solution-space-and-structure-of-linear-equations/</link>
+      <pubDate>Thu, 16 Jul 2020 12:21:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/solution-space-and-structure-of-linear-equations/</guid>
+      <description>对于线性方程组的求解，其本质上仍然是线性表示问题。不同的是，齐次线性方程组对应的是系数矩阵对零向量的表示，非齐次线性方程组对应的是系数矩阵对非零向量的线性表示。而最终所求的未知数向量实质上就是系数矩阵中各向量所对应的缩放尺寸，再配合向量加法，最终便可表示被表示的零向量或者非零向量。</description>
+    </item>
+    
+    <item>
+      <title>From vector group to linear system of equations</title>
+      <link>https://feily.tech/posts/from-vector-group-to-linear-system-of-equations/</link>
+      <pubDate>Thu, 16 Jul 2020 01:35:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/from-vector-group-to-linear-system-of-equations/</guid>
+      <description>$n$个数构成的有序数组$\left[a_1,a_2,\cdots,a_n\right]$称为一个$n$维向量，记作$\pmb{\alpha} = \left[a_1,a_2,\cdots,a_n\right]$，并称$\pmb{\alpha}$为$n$维行向量，$\pmb{\alpha}^T = \left[a_1,a_2,\cdots,a_n\right]^T$称为$n$维列向量，其中$a_i$称为向量$\pmb{\alpha}$(或$\pmb{\alpha}^T$)的第$i$个分量。</description>
+    </item>
+    
+    <item>
+      <title>Some formulas of adjoint matrix</title>
+      <link>https://feily.tech/posts/some-formulas-of-adjoint-matrix/</link>
+      <pubDate>Mon, 13 Jul 2020 11:03:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/some-formulas-of-adjoint-matrix/</guid>
+      <description>关于伴随矩阵的几个数学公式的推导，首先伴随矩阵的代数定义为</description>
+    </item>
+    
+    <item>
+      <title>Today&#39;s thinking about graduation</title>
+      <link>https://feily.tech/posts/todays.thinking.about.graduation/</link>
+      <pubDate>Tue, 02 Jun 2020 17:32:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/todays.thinking.about.graduation/</guid>
+      <description>Today is June 2nd.</description>
+    </item>
+    
+    <item>
+      <title>Dynamic programming algorithm</title>
+      <link>https://feily.tech/posts/dynamic-programming-algorithm/</link>
+      <pubDate>Wed, 15 Apr 2020 10:47:37 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/dynamic-programming-algorithm/</guid>
+      <description>最值问题 对于最大值问题，常规解法是对序列进行一趟扫描，从而找到最大值，该问题依旧适合动态规划来解。对于长度为$n$的序列$arr[1.</description>
+    </item>
+    
+    <item>
+      <title>Decrease and conquer algorithm</title>
+      <link>https://feily.tech/posts/decrease-and-conquer-algorithm/</link>
+      <pubDate>Sat, 11 Apr 2020 17:48:52 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/decrease-and-conquer-algorithm/</guid>
+      <description>折半查找 对非降序数组元素的查找，通过减常因子实现，效率很高，代码如下</description>
+    </item>
+    
+    <item>
+      <title>Brute force algorithm</title>
+      <link>https://feily.tech/posts/brute-force-algorithm/</link>
+      <pubDate>Fri, 10 Apr 2020 21:26:27 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/brute-force-algorithm/</guid>
+      <description>选择排序 function selectionSort(arr) {var minIndex;for (var i = 0; i &amp;lt; arr.</description>
+    </item>
+    
+    <item>
+      <title>Introduction to The Design and Analysis of Algorithms(2)</title>
+      <link>https://feily.tech/posts/introduction-to-the-design-and-analysis-of-algorithms2/</link>
+      <pubDate>Thu, 09 Apr 2020 21:22:21 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/introduction-to-the-design-and-analysis-of-algorithms2/</guid>
+      <description>检查序列元素是否唯一 最简单的办法就是遍历，时间复杂度为$n^2$，如下</description>
+    </item>
+    
+    <item>
+      <title>Introduction to The Design and Analysis of Algorithms(1)</title>
+      <link>https://feily.tech/posts/introduction-to-the-design-and-analysis-of-algorithms1/</link>
+      <pubDate>Sun, 05 Apr 2020 21:28:07 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/introduction-to-the-design-and-analysis-of-algorithms1/</guid>
+      <description>欧几里得算法 假定输入的第一个参数不小于第二个参数，其递推公式为</description>
+    </item>
+    
+    <item>
+      <title>Lists Iteration and Recursion</title>
+      <link>https://feily.tech/posts/lists-iteration-and-recursion/</link>
+      <pubDate>Wed, 01 Apr 2020 20:23:14 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/lists-iteration-and-recursion/</guid>
+      <description>Racket是Lisp语言的一种方言，Lisp最初代表的是“LISt Processor”，意为列表处理器，因此内置的这种list数据结构依然是该语言的突出特性。</description>
+    </item>
+    
+    <item>
+      <title>Simple Definitions and Expressions</title>
+      <link>https://feily.tech/posts/simple-definitions-and-expressions/</link>
+      <pubDate>Sun, 29 Mar 2020 18:10:14 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/simple-definitions-and-expressions/</guid>
+      <description>Racket标识符 Racket对于定义标识符(identifiers)的语法相当宽松，没有像Java、C之类的多个保留字，原则上除过构成数字常量的字符序列外，均可以定义为标识符，即+, -, *, /等符号可以随意组合为标识符而不受任何限制，但是数字字面量不可以定义为标识符。例如，如下定义的标识符均合法</description>
+    </item>
+    
+    <item>
+      <title>The essence, structure and application of recursive algorithm</title>
+      <link>https://feily.tech/posts/the-essence-structure-and-application-of-recursive-algorithm/</link>
+      <pubDate>Tue, 04 Feb 2020 10:28:14 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/the-essence-structure-and-application-of-recursive-algorithm/</guid>
+      <description>Introduction In common algorithm strategies, I always think recursion is full of aesthetic feeling.</description>
+    </item>
+    
+    <item>
+      <title>Change! From 16 bit real mode to 32-bit protection mode</title>
+      <link>https://feily.tech/posts/from-16-bit-real-mode-to-32-bit-protection-mode/</link>
+      <pubDate>Fri, 27 Dec 2019 18:56:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/from-16-bit-real-mode-to-32-bit-protection-mode/</guid>
+      <description>回顾 从上文得知，在BIOS将Linux的磁盘引导程序bootsect加载到0x07C00之后，bootsect开始执行，其先是将自己移动到了0x90000处，然后设置了段寄存器ds、es、ss，后将setup、system程序加载至了指定位置，并确认了根设备号，最终通过段间跳转指令将CPU控制权交给了setup程序。</description>
+    </item>
+    
+    <item>
+      <title>From power up to disk boot program execution</title>
+      <link>https://feily.tech/posts/from-boot-up-to-disk-boot-program-execution/</link>
+      <pubDate>Fri, 13 Sep 2019 16:01:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/from-boot-up-to-disk-boot-program-execution/</guid>
+      <description>本系列文章基于Linux 0.</description>
+    </item>
+    
+    <item>
+      <title>Garbage collector and memory allocation strategy</title>
+      <link>https://feily.tech/posts/garbage-collector-and-memory-allocation-strategy/</link>
+      <pubDate>Thu, 25 Apr 2019 10:31:14 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/garbage-collector-and-memory-allocation-strategy/</guid>
+      <description>堆中几乎存放着Java中的所有对象实例，垃圾收集器在对堆进行回收前，要做的一件事情就是判断这些对象有哪些还“或者”，哪些已经“死去（即不可能再被任何途径使用的对象）”。然后对死去的对象进行垃圾清理完成内存回收。</description>
+    </item>
+    
+    <item>
+      <title>JVM method call</title>
+      <link>https://feily.tech/posts/jvm-method-call/</link>
+      <pubDate>Wed, 24 Apr 2019 20:55:14 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/jvm-method-call/</guid>
+      <description>JVM执行引擎在执行方法字节码的之前最重要的一个步骤就是方法调用。方法调用阶段唯一的任务就是确定被调用方法的版本，即调用哪一个方法，并未涉及方法的运行过程。</description>
+    </item>
+    
+    <item>
+      <title>Runtime stack frame structure</title>
+      <link>https://feily.tech/posts/runtime-stack-frame-structure/</link>
+      <pubDate>Wed, 24 Apr 2019 11:06:14 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/runtime-stack-frame-structure/</guid>
+      <description>栈帧(Stack Frame)是用于支持虚拟机方法调用和方法执行的数据结构，它是虚拟机运行时数据区中的虚拟机栈的栈元素。栈帧中存储了方法的局部变量表、操作数栈、动态链接和方法返回出口等信息。每一个方法从调用开始到执行完成的过程，就对应着一个栈帧在虚拟机栈里面从入栈到出栈的过程。</description>
+    </item>
+    
+    <item>
+      <title>JVM runtime data area</title>
+      <link>https://feily.tech/posts/jvm-runtime-data-area/</link>
+      <pubDate>Tue, 23 Apr 2019 20:39:14 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/jvm-runtime-data-area/</guid>
+      <description>Java虚拟机在执行Java程序过程中会把它所管理的内存划分为若干个不同的数据区域，这些区域各有用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则是依赖用户线程的启动和结束而建立和销毁。Jva虚拟机所管理的内存区域将会包括以下几个运行时数据区域：</description>
+    </item>
+    
+    <item>
+      <title>Class file structure</title>
+      <link>https://feily.tech/posts/class-file-structure/</link>
+      <pubDate>Mon, 22 Apr 2019 15:43:25 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/class-file-structure/</guid>
+      <description>Class文件是一组以8位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑的排列在Class文件之中，中间没有任何分隔符，这使得整个Class文件中存储的内容几乎全部都是程序运行的必要数据，没有空隙存在。当遇到需要占用8为字节以上空间的数据项时，则会按照高位在前的方式分割成若干个8位字节进行存储。</description>
+    </item>
+    
+    <item>
+      <title>Design of seven kinds of singleton patterns</title>
+      <link>https://feily.tech/posts/design-of-seven-kinds-of-singleton-patterns/</link>
+      <pubDate>Sat, 20 Apr 2019 15:07:23 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/design-of-seven-kinds-of-singleton-patterns/</guid>
+      <description>单例模式提供了一种在多线程情况下保证实例唯一性的解决方案，单例模式设计的标准是：懒加载、高性能、线程安全。</description>
+    </item>
+    
+    <item>
+      <title>Artificial neural network</title>
+      <link>https://feily.tech/posts/artificial-neural-network/</link>
+      <pubDate>Tue, 26 Mar 2019 15:55:25 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/artificial-neural-network/</guid>
+      <description>一、从生物神经网络到人工神经网络 如同人脑使用一个被称为神经元的相互连接的细胞网络来创建一个巨大的并行处理器一样，人工神经网络使用人工神经元或节点的网络来解决学习问题。既然，人工神经网络基于生物神经网络，那么有必要了解一下生物神经细胞或神经元的组成。</description>
+    </item>
+    
+    <item>
+      <title>Decision tree learning algorithm</title>
+      <link>https://feily.tech/posts/decision-tree-learning-algorithm/</link>
+      <pubDate>Sat, 23 Mar 2019 15:55:25 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/decision-tree-learning-algorithm/</guid>
+      <description>简介 决策树学习算法以树形结构建立模型，类似于流程图，该模型本身包含一系列逻辑决策。几个概念如下</description>
+    </item>
+    
+  </channel>
+</rss>

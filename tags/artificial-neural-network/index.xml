@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Artificial neural network on Feily Zhang</title>
+    <link>https://feily.tech/tags/artificial-neural-network/</link>
+    <description>Recent content in Artificial neural network on Feily Zhang</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright feily.tech</copyright>
+    <lastBuildDate>Tue, 26 Mar 2019 15:55:25 +0800</lastBuildDate>
+    
+	<atom:link href="https://feily.tech/tags/artificial-neural-network/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Artificial neural network</title>
+      <link>https://feily.tech/posts/artificial-neural-network/</link>
+      <pubDate>Tue, 26 Mar 2019 15:55:25 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/artificial-neural-network/</guid>
+      <description>一、从生物神经网络到人工神经网络 如同人脑使用一个被称为神经元的相互连接的细胞网络来创建一个巨大的并行处理器一样，人工神经网络使用人工神经元或节点的网络来解决学习问题。既然，人工神经网络基于生物神经网络，那么有必要了解一下生物神经细胞或神经元的组成。</description>
+    </item>
+    
+  </channel>
+</rss>

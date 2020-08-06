@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NumPy on Feily Zhang</title>
+    <link>https://feily.tech/tags/numpy/</link>
+    <description>Recent content in NumPy on Feily Zhang</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright feily.tech</copyright>
+    <lastBuildDate>Fri, 31 Jul 2020 15:37:05 +0800</lastBuildDate>
+    
+	<atom:link href="https://feily.tech/tags/numpy/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Advanced indexing and index tricks</title>
+      <link>https://feily.tech/posts/advanced-indexing-and-index-tricks/</link>
+      <pubDate>Fri, 31 Jul 2020 15:37:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/advanced-indexing-and-index-tricks/</guid>
+      <description>相对于常规Python序列，NumPy提供了更多的索引便利。其异同主要体现在如下两个方面：</description>
+    </item>
+    
+    <item>
+      <title>NumPy object copy and broadcasting rules</title>
+      <link>https://feily.tech/posts/numpy-object-copy-and-broadcasting-rules/</link>
+      <pubDate>Thu, 30 Jul 2020 20:32:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/numpy-object-copy-and-broadcasting-rules/</guid>
+      <description>当操作数组的时候，有时候需要将数据拷贝到一个新的数组中，有时候不需要。其实无论是在编程语言中还是NumPy中，都主要涉及以下三种情况。</description>
+    </item>
+    
+    <item>
+      <title>Shape manipulation in NumPy</title>
+      <link>https://feily.tech/posts/shape-manipulation-in-numpy/</link>
+      <pubDate>Sun, 26 Jul 2020 12:16:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/shape-manipulation-in-numpy/</guid>
+      <description>NumPy中，已定义好的数组可以重新调整维度，但是调整后的维度包含的元素数目应该与调整之前的相同。</description>
+    </item>
+    
+    <item>
+      <title>Creation and basic operation of NumPy vector (group)</title>
+      <link>https://feily.tech/posts/quickstart-tutorial/</link>
+      <pubDate>Thu, 23 Jul 2020 15:43:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/quickstart-tutorial/</guid>
+      <description>NumPy的主要操作对象是同类型的多维数组，若干个数组具有相同的长度及类型，各数组元素可以通过非负整数索引。在NumPy当中，数组的维度被称为轴(axes)。</description>
+    </item>
+    
+  </channel>
+</rss>

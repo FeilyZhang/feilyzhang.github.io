@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>How to understand matrix multiplication - Feily Zhang</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="How to understand matrix multiplication" />
+<meta property="og:description" content="如何理解矩阵？这是线性代数的一个比较关键而本质的问题，对其是否正确形象的理解关系到线性代数学习和应用的全局，本文将解释矩阵其实对应着空间变换，其本质是映射或运动." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://feily.tech/posts/how-to-understand-matrix-multiplication/" />
+<meta property="article:published_time" content="2020-07-19T19:34:05+08:00" />
+<meta property="article:modified_time" content="2020-07-19T19:34:05+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="How to understand matrix multiplication"/>
+<meta name="twitter:description" content="如何理解矩阵？这是线性代数的一个比较关键而本质的问题，对其是否正确形象的理解关系到线性代数学习和应用的全局，本文将解释矩阵其实对应着空间变换，其本质是映射或运动."/>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:200,300" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" media="screen" href="https://feily.tech/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://feily.tech/css/main.css" /><link rel="stylesheet" type="text/css" href="https://feily.tech/css/dark.css" media="(prefers-color-scheme: dark)" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+	<script src="https://feily.tech/js/main.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+	<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+	<script>
+	  document.addEventListener("DOMContentLoaded", function() {
+	    renderMathInElement( document.body, {
+	      delimiters: [
+	        {left: "$$", right: "$$", display: true},
+	        {left: "[%", right: "%]", display: true},
+	        {left: "$", right: "$", display: false}
+	      ]}
+	    );
+	  });
+	</script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title"><a href="https://feily.tech/">Feily Zhang</a></h1>
+	<div class="site-description"><h2>Software Developer, Machine Learning, Astronomy Enthusiast.</h2><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/FeilyZhang" title="Github"><i data-feather="github"></i></a><a href="https://twitter.com/FeilyZhang" title="Twitter"><i data-feather="twitter"></i></a><a href="/index.xml" title="RSS"><i data-feather="rss"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/">Home</a>
+			</li>
+			
+			<li>
+				<a href="/posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="/about">About</a>
+			</li>
+			
+			<li>
+				<a href="/tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h1 class="title">How to understand matrix multiplication</h1>
+			<div class="meta">Posted at &mdash; Jul 19, 2020</div>
+		</div>
+
+		<div class="markdown">
+			<p>如何理解矩阵？这是线性代数的一个比较关键而本质的问题，对其是否正确形象的理解关系到线性代数学习和应用的全局，本文将解释矩阵其实对应着空间变换，其本质是映射或运动.</p>
+<h3 id="从映射到矩阵乘法"><strong>从映射到矩阵乘法</strong></h3>
+<p>考虑什么是映射？对于某个函数$f(x)$，任意一个定义在其定义域内的输入都有一个唯一的输出与之对应，这便是映射.比如，对于如下多项式函数</p>
+<p>\begin{equation}f(x) = 4x^3 + 3x^2 + 2x + 1\end{equation}</p>
+<p>对于任意一个$x$，其满足$x∈R$，都有一个唯一的$f(x)$与之唯一对应.即函数$f(x)$将$x$映射到了$4x^3 + 3x^2 + 2x + 1$上.很明显，这是从数到数的映射.但是放在空间的角度看，该函数的本质是定义了一个从向量$[x, f(x)]$到向量$[x, f(x)]$的映射.如何理解？</p>
+<p>我们考虑如何将该函数定义的一点$(x, f(x))$表示在图像上.首先我们有一个自变量$x$，它其实刻画了空间内线性无关的一个向量的伸缩尺寸；然后将$x$带入函数中，我们便会得到一个$f(x)$，这是另外一个线性无关的向量的伸缩尺寸.这里有两个线性无关的伸缩尺寸，那么必然存在两个线性无关的基，所以该函数定义的点表示在二维空间中.可以张成二维空间的基有若干个，我们必须选定一个基，不妨选择标准正交基$[1, 0]^T,[0, 1]^T$，将该函数定义的$(x, f(x))$表示在空间中的方法是</p>
+<p>\begin{equation}
+x\begin{bmatrix}1 \newline 0 \end{bmatrix} + f(x)\begin{bmatrix}0 \newline 1\end{bmatrix} = 
+\begin{bmatrix}1 &amp; 0 \newline 0 &amp; 1\end{bmatrix}
+\begin{bmatrix}x \newline f(x)\end{bmatrix} = 
+\begin{bmatrix}x \newline f(x)\end{bmatrix}
+\end{equation}</p>
+<p>很明显，在空间角度看，其本质就是从向量$[x, f(x)]$到向量$[x, f(x)]$的映射.关于该函数的本质已经解释清楚了，那么如何理解这个空间当中的映射呢？首先将上式中的矩阵定义为$\pmb{A}$，与矩阵相乘的向量定义为$\pmb{x}$，结果向量表示为$\pmb{y}$，即</p>
+<p>\begin{equation}\pmb{A} = 
+\begin{bmatrix}1 &amp; 0 \newline 0 &amp; 1\end{bmatrix},\pmb{x} = 
+\begin{bmatrix}x \newline f(x) \end{bmatrix},\pmb{y} = 
+\begin{bmatrix}x \newline f(x) \end{bmatrix}
+\end{equation}</p>
+<p>那么便有</p>
+<p>\begin{equation}\pmb{Ax} = \pmb{y}\end{equation}</p>
+<p>有了上述标准化定义，那么就可以如下理解这个空间映射.</p>
+<p>在$n$维单位矩阵中线性表示的$n$维向量$\pmb{Ex}$经矩阵$\pmb{A}$映射，将其变换到$n$维单位矩阵中线性表示的$n$维向量$\pmb{EAX}$，即$\pmb{y}$.</p>
+<p>也就是说上式其实是这个样子的</p>
+<p>\begin{equation}\pmb{EAEx} = \pmb{y}\end{equation}</p>
+<p>即，将在单位矩阵中线性表示的结果$\pmb{Ex}$作为矩阵$\pmb{A}$的输入，然后将其映射后的结果$\pmb{AEx}$组合在单位阵中，便实现了单位阵中向量$\pmb{x}$到向量$\pmb{y}$的映射.</p>
+<h3 id="逆映射与逆矩阵"><strong>逆映射与逆矩阵</strong></h3>
+<p>所谓逆映射，就是我们熟悉的反函数。对于在定义域上严格单调的函数，必有反函数. 如果不严格单调呢？例如对于如下函数</p>
+<p>\begin{equation}f(x) = x^2\end{equation}</p>
+<p>其定义域为$R$，值域为$[0, +∞)$.在定义域$R$上，该函数是不存在反函数的，因为对于除$f(0) = 0$之外的任何一个$f(x)$到$x$的映射均非单射.比如，$f(5) = f(-5) = 25$，如果将$25$反向映射回去。它会面临两个可能的取值，这是存在歧义的，故函数$f(x)$在$R$上无反函数.</p>
+<p>如果我们限定其定义域为$(0, +∞)$，那么函数$f(x)$则会存在反函数，此时便是单射.逆矩阵与此也是相同的道理.</p>
+<p>我们知道，矩阵对应一次映射，它将一个$\pmb{E}$中的向量映射到$\pmb{E}$中的另一个位置，那么能够将映射后的向量再映射回去的矩阵为该矩阵对应的逆矩阵，记为$\pmb{A}^{-1}$.</p>
+<p>并不是所有的矩阵都存在逆矩阵，矩阵是否存在逆矩阵必须满足两个条件，缺一不可</p>
+<ol>
+<li>矩阵$\pmb{A}$必须为方阵；</li>
+<li>矩阵$\pmb{A}$的行列式不为零，即$\left|\pmb{A}\right| \neq 0$.</li>
+</ol>
+<p>我们一一解释，首先，为什么矩阵必须是方阵才有可能存在逆矩阵呢？</p>
+<p>回忆$m$个方程$n$个未知量的非齐次线性方程组（或齐次线性方程组，都是一样的道理），该方程只有在$R(\pmb{A}) = R(\pmb{A, b}) = n$时才存在唯一解，实际上此时必然满足$R(\pmb{A}) = R(\pmb{A, b}) = n = m$.这是因为$R(\pmb{A}) = n$，因为$R(\pmb{A})$等于$\pmb{A}$中非零子式或者说初等变换后非零行的行数，行数是$m$，而该行数等于$n$，所以$m = n$.当方程组存在唯一解的情况下，便是从$\pmb{y}$到$\pmb{x}$的单射，不会存在歧义，因此该矩阵可逆.</p>
+<p>若方程组满足$R(\pmb{A}) = R(\pmb{A, b}) &lt; n$，那么该方程存在无穷多解，意味着对于每一个$\pmb{y}$都有无数个$\pmb{x}$与之对应，这是很大的歧义，矩阵必然不可逆，因为逆矩阵不知道将$\pmb{y}$映射回哪个$\pmb{x}$.</p>
+<p>综上，矩阵可逆的必要条件就是该矩阵必须为方阵，即$m = n$.</p>
+<p>若矩阵不是方阵，则必然不可逆；若矩阵是方阵，则可能不可逆.为什么这么说呢？便是对第二点的解释.</p>
+<p>考虑如下矩阵$\pmb{A}$，其行列式为零，即</p>
+<p>\begin{equation}\pmb{A} = 
+\begin{bmatrix}1 &amp; 1 \newline 2 &amp; 2\end{bmatrix},\ \ \ \left|\pmb{A}\right| = 
+\begin{vmatrix}1 &amp; 1 \newline 2 &amp; 2\end{vmatrix} = 1 \times 2 - 1 \times 2 = 0
+\end{equation}</p>
+<p>该矩阵对应的基为$[1, 2]^T, [1, 2]^T$，可以看到是重复的.组成该矩阵的基其实无法张成二维空间，只能张成一维空间，对于任意向量的表示也只是在一维空间内（它所能对向量施加的运算仅仅是数乘，即使是向量加法，本质也是数乘），这意味着对于输入$\pmb{x}$，有一个维度的信息被模糊掉了.这是它的空间意义，如果仅从代数的角度看，我们依然求该向量能否唯一的线性表示向量$\pmb{y}$.即下式的解是否唯一</p>
+<p>\begin{equation}
+\begin{bmatrix}1 &amp; 1 \newline 2 &amp; 2\end{bmatrix}\pmb{x} = \pmb{y}
+\end{equation}</p>
+<p>若矩阵$\pmb{A}$可以唯一的线性表示$\pmb{y}$，那么必然满足$R(\pmb{A}) = R(\pmb{A, y}) = n$，更进一步地，必然满足$R(\pmb{A}) = R(\pmb{A, y}) = n = m$.显然，该矩阵必然不满足有唯一解的条件，即有无穷多解或无解，这样的话，矩阵是不可逆的.也就是说，即使是方阵，也有可能经过初等变换后变成非方阵，即奇异矩阵.</p>
+<p>对于判断矩阵是否可逆的两个条件，本质上就是看线性方程组的解是否唯一.如果解唯一，说明经逆矩阵变换后的向量$\pmb{y}$，仅有一个唯一的$\pmb{x}$与之对应，反之则不是.</p>
+<p>站在空间的角度看，矩阵$\pmb{A}$的本质是对单位阵张成的空间进行的伸缩变换，而矩阵$\pmb{A}$的行列式$\left|\pmb{A}\right|$其实就是矩阵基构成的多面体的体积.若矩阵各基独立不相关，即不存在重复的基（重复的基对空间的张成没有任何贡献，反而能被空间表示），那么它构成的多面体的体积必然不为零；若存在重复的基或者说线性相关的基，那么多面体的体积必然为零.若矩阵中有一个矩阵能被线性表示，那么意味着矩阵的维数将会比向量$\pmb{x}$的维数少1个，那么映射之后会有一个维度的信息被丢失，所以无法通过逆矩阵还原，即不可逆.</p>
+<p>其实，代数角度上的逆矩阵比空间意义上的逆矩阵更容易理解.还有一个矩阵，请读者判断其是否可逆，如下</p>
+<p>\begin{equation}
+\begin{bmatrix}1 &amp; 2 &amp; 3 \newline 4 &amp; 5 &amp; 6 \newline 7 &amp; 8 &amp; 9 \end{bmatrix}
+\end{equation}</p>
+<p>本文完</p>
+
+		</div>
+
+		<div class="post-tags">
+			
+				
+					<nav class="nav tags">
+							<ul class="flat">
+								
+								<li><a href="/tags/linear-algebra">linear algebra</a></li>
+								
+							</ul>
+					</nav>
+				
+			
+		</div>
+		</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div> © Copyright feily.tech |  <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a> | Built with <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+
+<script>feather.replace()</script>
+</body>
+</html>

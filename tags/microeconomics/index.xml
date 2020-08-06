@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Microeconomics on Feily Zhang</title>
+    <link>https://feily.tech/tags/microeconomics/</link>
+    <description>Recent content in Microeconomics on Feily Zhang</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright feily.tech</copyright>
+    <lastBuildDate>Thu, 06 Aug 2020 16:12:05 +0800</lastBuildDate>
+    
+	<atom:link href="https://feily.tech/tags/microeconomics/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Consumer equilibrium in microeconomics</title>
+      <link>https://feily.tech/posts/consumer-equilibrium-in-microeconomics/</link>
+      <pubDate>Thu, 06 Aug 2020 16:12:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/consumer-equilibrium-in-microeconomics/</guid>
+      <description>微观经济学中消费者行为选择以达到均衡状态的本质，就是选择约束条件下使得效用最大化的商品组合。基数效用论和序数效用论就这一均衡有不同的阐述，但是却殊途同归。</description>
+    </item>
+    
+  </channel>
+</rss>

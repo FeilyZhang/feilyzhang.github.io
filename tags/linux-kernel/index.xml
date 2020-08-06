@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux kernel on Feily Zhang</title>
+    <link>https://feily.tech/tags/linux-kernel/</link>
+    <description>Recent content in Linux kernel on Feily Zhang</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright feily.tech</copyright>
+    <lastBuildDate>Fri, 27 Dec 2019 18:56:05 +0800</lastBuildDate>
+    
+	<atom:link href="https://feily.tech/tags/linux-kernel/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Change! From 16 bit real mode to 32-bit protection mode</title>
+      <link>https://feily.tech/posts/from-16-bit-real-mode-to-32-bit-protection-mode/</link>
+      <pubDate>Fri, 27 Dec 2019 18:56:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/from-16-bit-real-mode-to-32-bit-protection-mode/</guid>
+      <description>回顾 从上文得知，在BIOS将Linux的磁盘引导程序bootsect加载到0x07C00之后，bootsect开始执行，其先是将自己移动到了0x90000处，然后设置了段寄存器ds、es、ss，后将setup、system程序加载至了指定位置，并确认了根设备号，最终通过段间跳转指令将CPU控制权交给了setup程序。</description>
+    </item>
+    
+    <item>
+      <title>From power up to disk boot program execution</title>
+      <link>https://feily.tech/posts/from-boot-up-to-disk-boot-program-execution/</link>
+      <pubDate>Fri, 13 Sep 2019 16:01:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/from-boot-up-to-disk-boot-program-execution/</guid>
+      <description>本系列文章基于Linux 0.</description>
+    </item>
+    
+  </channel>
+</rss>

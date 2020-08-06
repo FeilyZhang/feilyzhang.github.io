@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Lists Iteration and Recursion - Feily Zhang</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="Lists Iteration and Recursion" />
+<meta property="og:description" content="Racket是Lisp语言的一种方言，Lisp最初代表的是“LISt Processor”，意为列表处理器，因此内置的这种list数据结构依然是该语言的突出特性。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://feily.tech/posts/lists-iteration-and-recursion/" />
+<meta property="article:published_time" content="2020-04-01T20:23:14+08:00" />
+<meta property="article:modified_time" content="2020-04-01T20:23:14+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Lists Iteration and Recursion"/>
+<meta name="twitter:description" content="Racket是Lisp语言的一种方言，Lisp最初代表的是“LISt Processor”，意为列表处理器，因此内置的这种list数据结构依然是该语言的突出特性。"/>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:200,300" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" media="screen" href="https://feily.tech/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://feily.tech/css/main.css" /><link rel="stylesheet" type="text/css" href="https://feily.tech/css/dark.css" media="(prefers-color-scheme: dark)" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+	<script src="https://feily.tech/js/main.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+	<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+	<script>
+	  document.addEventListener("DOMContentLoaded", function() {
+	    renderMathInElement( document.body, {
+	      delimiters: [
+	        {left: "$$", right: "$$", display: true},
+	        {left: "[%", right: "%]", display: true},
+	        {left: "$", right: "$", display: false}
+	      ]}
+	    );
+	  });
+	</script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title"><a href="https://feily.tech/">Feily Zhang</a></h1>
+	<div class="site-description"><h2>Software Developer, Machine Learning, Astronomy Enthusiast.</h2><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/FeilyZhang" title="Github"><i data-feather="github"></i></a><a href="https://twitter.com/FeilyZhang" title="Twitter"><i data-feather="twitter"></i></a><a href="/index.xml" title="RSS"><i data-feather="rss"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/">Home</a>
+			</li>
+			
+			<li>
+				<a href="/posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="/about">About</a>
+			</li>
+			
+			<li>
+				<a href="/tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h1 class="title">Lists Iteration and Recursion</h1>
+			<div class="meta">Posted at &mdash; Apr 1, 2020</div>
+		</div>
+
+		<div class="markdown">
+			<p>Racket是Lisp语言的一种方言，Lisp最初代表的是“LISt Processor”，意为列表处理器，因此内置的这种list数据结构依然是该语言的突出特性。</p>
+<p>Racket中list函数（过程）用于创建列表，该函数接受任意长度的值，然后返回一个包含该值的列表。示例如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp"><span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">&#34;red&#34;</span> <span style="color:#2aa198">&#34;green&#34;</span> <span style="color:#2aa198">&#34;blue&#34;</span>)
+<span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">&#34;red&#34;</span> <span style="color:#2aa198">&#34;green&#34;</span> <span style="color:#2aa198">&#34;blue&#34;</span>)
+</code></pre></div><p>当然，也可以直接为创建的列表绑定一个标识符</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp"><span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">define</span> <span style="color:#268bd2">color</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">&#34;red&#34;</span> <span style="color:#2aa198">&#34;green&#34;</span> <span style="color:#2aa198">&#34;blue&#34;</span>))
+<span style="color:#268bd2">&gt;</span> <span style="color:#268bd2">color</span>
+<span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">&#34;red&#34;</span> <span style="color:#2aa198">&#34;green&#34;</span> <span style="color:#2aa198">&#34;blue&#34;</span>)
+</code></pre></div><p>Racket预定义了一些操作列表的函数，一些示例如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp"><span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">length</span> <span style="color:#268bd2">color</span>)	<span style="color:#586e75">; 列表的长度</span>
+<span style="color:#268bd2">3</span>
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">list-ref</span> <span style="color:#268bd2">color</span> <span style="color:#2aa198">0</span>)	<span style="color:#586e75">; 根据索引提取列表元素	</span>
+<span style="color:#2aa198">&#34;red&#34;</span>
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">append</span> <span style="color:#268bd2">color</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">&#34;yellow&#34;</span> <span style="color:#2aa198">&#34;white&#34;</span> <span style="color:#2aa198">&#34;black&#34;</span>))	<span style="color:#586e75">; 追加列表，形成一个新列表</span>
+<span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">&#34;red&#34;</span> <span style="color:#2aa198">&#34;green&#34;</span> <span style="color:#2aa198">&#34;blue&#34;</span> <span style="color:#2aa198">&#34;yellow&#34;</span> <span style="color:#2aa198">&#34;white&#34;</span> <span style="color:#2aa198">&#34;black&#34;</span>)
+<span style="color:#268bd2">&gt;</span> <span style="color:#268bd2">color</span>
+<span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">&#34;red&#34;</span> <span style="color:#2aa198">&#34;green&#34;</span> <span style="color:#2aa198">&#34;blue&#34;</span>)
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">define</span> <span style="color:#268bd2">color-ano</span> (<span style="color:#268bd2">append</span> <span style="color:#268bd2">color</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">&#34;yellow&#34;</span> <span style="color:#2aa198">&#34;white&#34;</span> <span style="color:#2aa198">&#34;black&#34;</span>)))	<span style="color:#586e75">; 追加列表，形成一个新列表</span>
+<span style="color:#268bd2">&gt;</span> <span style="color:#268bd2">color-ano</span>
+<span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">&#34;red&#34;</span> <span style="color:#2aa198">&#34;green&#34;</span> <span style="color:#2aa198">&#34;blue&#34;</span> <span style="color:#2aa198">&#34;yellow&#34;</span> <span style="color:#2aa198">&#34;white&#34;</span> <span style="color:#2aa198">&#34;black&#34;</span>)
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">reverse</span> <span style="color:#268bd2">color</span>)	<span style="color:#586e75">; 反转列表</span>
+<span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">&#34;blue&#34;</span> <span style="color:#2aa198">&#34;green&#34;</span> <span style="color:#2aa198">&#34;red&#34;</span>)
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">member</span> <span style="color:#2aa198">&#34;yellow&#34;</span> <span style="color:#268bd2">color</span>)	<span style="color:#586e75">; 检查某元素是否为列表的元素</span>
+#<span style="color:#268bd2">f</span>
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">member</span> <span style="color:#2aa198">&#34;yellow&#34;</span> <span style="color:#268bd2">color-ano</span>)
+<span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">&#34;yellow&#34;</span> <span style="color:#2aa198">&#34;white&#34;</span> <span style="color:#2aa198">&#34;black&#34;</span>)
+</code></pre></div><p>上述<code>member</code>函数，如果某元素存在于列表之中，则返回以列表中第一次出现该元素为开头直至结尾的所有元素，否则返回<code>#f</code>。</p>
+<h2 id="预定义的list循环">预定义的list循环</h2>
+<p>考虑到对list进行迭代操作的必要，Racket预定义了<code>map</code>函数，该函数有两类参数，第一类是一个过程，第二类值列表，可以存在多个列表，map函数将会对列表中的每个元素应用输入的过程，然后将过程的返回值重新组合为一个列表，原型如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp">(<span style="color:#268bd2">map</span> <span style="color:#268bd2">proc</span> <span style="color:#268bd2">lst</span> <span style="color:#719e07">...</span><span style="color:#268bd2">+</span>) → <span style="color:#268bd2">list?</span>
+  <span style="color:#268bd2">proc</span> : <span style="color:#268bd2">procedure?</span>
+  <span style="color:#268bd2">lst</span> : <span style="color:#268bd2">list?</span>
+</code></pre></div><p>作为示例，此处对上述定义的color列表各元素拼接一个感叹号，然后得到拼接感叹号之后的新列表，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp"><span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">map</span> (<span style="color:#b58900">lambda</span> (<span style="color:#268bd2">e</span>)
+         (<span style="color:#268bd2">string-append</span> <span style="color:#268bd2">e</span> <span style="color:#2aa198">&#34;!&#34;</span>))
+       <span style="color:#268bd2">color</span>)
+<span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">&#34;red!&#34;</span> <span style="color:#2aa198">&#34;green!&#34;</span> <span style="color:#2aa198">&#34;blue!&#34;</span>)
+</code></pre></div><p>需要特别注意的是，当map函数接受多个列表时，这些列表必须具有同样的长度，而且处理这些列表的函数必须接受每个列表的一个参数。如下的示例程序，对color列表中的元素截取</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp"><span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">map</span> (<span style="color:#b58900">lambda</span> (<span style="color:#268bd2">e</span> <span style="color:#268bd2">i</span>)
+         (<span style="color:#268bd2">substring</span> <span style="color:#268bd2">e</span> <span style="color:#2aa198">0</span> <span style="color:#268bd2">i</span>))
+       <span style="color:#268bd2">color</span>
+       (<span style="color:#268bd2">list</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">4</span> <span style="color:#2aa198">3</span>))
+<span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">&#34;re&#34;</span> <span style="color:#2aa198">&#34;gree&#34;</span> <span style="color:#2aa198">&#34;blu&#34;</span>)
+</code></pre></div><p>也可以再增加一个列表，用于控制substring的起始索引，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp"><span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">map</span> (<span style="color:#b58900">lambda</span> (<span style="color:#268bd2">e</span> <span style="color:#268bd2">i</span> <span style="color:#268bd2">j</span>)
+         (<span style="color:#268bd2">substring</span> <span style="color:#268bd2">e</span> <span style="color:#268bd2">i</span> <span style="color:#268bd2">j</span>))
+       <span style="color:#268bd2">color</span>
+       (<span style="color:#268bd2">list</span> <span style="color:#2aa198">1</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">1</span>)
+       (<span style="color:#268bd2">list</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">4</span> <span style="color:#2aa198">3</span>))
+<span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">&#34;e&#34;</span> <span style="color:#2aa198">&#34;ee&#34;</span> <span style="color:#2aa198">&#34;lu&#34;</span>)
+</code></pre></div><p>作为map函数的变种，andmap用于判断列表中的所有元素是否符合给定过程的条件，ormap用于判断列表中是否存在元素满足给定过程的条件，示例如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp"><span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">andmap</span> <span style="color:#268bd2">string?</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">&#34;hello&#34;</span> <span style="color:#2aa198">&#34;world&#34;</span>))
+#<span style="color:#268bd2">t</span>
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">andmap</span> <span style="color:#268bd2">string?</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">&#34;hello&#34;</span> <span style="color:#2aa198">&#34;world&#34;</span> <span style="color:#2aa198">2</span>))
+#<span style="color:#268bd2">f</span>
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">ormap</span> <span style="color:#268bd2">string?</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">&#34;hello&#34;</span> <span style="color:#2aa198">&#34;world&#34;</span> <span style="color:#2aa198">2</span>))
+#<span style="color:#268bd2">t</span>
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">ormap</span> <span style="color:#268bd2">number?</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">&#34;hello&#34;</span> <span style="color:#2aa198">&#34;world&#34;</span> <span style="color:#2aa198">2</span>))
+#<span style="color:#268bd2">t</span>
+</code></pre></div><p>filter函数用于过滤满足过程条件的列表元素，并返回新的列表</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp"><span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">filter</span> <span style="color:#268bd2">number?</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">&#34;hello&#34;</span> <span style="color:#2aa198">&#34;world&#34;</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span> <span style="color:#2aa198">4</span> <span style="color:#2aa198">5</span>))
+<span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span> <span style="color:#2aa198">4</span> <span style="color:#2aa198">5</span>)
+</code></pre></div><p>一个问题是，如何对一个整型列表数据进行归约操作，比如说求和。在Java之类的非函数式语言中，可以使用循环实现，或者递归，那么对数组进行递归求和的一段js代码如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#268bd2">function</span> sum(i, arr) {
+    <span style="color:#719e07">if</span> (i <span style="color:#719e07">==</span> <span style="color:#2aa198">0</span>) <span style="color:#719e07">return</span> arr[<span style="color:#2aa198">0</span>];
+    <span style="color:#719e07">return</span> arr[i] <span style="color:#719e07">+</span> sum(i <span style="color:#719e07">-</span> <span style="color:#2aa198">1</span>, arr);
+}
+
+console.log(sum(<span style="color:#2aa198">2</span>, [<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>]))	<span style="color:#586e75">// 6
+</span></code></pre></div><p>上述代码也可以这样写</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#268bd2">function</span> sum(i, arr, init) {
+    <span style="color:#719e07">if</span> (i <span style="color:#719e07">==</span> <span style="color:#719e07">-</span><span style="color:#2aa198">1</span>) <span style="color:#719e07">return</span> init;
+    <span style="color:#719e07">return</span> arr[i] <span style="color:#719e07">+</span> sum(i <span style="color:#719e07">-</span> <span style="color:#2aa198">1</span>, arr, init);
+}
+
+console.log(sum(<span style="color:#2aa198">2</span>, [<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>], <span style="color:#2aa198">0</span>))	<span style="color:#586e75">// 6
+</span></code></pre></div><p>至此，很显而易见，init参数提供了求和的初值，为0，此后不断地对每个元素进行迭代操作，最终得出结果。事实上，参数i与arr共同指明了一个元素，即数组中索引为i的元素，所以本质上，sum函数只有两个参数，一个是数组元素，一个是初值。因此，只要具备一个列表中的某个元素与归约操作的初值，就可以进行完整的归约。Racket中直接提供了进行归约操作的函数，其原型为</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp">(<span style="color:#268bd2">foldl</span> <span style="color:#268bd2">proc</span> <span style="color:#268bd2">init</span> <span style="color:#268bd2">lst</span> <span style="color:#719e07">...</span><span style="color:#268bd2">+</span>) → <span style="color:#268bd2">any/c</span>
+  <span style="color:#268bd2">proc</span> : <span style="color:#268bd2">procedure?</span>
+  <span style="color:#268bd2">init</span> : <span style="color:#268bd2">any/c</span>
+  <span style="color:#268bd2">lst</span> : <span style="color:#268bd2">list?</span>
+</code></pre></div><p>proc为具体的规约过程，等同于sum函数本身，init为初值，等同于sum函数的init参数，lst为列表，而列表的元素是由proc显式的给出的，那么利用<code>foldl</code>进行列表归约求列表<code>[1, 2, 3]</code>的和的Racket代码可以写做</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp"><span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">foldl</span> (<span style="color:#b58900">lambda</span> (<span style="color:#268bd2">ele</span> <span style="color:#268bd2">init</span>)
+           (<span style="color:#268bd2">+</span> <span style="color:#268bd2">ele</span> <span style="color:#268bd2">init</span>))
+         <span style="color:#268bd2">0</span>
+         <span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">1</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span>))
+<span style="color:#268bd2">6</span>
+</code></pre></div><p>lambda表达式的参数ele和init分别作为递归操作的两个参数，ele对应的实际参数为列表的每个元素，init对应的实际参数为0。其具体的运作过程为，递归的函数体<code>(+ ele init)</code>每次计算的值都会被重新赋值给init参数，这样init参数实际上就是已处理过的列表元素之和，自然而然地加上当前的列表元素，经过有限次递归之后就可以得到最终的值。类似地，对列表求积的代码如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp"><span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">foldl</span> (<span style="color:#b58900">lambda</span> (<span style="color:#268bd2">ele</span> <span style="color:#268bd2">init</span>)
+           (<span style="color:#268bd2">*</span> <span style="color:#268bd2">ele</span> <span style="color:#268bd2">init</span>))
+         <span style="color:#268bd2">1</span>
+         <span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">1</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span>))
+<span style="color:#268bd2">6</span>
+</code></pre></div><h2 id="如何自定义列表迭代函数">如何自定义列表迭代函数</h2>
+<p>尽管map函数实现了列表迭代的最初定义，但我们显然不满足于此。那么，如何自定义列表迭代呢？</p>
+<p>由于列表实际上就是一个链表，所以构建于非空列表(a non-empty list)的两个关键操作是</p>
+<ul>
+<li>first: 获取非空列表的第一个的元素；</li>
+<li>rest: 获取非空列表的除第一个元素之外的其余元素。</li>
+</ul>
+<p>示例如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp"><span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">first</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">1</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span> <span style="color:#2aa198">4</span> <span style="color:#2aa198">5</span>))
+<span style="color:#268bd2">1</span>
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">rest</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">1</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span> <span style="color:#2aa198">4</span> <span style="color:#2aa198">5</span>))
+<span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span> <span style="color:#2aa198">4</span> <span style="color:#2aa198">5</span>)
+</code></pre></div><p>这两个关键操作的共性在于其作用的对象必须是一个非空列表，那么如何判断列表是否为空呢？</p>
+<p>empty常量用于创建一个空列表，而cons函数用于在已有的列表前面追加元素，cons函数原型如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp">(<span style="color:#268bd2">cons</span> <span style="color:#268bd2">a</span> <span style="color:#268bd2">d</span>) → <span style="color:#268bd2">pair?</span>
+  <span style="color:#268bd2">a</span> : <span style="color:#268bd2">any/c</span>
+  <span style="color:#268bd2">d</span> : <span style="color:#268bd2">any/c</span>
+</code></pre></div><p>只有两个参数，参数类型任意。示例如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp"><span style="color:#268bd2">&gt;</span> <span style="color:#268bd2">empty</span>
+<span style="color:#719e07">&#39;</span>()
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">define</span> <span style="color:#268bd2">ept</span> <span style="color:#268bd2">empty</span>)
+<span style="color:#268bd2">&gt;</span> <span style="color:#268bd2">ept</span>
+<span style="color:#719e07">&#39;</span>()
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">cons</span> <span style="color:#2aa198">&#34;head&#34;</span> <span style="color:#268bd2">empty</span>)
+<span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">&#34;head&#34;</span>)
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">cons</span> <span style="color:#2aa198">&#34;dead&#34;</span> (<span style="color:#268bd2">cons</span> <span style="color:#2aa198">&#34;head&#34;</span> <span style="color:#268bd2">empty</span>))
+<span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">&#34;dead&#34;</span> <span style="color:#2aa198">&#34;head&#34;</span>)
+</code></pre></div><p>可以使用empty?函数判断列表是否为空，而cons?函数用于判断列表是否为非空。现在我们就可以构造自己的列表迭代函数了。不妨自定义一个计算列表元素个数的函数my-len，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp"><span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">define</span> (<span style="color:#268bd2">my-len</span> <span style="color:#268bd2">lst</span>)
+    (<span style="color:#b58900">cond</span>
+      <span style="color:#268bd2">[</span>(<span style="color:#268bd2">empty?</span> <span style="color:#268bd2">lst</span>) <span style="color:#268bd2">0]</span>
+      <span style="color:#268bd2">[else</span> (<span style="color:#268bd2">+</span> <span style="color:#2aa198">1</span> (<span style="color:#268bd2">my-len</span> (<span style="color:#268bd2">rest</span> <span style="color:#268bd2">lst</span>)))<span style="color:#268bd2">]</span>))
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">my-len</span> <span style="color:#268bd2">empty</span>)
+<span style="color:#268bd2">0</span>
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">my-len</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">1</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span> <span style="color:#2aa198">4</span> <span style="color:#2aa198">5</span> <span style="color:#2aa198">6</span>))
+<span style="color:#268bd2">6</span>
+</code></pre></div><p>上述代码不过就是递归而已，可以用js代码来解释。由于js中没有类似于rest的函数，因此先实现一个rest函数，然后再实现my_len函数</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#268bd2">function</span> rest(arr) {
+    <span style="color:#268bd2">var</span> ret <span style="color:#719e07">=</span> <span style="color:#719e07">new</span> <span style="color:#b58900">Array</span>(arr.length <span style="color:#719e07">-</span> <span style="color:#2aa198">1</span>);
+    <span style="color:#719e07">for</span> (<span style="color:#268bd2">var</span> i <span style="color:#719e07">=</span> <span style="color:#2aa198">1</span>; i <span style="color:#719e07">&lt;</span> arr.length; i<span style="color:#719e07">++</span>) {
+        ret[i <span style="color:#719e07">-</span> <span style="color:#2aa198">1</span>] <span style="color:#719e07">=</span> arr[i];
+    }
+    <span style="color:#719e07">return</span> ret;
+}
+
+<span style="color:#268bd2">function</span> my_len(arr) {
+    <span style="color:#719e07">if</span> (arr.length <span style="color:#719e07">==</span> <span style="color:#2aa198">0</span>) <span style="color:#719e07">return</span> <span style="color:#2aa198">0</span>;
+    <span style="color:#719e07">return</span> <span style="color:#2aa198">1</span> <span style="color:#719e07">+</span> my_len(rest(arr));
+}
+
+my_len([<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">4</span>, <span style="color:#2aa198">5</span>, <span style="color:#2aa198">6</span>])	<span style="color:#586e75">// 6
+</span></code></pre></div><p>这样就很容易理解了。类似地，我们可以实现map函数的功能，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp"><span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">define</span> (<span style="color:#268bd2">my-map</span> <span style="color:#268bd2">proc</span> <span style="color:#268bd2">lst</span>)
+    (<span style="color:#b58900">cond</span>
+      <span style="color:#268bd2">[</span>(<span style="color:#268bd2">empty?</span> <span style="color:#268bd2">lst</span>) <span style="color:#268bd2">empty]</span>
+      <span style="color:#268bd2">[else</span> (<span style="color:#268bd2">cons</span> (<span style="color:#268bd2">proc</span> (<span style="color:#268bd2">first</span> <span style="color:#268bd2">lst</span>))
+                  (<span style="color:#268bd2">my-map</span> <span style="color:#268bd2">proc</span> (<span style="color:#268bd2">rest</span> <span style="color:#268bd2">lst</span>)))<span style="color:#268bd2">]</span>))
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">my-map</span> <span style="color:#268bd2">string-upcase</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">&#34;Feily&#34;</span> <span style="color:#2aa198">&#34;Zhang&#34;</span>))
+<span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">&#34;FEILY&#34;</span> <span style="color:#2aa198">&#34;ZHANG&#34;</span>)
+</code></pre></div><p>再继续实现andmap和ormap以及filter的功能，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp"><span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">define</span> (<span style="color:#268bd2">my-andmap</span> <span style="color:#268bd2">proc</span> <span style="color:#268bd2">lst</span>)
+    (<span style="color:#b58900">cond</span>
+      <span style="color:#268bd2">[</span>(<span style="color:#268bd2">empty?</span> <span style="color:#268bd2">lst</span>) #<span style="color:#268bd2">t]</span>
+      <span style="color:#268bd2">[</span>(<span style="color:#268bd2">proc</span> (<span style="color:#268bd2">first</span> <span style="color:#268bd2">lst</span>)) (<span style="color:#268bd2">my-andmap</span> <span style="color:#268bd2">proc</span> (<span style="color:#268bd2">rest</span> <span style="color:#268bd2">lst</span>))<span style="color:#268bd2">]</span>
+      <span style="color:#268bd2">[else</span> #<span style="color:#268bd2">f]</span>))
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">my-andmap</span> <span style="color:#268bd2">string?</span> <span style="color:#268bd2">empty</span>)
+#<span style="color:#268bd2">t</span>
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">my-andmap</span> <span style="color:#268bd2">number?</span> <span style="color:#268bd2">empty</span>)
+#<span style="color:#268bd2">t</span>
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">my-andmap</span> <span style="color:#268bd2">number?</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">1</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span>))
+#<span style="color:#268bd2">t</span>
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">my-andmap</span> <span style="color:#268bd2">number?</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">1</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span> <span style="color:#2aa198">&#34;str&#34;</span>))
+#<span style="color:#268bd2">f</span>
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">my-andmap</span> <span style="color:#268bd2">string?</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">1</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span> <span style="color:#2aa198">&#34;str&#34;</span>))
+#<span style="color:#268bd2">f</span>
+
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">define</span> (<span style="color:#268bd2">my-ormap</span> <span style="color:#268bd2">proc</span> <span style="color:#268bd2">lst</span>)
+    (<span style="color:#b58900">cond</span>
+      <span style="color:#268bd2">[</span>(<span style="color:#268bd2">empty?</span> <span style="color:#268bd2">lst</span>) #<span style="color:#268bd2">f]</span>
+      <span style="color:#268bd2">[</span>(<span style="color:#268bd2">proc</span> (<span style="color:#268bd2">first</span> <span style="color:#268bd2">lst</span>)) #<span style="color:#268bd2">t]</span>
+      <span style="color:#268bd2">[else</span> (<span style="color:#268bd2">my-ormap</span> <span style="color:#268bd2">proc</span> (<span style="color:#268bd2">rest</span> <span style="color:#268bd2">lst</span>))<span style="color:#268bd2">]</span>))
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">my-ormap</span> <span style="color:#268bd2">string?</span> <span style="color:#268bd2">empty</span>)
+#<span style="color:#268bd2">f</span>
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">my-ormap</span> <span style="color:#268bd2">number?</span> <span style="color:#268bd2">empty</span>)
+#<span style="color:#268bd2">f</span>
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">my-ormap</span> <span style="color:#268bd2">number?</span> <span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">1</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span> <span style="color:#2aa198">&#34;Feily&#34;</span> <span style="color:#2aa198">&#34;Zhang&#34;</span>))
+#<span style="color:#268bd2">t</span>
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">my-ormap</span> <span style="color:#268bd2">string?</span> <span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">1</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span> <span style="color:#2aa198">&#34;Feily&#34;</span> <span style="color:#2aa198">&#34;Zhang&#34;</span>))
+#<span style="color:#268bd2">t</span>
+
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">define</span> (<span style="color:#268bd2">my-filter</span> <span style="color:#268bd2">proc</span> <span style="color:#268bd2">lst</span>)
+    (<span style="color:#b58900">cond</span>
+      <span style="color:#268bd2">[</span>(<span style="color:#268bd2">empty?</span> <span style="color:#268bd2">lst</span>) <span style="color:#268bd2">empty]</span>
+      <span style="color:#268bd2">[</span>(<span style="color:#268bd2">proc</span> (<span style="color:#268bd2">first</span> <span style="color:#268bd2">lst</span>)) (<span style="color:#268bd2">cons</span> (<span style="color:#268bd2">first</span> <span style="color:#268bd2">lst</span>) (<span style="color:#268bd2">my-filter</span> <span style="color:#268bd2">proc</span> (<span style="color:#268bd2">rest</span> <span style="color:#268bd2">lst</span>)))<span style="color:#268bd2">]</span>
+      <span style="color:#268bd2">[else</span> (<span style="color:#268bd2">my-filter</span> <span style="color:#268bd2">proc</span> (<span style="color:#268bd2">rest</span> <span style="color:#268bd2">lst</span>))<span style="color:#268bd2">]</span>))
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">my-filter</span> <span style="color:#268bd2">number?</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">&#34;hello&#34;</span> <span style="color:#2aa198">&#34;world&#34;</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span> <span style="color:#2aa198">4</span> <span style="color:#2aa198">5</span>))
+<span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span> <span style="color:#2aa198">4</span> <span style="color:#2aa198">5</span>)
+</code></pre></div><h2 id="递归与尾递归优化">递归与尾递归优化</h2>
+<p>递归是Racket进行列表迭代的基本方式，上述递归操作的执行路线为</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp">(<span style="color:#268bd2">my-len</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">1</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span>))
+<span style="color:#268bd2">=</span> (<span style="color:#268bd2">+</span> <span style="color:#2aa198">1</span> (<span style="color:#268bd2">my-len</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span>)))
+<span style="color:#268bd2">=</span> (<span style="color:#268bd2">+</span> <span style="color:#2aa198">1</span> (<span style="color:#268bd2">+</span> <span style="color:#2aa198">1</span> (<span style="color:#268bd2">my-len</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">3</span>))))
+<span style="color:#268bd2">=</span> (<span style="color:#268bd2">+</span> <span style="color:#2aa198">1</span> (<span style="color:#268bd2">+</span> <span style="color:#2aa198">1</span> (<span style="color:#268bd2">+</span> <span style="color:#2aa198">1</span> (<span style="color:#268bd2">my-len</span> (<span style="color:#268bd2">list</span> <span style="color:#719e07">&#39;</span>())))))	<span style="color:#586e75">; 递归边界</span>
+<span style="color:#268bd2">=</span> (<span style="color:#268bd2">+</span> <span style="color:#2aa198">1</span> (<span style="color:#268bd2">+</span> <span style="color:#2aa198">1</span> (<span style="color:#268bd2">+</span> <span style="color:#2aa198">1</span> <span style="color:#2aa198">0</span>)))
+<span style="color:#268bd2">=</span> (<span style="color:#268bd2">+</span> <span style="color:#2aa198">1</span> (<span style="color:#268bd2">+</span> <span style="color:#2aa198">1</span> <span style="color:#2aa198">1</span>))
+<span style="color:#268bd2">=</span> (<span style="color:#268bd2">+</span> <span style="color:#2aa198">1</span> <span style="color:#2aa198">2</span>)
+<span style="color:#268bd2">=</span> <span style="color:#268bd2">3</span>
+</code></pre></div><p>可以看出，上述递归先是递归前进<code>(my-len (list 1 2 3))</code>，在触碰到递归边界<code>(my-len (list '()))</code>后，然后递归后退<code>(+ 1 (+ 1 (+ 1 0)))</code>，最终得出值。这对于一个长度为n的列表，意味着其空间复杂度达到了_O_(_n_)。有一种称为尾递归优化的技术来使得对列表的迭代操作为常量空间，其只有递归前进没有递归后退，在触碰到递归边界后就退出，显然，这种方式需要额外的变量来支持，my-len函数可重写如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp"><span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">define</span> (<span style="color:#268bd2">my-len</span> <span style="color:#268bd2">lst</span>)
+    (<span style="color:#268bd2">define</span> (<span style="color:#268bd2">inner-len</span> <span style="color:#268bd2">lst</span> <span style="color:#268bd2">len</span>)
+      (<span style="color:#b58900">cond</span>
+        <span style="color:#268bd2">[</span>(<span style="color:#268bd2">empty?</span> <span style="color:#268bd2">lst</span>) <span style="color:#268bd2">len]</span>	<span style="color:#586e75">; 触碰到边界，直接返回额外参数</span>
+        <span style="color:#268bd2">[else</span> (<span style="color:#268bd2">inner-len</span> (<span style="color:#268bd2">rest</span> <span style="color:#268bd2">lst</span>) (<span style="color:#268bd2">+</span> <span style="color:#268bd2">len</span> <span style="color:#2aa198">1</span>))<span style="color:#268bd2">]</span>))	<span style="color:#586e75">; 递归前进的同时更新额外参数</span>
+    (<span style="color:#268bd2">inner-len</span> <span style="color:#268bd2">lst</span> <span style="color:#2aa198">0</span>))
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">my-len</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">1</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span> <span style="color:#2aa198">4</span> <span style="color:#2aa198">5</span> <span style="color:#2aa198">6</span>))
+<span style="color:#268bd2">6</span>
+</code></pre></div><p>同样的方法，可以将my-map重写如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp"><span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">define</span> (<span style="color:#268bd2">my-map</span> <span style="color:#268bd2">proc</span> <span style="color:#268bd2">lst</span>)
+    (<span style="color:#268bd2">define</span> (<span style="color:#268bd2">inner-map</span> <span style="color:#268bd2">lst</span> <span style="color:#268bd2">ret</span>)
+      (<span style="color:#b58900">cond</span>
+        <span style="color:#268bd2">[</span>(<span style="color:#268bd2">empty?</span> <span style="color:#268bd2">lst</span>) (<span style="color:#268bd2">reverse</span> <span style="color:#268bd2">ret</span>)<span style="color:#268bd2">]</span>	<span style="color:#586e75">; 触碰到边界，直接返回额外参数</span>
+        <span style="color:#268bd2">[else</span> (<span style="color:#268bd2">inner-map</span> (<span style="color:#268bd2">rest</span> <span style="color:#268bd2">lst</span>) (<span style="color:#268bd2">cons</span> (<span style="color:#268bd2">proc</span> (<span style="color:#268bd2">first</span> <span style="color:#268bd2">lst</span>)) <span style="color:#268bd2">ret</span>))<span style="color:#268bd2">]</span>))	<span style="color:#586e75">; 递归前进的同时更新额外参数</span>
+    (<span style="color:#268bd2">inner-map</span> <span style="color:#268bd2">lst</span> <span style="color:#268bd2">empty</span>))
+<span style="color:#268bd2">&gt;</span> (<span style="color:#268bd2">my-map</span> <span style="color:#268bd2">string-upcase</span> (<span style="color:#268bd2">list</span> <span style="color:#2aa198">&#34;Feily&#34;</span> <span style="color:#2aa198">&#34;Zhang&#34;</span>))
+<span style="color:#719e07">&#39;</span>(<span style="color:#2aa198">&#34;FEILY&#34;</span> <span style="color:#2aa198">&#34;ZHANG&#34;</span>)
+</code></pre></div><h2 id="递归之于迭代">递归之于迭代</h2>
+<p>从某种程度上说，迭代只是递归的一种特例。多数语言中，尝试将尽可能多的计算适应于迭代是非常重要的，换言之，迭代是多数语言在语言层面提供的重要特性（语法），比如for、while、do-while等循环，因为递归的性能相当低下。Racket中对于递归的这一缺陷使用尾递归优化来弥补，这样可以将递归的空间复杂度由_O_(_n_)将到常数级。</p>
+<p>但是，在Racket当中，递归并不会导致糟糕的性能，也不存在堆栈溢出。如果运算涉及太多的上下文，则可能耗尽内存，但是相对于其它语言来说，Racket可以承受更深数量级的递归。基于这些考虑，在加上尾递归优化技术，Racket并没有回避递归这一程序设计思维，而是选择拥抱它。</p>
+
+		</div>
+
+		<div class="post-tags">
+			
+				
+					<nav class="nav tags">
+							<ul class="flat">
+								
+								<li><a href="/tags/racket">Racket</a></li>
+								
+							</ul>
+					</nav>
+				
+			
+		</div>
+		</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div> © Copyright feily.tech |  <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a> | Built with <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+
+<script>feather.replace()</script>
+</body>
+</html>

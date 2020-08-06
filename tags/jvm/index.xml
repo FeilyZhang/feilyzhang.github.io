@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JVM on Feily Zhang</title>
+    <link>https://feily.tech/tags/jvm/</link>
+    <description>Recent content in JVM on Feily Zhang</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright feily.tech</copyright>
+    <lastBuildDate>Thu, 25 Apr 2019 10:31:14 +0800</lastBuildDate>
+    
+	<atom:link href="https://feily.tech/tags/jvm/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Garbage collector and memory allocation strategy</title>
+      <link>https://feily.tech/posts/garbage-collector-and-memory-allocation-strategy/</link>
+      <pubDate>Thu, 25 Apr 2019 10:31:14 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/garbage-collector-and-memory-allocation-strategy/</guid>
+      <description>堆中几乎存放着Java中的所有对象实例，垃圾收集器在对堆进行回收前，要做的一件事情就是判断这些对象有哪些还“或者”，哪些已经“死去（即不可能再被任何途径使用的对象）”。然后对死去的对象进行垃圾清理完成内存回收。</description>
+    </item>
+    
+    <item>
+      <title>JVM method call</title>
+      <link>https://feily.tech/posts/jvm-method-call/</link>
+      <pubDate>Wed, 24 Apr 2019 20:55:14 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/jvm-method-call/</guid>
+      <description>JVM执行引擎在执行方法字节码的之前最重要的一个步骤就是方法调用。方法调用阶段唯一的任务就是确定被调用方法的版本，即调用哪一个方法，并未涉及方法的运行过程。</description>
+    </item>
+    
+    <item>
+      <title>Runtime stack frame structure</title>
+      <link>https://feily.tech/posts/runtime-stack-frame-structure/</link>
+      <pubDate>Wed, 24 Apr 2019 11:06:14 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/runtime-stack-frame-structure/</guid>
+      <description>栈帧(Stack Frame)是用于支持虚拟机方法调用和方法执行的数据结构，它是虚拟机运行时数据区中的虚拟机栈的栈元素。栈帧中存储了方法的局部变量表、操作数栈、动态链接和方法返回出口等信息。每一个方法从调用开始到执行完成的过程，就对应着一个栈帧在虚拟机栈里面从入栈到出栈的过程。</description>
+    </item>
+    
+    <item>
+      <title>JVM runtime data area</title>
+      <link>https://feily.tech/posts/jvm-runtime-data-area/</link>
+      <pubDate>Tue, 23 Apr 2019 20:39:14 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/jvm-runtime-data-area/</guid>
+      <description>Java虚拟机在执行Java程序过程中会把它所管理的内存划分为若干个不同的数据区域，这些区域各有用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则是依赖用户线程的启动和结束而建立和销毁。Jva虚拟机所管理的内存区域将会包括以下几个运行时数据区域：</description>
+    </item>
+    
+    <item>
+      <title>Class file structure</title>
+      <link>https://feily.tech/posts/class-file-structure/</link>
+      <pubDate>Mon, 22 Apr 2019 15:43:25 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/class-file-structure/</guid>
+      <description>Class文件是一组以8位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑的排列在Class文件之中，中间没有任何分隔符，这使得整个Class文件中存储的内容几乎全部都是程序运行的必要数据，没有空隙存在。当遇到需要占用8为字节以上空间的数据项时，则会按照高位在前的方式分割成若干个8位字节进行存储。</description>
+    </item>
+    
+  </channel>
+</rss>

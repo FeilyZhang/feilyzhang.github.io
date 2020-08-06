@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Some formulas of adjoint matrix - Feily Zhang</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="Some formulas of adjoint matrix" />
+<meta property="og:description" content="关于伴随矩阵的几个数学公式的推导，首先伴随矩阵的代数定义为" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://feily.tech/posts/some-formulas-of-adjoint-matrix/" />
+<meta property="article:published_time" content="2020-07-13T11:03:05+08:00" />
+<meta property="article:modified_time" content="2020-07-13T11:03:05+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Some formulas of adjoint matrix"/>
+<meta name="twitter:description" content="关于伴随矩阵的几个数学公式的推导，首先伴随矩阵的代数定义为"/>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:200,300" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" media="screen" href="https://feily.tech/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://feily.tech/css/main.css" /><link rel="stylesheet" type="text/css" href="https://feily.tech/css/dark.css" media="(prefers-color-scheme: dark)" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+	<script src="https://feily.tech/js/main.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+	<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+	<script>
+	  document.addEventListener("DOMContentLoaded", function() {
+	    renderMathInElement( document.body, {
+	      delimiters: [
+	        {left: "$$", right: "$$", display: true},
+	        {left: "[%", right: "%]", display: true},
+	        {left: "$", right: "$", display: false}
+	      ]}
+	    );
+	  });
+	</script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title"><a href="https://feily.tech/">Feily Zhang</a></h1>
+	<div class="site-description"><h2>Software Developer, Machine Learning, Astronomy Enthusiast.</h2><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/FeilyZhang" title="Github"><i data-feather="github"></i></a><a href="https://twitter.com/FeilyZhang" title="Twitter"><i data-feather="twitter"></i></a><a href="/index.xml" title="RSS"><i data-feather="rss"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/">Home</a>
+			</li>
+			
+			<li>
+				<a href="/posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="/about">About</a>
+			</li>
+			
+			<li>
+				<a href="/tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h1 class="title">Some formulas of adjoint matrix</h1>
+			<div class="meta">Posted at &mdash; Jul 13, 2020</div>
+		</div>
+
+		<div class="markdown">
+			<p>关于伴随矩阵的几个数学公式的推导，首先伴随矩阵的代数定义为</p>
+<p>\begin{equation}AA^* = A^*A = \big|A\big|E\end{equation}</p>
+<h3 id="逆矩阵的伴随矩阵求法"><strong>逆矩阵的伴随矩阵求法</strong></h3>
+<p>对于上式，若对等式$AA^* = \big|A\big|E$两边左乘$A$的逆$A^{-1}$(或对等式$A^*A = \big|A\big|E$右乘$A$的逆$A^{-1}$)，并整理可得矩阵$A$的逆矩阵$A^{-1}$的伴随矩阵求法</p>
+<p>\begin{equation}A^* = A^{-1}\big|A\big|,\ \ \ A^{-1} = \frac{1}{\big|A\big|}A^*\end{equation}</p>
+<h3 id="伴随矩阵的性质与重要公式"><strong>伴随矩阵的性质与重要公式</strong></h3>
+<p>对任意$n$阶方阵$A$，都有伴随矩阵$A^*$，且有公式</p>
+<p>\begin{equation}AA^* = A^*A = \big|A\big|E,\ \ \ \big|A^*\big| = \big|A\big|^{n - 1}\end{equation}</p>
+<p>那么后者如何得出的呢？</p>
+<p>根据方阵乘积的行列式性质，若$A$,$B$均为同阶方阵，则$\big|AB\big| = \big|A\big|\big|B\big|$。那么对伴随矩阵的定义等式两边同取行列式，再利用同阶方阵乘积的行列式性质，最终化简可得</p>
+<p>\begin{equation}\big|AA^*\big| = \big|\big|A\big|E\big|, \ \ \ \big|A\big|\big|A^*\big| = \big|A\big|^n,\ \ \ \big|A^*\big| = \big|A\big|^{n - 1}\end{equation}</p>
+<p>上面第二个式子右部之所以为$\big|A\big|^n$，是因为第一个式子右部中$\big|A\big|$为一个数，数$\big|A\big|$与矩阵$E$的乘积均会施加到矩阵的每一行(或每一列)上，若对数乘矩阵$\big|A\big|E$取行列式$\big|\big|A\big|E\big|$，那么对每一行的数乘都应该提出来，由于矩阵A为$n$阶方阵，因此必然会提取数乘$n$次，即$\big|A\big|^n$，单位阵$E$的行列式为1，因此等式右部为$\big|A\big|^n$。因此最终得，$A$的伴随的行列式为$A$的行列式的$n - 1$次方。</p>
+<p>若对$AA^* = \big|A\big|E$右乘$(A^*)^{-1}$(或对$A^*A = \big|A\big|E$左乘$(A^*)^{-1}$)，那么可整理得下式</p>
+<p>\begin{equation}A = \big|A\big|(A^*)^{-1}\end{equation}</p>
+<p>表明方阵$A$可表示为方阵$A$的行列式与方阵$A$的伴随矩阵的数乘。</p>
+<h3 id="对伴随矩阵定义的推广"><strong>对伴随矩阵定义的推广</strong></h3>
+<p>对于伴随矩阵的代数定义</p>
+<p>\begin{equation}AA^* = A^*A = \big|A\big|E\end{equation}</p>
+<p>若矩阵$A$分别为$kA$,$A^T$,$A^{-1}$,$A^*$，则可推广出如下式</p>
+<p>\begin{equation}(kA)(kA)^* = \big|kA\big|E\end{equation}</p>
+<p>\begin{equation}A^T(A^T)^* = \big|A^T\big|E\end{equation}</p>
+<p>\begin{equation}A^{-1}(A^{-1})^* = \big|A^{-1}\big|E\end{equation}</p>
+<p>\begin{equation}A^*(A^*)^* = \big|A^*\big|E\end{equation}</p>
+<h3 id="方阵a的转置逆伴随的伴随"><strong>方阵A的转置、逆、伴随的伴随</strong></h3>
+<h4 id="方阵a的转置的伴随"><strong>方阵A的转置的伴随</strong></h4>
+<p>方阵$A$的转置的伴随等于方阵$A$的伴随的转置，即</p>
+<p>\begin{equation}(A^T)^* = (A^*)^T\end{equation}</p>
+<p>那么如何得来的呢？对于上式右部，有$A^* = \big|A\big|A^{-1}$，并且对于逆的转置为转置的逆，从而得</p>
+<p>\begin{equation}(A^*)^T = (\big|A\big|A^{-1})^T = \big|A\big|(A^T)^{-1}\end{equation}</p>
+<p>由于行列式$\big|A\big|$与其转置行列式相等，即对于方阵，有$\big|A^T\big| = \big|A\big|$，那么对于上式有</p>
+<p>\begin{equation}\big|A\big|(A^T)^{-1} = \big|A^T\big|(A^T)^{-1} = (A^T)^*\end{equation}</p>
+<p>从而证明</p>
+<p>\begin{equation}(A^T)^* = (A^*)^T\end{equation}</p>
+<h4 id="方阵a的逆的伴随"><strong>方阵A的逆的伴随</strong></h4>
+<p>方阵$A$的逆的伴随为方阵$A$的伴随的逆，即</p>
+<p>\begin{equation}(A^{-1})^* = (A^*)^{-1}\end{equation}</p>
+<p>对于等式左部，根据推广式$A^{-1}(A^{-1})^* = \big|A^{-1}\big|E$，可知</p>
+<p>\begin{equation}(A^{-1})^* = A\big|A^{-1}\big|E\ = A\big|A\big|^{-1}\end{equation}</p>
+<p>对于等式右部，由于$A^* = \big|A\big|A^{-1}$，那么$(A^*)^{-1}$就为</p>
+<p>\begin{equation}(A^*)^{-1} = (\big|A\big|A^{-1})^{-1} = \frac{1}{\big|A\big|}A\end{equation}</p>
+<p>从而等式左右部均相等，进而等式得到推导。</p>
+<h4 id="方阵a的伴随的伴随"><strong>方阵A的伴随的伴随</strong></h4>
+<p>方阵A的伴随的伴随为</p>
+<p>\begin{equation}(A^*)^* = \big|A\big|^{n-2}A\end{equation}</p>
+<p>由于$A^* = \big|A\big|A^{-1}$，那么</p>
+<p>\begin{equation}(A^*)^* = \big|\big|A\big|A^{-1}\big|(\big|A\big|A^{-1})^{-1} = |A|^n\big|A\big|^{-1}\big|A\big|^{-1}A = \big|A\big|^{n-2}A\end{equation}</p>
+<p>可见，该定义是递归的。</p>
+<h3 id="两方阵乘积的伴随"><strong>两方阵乘积的伴随</strong></h3>
+<p>对于方阵$A, B$，其乘积的伴随定义为</p>
+<p>\begin{equation}(AB)^* = B^*A^*\end{equation}</p>
+<p>对于该等式的推导，从其右部开始。$B$和$A$的伴随分别定义为</p>
+<p>\begin{equation}B^* = \big|B\big|B^{-1}\end{equation}</p>
+<p>\begin{equation}A^* = \big|A\big|A^{-1}\end{equation}</p>
+<p>将二者相乘，最终可得推导</p>
+<p>\begin{equation}B^*A^* = \big|B\big|B^{-1}\big|A\big|A^{-1} = \big|A\big|\big|B\big|B^{-1}A^{-1} = \big|AB\big|(AB)^{-1} = (AB)^*\end{equation}</p>
+
+		</div>
+
+		<div class="post-tags">
+			
+				
+					<nav class="nav tags">
+							<ul class="flat">
+								
+								<li><a href="/tags/linear-algebra">linear algebra</a></li>
+								
+							</ul>
+					</nav>
+				
+			
+		</div>
+		</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div> © Copyright feily.tech |  <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a> | Built with <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+
+<script>feather.replace()</script>
+</body>
+</html>

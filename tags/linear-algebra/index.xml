@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linear algebra on Feily Zhang</title>
+    <link>https://feily.tech/tags/linear-algebra/</link>
+    <description>Recent content in linear algebra on Feily Zhang</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright feily.tech</copyright>
+    <lastBuildDate>Sun, 19 Jul 2020 19:34:05 +0800</lastBuildDate>
+    
+	<atom:link href="https://feily.tech/tags/linear-algebra/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>How to understand matrix multiplication</title>
+      <link>https://feily.tech/posts/how-to-understand-matrix-multiplication/</link>
+      <pubDate>Sun, 19 Jul 2020 19:34:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/how-to-understand-matrix-multiplication/</guid>
+      <description>如何理解矩阵？这是线性代数的一个比较关键而本质的问题，对其是否正确形象的理解关系到线性代数学习和应用的全局，本文将解释矩阵其实对应着空间变换，其本质是映射或运动.</description>
+    </item>
+    
+    <item>
+      <title>Solution space and structure of linear equations</title>
+      <link>https://feily.tech/posts/solution-space-and-structure-of-linear-equations/</link>
+      <pubDate>Thu, 16 Jul 2020 12:21:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/solution-space-and-structure-of-linear-equations/</guid>
+      <description>对于线性方程组的求解，其本质上仍然是线性表示问题。不同的是，齐次线性方程组对应的是系数矩阵对零向量的表示，非齐次线性方程组对应的是系数矩阵对非零向量的线性表示。而最终所求的未知数向量实质上就是系数矩阵中各向量所对应的缩放尺寸，再配合向量加法，最终便可表示被表示的零向量或者非零向量。</description>
+    </item>
+    
+    <item>
+      <title>From vector group to linear system of equations</title>
+      <link>https://feily.tech/posts/from-vector-group-to-linear-system-of-equations/</link>
+      <pubDate>Thu, 16 Jul 2020 01:35:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/from-vector-group-to-linear-system-of-equations/</guid>
+      <description>$n$个数构成的有序数组$\left[a_1,a_2,\cdots,a_n\right]$称为一个$n$维向量，记作$\pmb{\alpha} = \left[a_1,a_2,\cdots,a_n\right]$，并称$\pmb{\alpha}$为$n$维行向量，$\pmb{\alpha}^T = \left[a_1,a_2,\cdots,a_n\right]^T$称为$n$维列向量，其中$a_i$称为向量$\pmb{\alpha}$(或$\pmb{\alpha}^T$)的第$i$个分量。</description>
+    </item>
+    
+    <item>
+      <title>Some formulas of adjoint matrix</title>
+      <link>https://feily.tech/posts/some-formulas-of-adjoint-matrix/</link>
+      <pubDate>Mon, 13 Jul 2020 11:03:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/some-formulas-of-adjoint-matrix/</guid>
+      <description>关于伴随矩阵的几个数学公式的推导，首先伴随矩阵的代数定义为</description>
+    </item>
+    
+  </channel>
+</rss>

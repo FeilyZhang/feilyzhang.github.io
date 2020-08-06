@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Dynamic programming algorithm - Feily Zhang</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="Dynamic programming algorithm" />
+<meta property="og:description" content="最值问题 对于最大值问题，常规解法是对序列进行一趟扫描，从而找到最大值，该问题依旧适合动态规划来解。对于长度为$n$的序列$arr[1." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://feily.tech/posts/dynamic-programming-algorithm/" />
+<meta property="article:published_time" content="2020-04-15T10:47:37+08:00" />
+<meta property="article:modified_time" content="2020-04-15T10:47:37+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Dynamic programming algorithm"/>
+<meta name="twitter:description" content="最值问题 对于最大值问题，常规解法是对序列进行一趟扫描，从而找到最大值，该问题依旧适合动态规划来解。对于长度为$n$的序列$arr[1."/>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:200,300" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" media="screen" href="https://feily.tech/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://feily.tech/css/main.css" /><link rel="stylesheet" type="text/css" href="https://feily.tech/css/dark.css" media="(prefers-color-scheme: dark)" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+	<script src="https://feily.tech/js/main.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+	<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+	<script>
+	  document.addEventListener("DOMContentLoaded", function() {
+	    renderMathInElement( document.body, {
+	      delimiters: [
+	        {left: "$$", right: "$$", display: true},
+	        {left: "[%", right: "%]", display: true},
+	        {left: "$", right: "$", display: false}
+	      ]}
+	    );
+	  });
+	</script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title"><a href="https://feily.tech/">Feily Zhang</a></h1>
+	<div class="site-description"><h2>Software Developer, Machine Learning, Astronomy Enthusiast.</h2><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/FeilyZhang" title="Github"><i data-feather="github"></i></a><a href="https://twitter.com/FeilyZhang" title="Twitter"><i data-feather="twitter"></i></a><a href="/index.xml" title="RSS"><i data-feather="rss"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/">Home</a>
+			</li>
+			
+			<li>
+				<a href="/posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="/about">About</a>
+			</li>
+			
+			<li>
+				<a href="/tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h1 class="title">Dynamic programming algorithm</h1>
+			<div class="meta">Posted at &mdash; Apr 15, 2020</div>
+		</div>
+
+		<div class="markdown">
+			<h2 id="最值问题">最值问题</h2>
+<p>对于最大值问题，常规解法是对序列进行一趟扫描，从而找到最大值，该问题依旧适合动态规划来解。对于长度为$n$的序列$arr[1..n]$，定义$F[n]$为长度为$n$的序列的最大值，由于最大值一定存在于$F[n - 1]$和$arr[n]$之间，那么可以得到如下状态转移方程</p>
+<p>\begin{equation}F[n] = max \lbrace F[n - 1], arr[n] \rbrace, \ n &gt; 0\end{equation}</p>
+<p>\begin{equation}F[0] = arr[0]\end{equation}</p>
+<p>上述状态转移方程需要记录$1$到$n$的所有最大值$F$，事实上，我们可以只使用一个变量$max$追踪状态变化而无须声明状态序列，新的状态转移方程如下</p>
+<p>\begin{equation}max = max \lbrace max, arr[n - 1] \rbrace, \ n &gt; 0\end{equation}</p>
+<p>\begin{equation}max = arr[0]\end{equation}</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#268bd2">public</span> <span style="color:#268bd2">class</span> <span style="color:#268bd2">DpMax</span> <span style="color:#719e07">{</span>
+
+    <span style="color:#268bd2">public</span> <span style="color:#268bd2">static</span> <span style="color:#dc322f">void</span> <span style="color:#268bd2">main</span><span style="color:#719e07">(</span>String<span style="color:#719e07">[]</span> args<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+        <span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> arr <span style="color:#719e07">=</span> <span style="color:#719e07">{</span>2<span style="color:#719e07">,</span> 7<span style="color:#719e07">,</span> 1<span style="color:#719e07">,</span> 6<span style="color:#719e07">,</span> 4<span style="color:#719e07">,</span> 9<span style="color:#719e07">,</span> 2<span style="color:#719e07">,</span> 3<span style="color:#719e07">};</span>
+        System<span style="color:#719e07">.</span>out<span style="color:#719e07">.</span>println<span style="color:#719e07">(</span>getMax<span style="color:#719e07">(</span>arr<span style="color:#719e07">));</span>    <span style="color:#586e75">// 9
+</span><span style="color:#586e75"></span>        System<span style="color:#719e07">.</span>out<span style="color:#719e07">.</span>println<span style="color:#719e07">(</span>getMax1<span style="color:#719e07">(</span>arr<span style="color:#719e07">));</span>   <span style="color:#586e75">// 9
+</span><span style="color:#586e75"></span>    <span style="color:#719e07">}</span>
+
+    <span style="color:#268bd2">public</span> <span style="color:#268bd2">static</span> <span style="color:#dc322f">int</span> <span style="color:#268bd2">getMax</span><span style="color:#719e07">(</span><span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> arr<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+        <span style="color:#dc322f">int</span> max <span style="color:#719e07">=</span> arr<span style="color:#719e07">[</span>0<span style="color:#719e07">];</span>
+        <span style="color:#719e07">for</span> <span style="color:#719e07">(</span><span style="color:#dc322f">int</span> a <span style="color:#719e07">:</span> arr<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+            max <span style="color:#719e07">=</span> Math<span style="color:#719e07">.</span>max<span style="color:#719e07">(</span>max<span style="color:#719e07">,</span> a<span style="color:#719e07">);</span>
+        <span style="color:#719e07">}</span>
+        <span style="color:#719e07">return</span> max<span style="color:#719e07">;</span>
+    <span style="color:#719e07">}</span>
+    
+    <span style="color:#268bd2">public</span> <span style="color:#268bd2">static</span> <span style="color:#dc322f">int</span> <span style="color:#268bd2">getMax1</span><span style="color:#719e07">(</span><span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> arr<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+        <span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> f <span style="color:#719e07">=</span> <span style="color:#719e07">new</span> <span style="color:#dc322f">int</span><span style="color:#719e07">[</span>arr<span style="color:#719e07">.</span>length<span style="color:#719e07">];</span>
+        f<span style="color:#719e07">[</span>0<span style="color:#719e07">]</span> <span style="color:#719e07">=</span> arr<span style="color:#719e07">[</span>0<span style="color:#719e07">];</span>
+        <span style="color:#719e07">for</span> <span style="color:#719e07">(</span><span style="color:#dc322f">int</span> i <span style="color:#719e07">=</span> 1<span style="color:#719e07">;</span> i <span style="color:#719e07">&lt;</span> arr<span style="color:#719e07">.</span>length<span style="color:#719e07">;</span> i<span style="color:#719e07">++)</span> <span style="color:#719e07">{</span>
+            f<span style="color:#719e07">[</span>i<span style="color:#719e07">]</span> <span style="color:#719e07">=</span> Math<span style="color:#719e07">.</span>max<span style="color:#719e07">(</span>f<span style="color:#719e07">[</span>i <span style="color:#719e07">-</span> 1<span style="color:#719e07">],</span> arr<span style="color:#719e07">[</span>i<span style="color:#719e07">]);</span>
+        <span style="color:#719e07">}</span>
+        <span style="color:#719e07">return</span> f<span style="color:#719e07">[</span>f<span style="color:#719e07">.</span>length <span style="color:#719e07">-</span> 1<span style="color:#719e07">];</span>
+    <span style="color:#719e07">}</span>
+    
+<span style="color:#719e07">}</span>
+</code></pre></div><p>同时，最小值的解法与最大值类似。</p>
+<h2 id="币值最大化问题">币值最大化问题</h2>
+<p>给定一排$n$个硬币，其面值均为正整数$c_1, c_2, \dots , c_n$，这些正整数并不一定两两相同。请问如何选择硬币，使得在原始位置互不相邻的条件下，所选硬币的总金额最大。</p>
+<p>首先定义状态，定义$F(n)$为序列中$n$个硬币在原始位置互不相邻条件下的最大金额。由于条件是硬币的原始位置互不相邻，也就是说，对于序列$1, 2, 5, 8, 1$来说，在$n = 0$时，$F(0) = 0$；在$n = 1$时，$F(1) = 1$；在$n = 2$时，$F(2) = 2$；在$n = 3$时，$F(3) = 6$等，因为在$n = 2$时，在原始位置互不相邻的条件下，$F(n)$要么选择$n = 1$时的$F(1)$，要么选择$n = 0$时的$F(0)$与$c_2$之和，只有这么做，才能满足$c_1$和$c_2$原始位置互不相邻的条件。因此可得状态转移方程</p>
+<p>\begin{equation}F[n] = max \lbrace c_n + F(n - 2), F(n - 1) \rbrace, \ n &gt; 1\end{equation}</p>
+<p>\begin{equation}F[0] = 0, F[1] = c_1\end{equation}</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#268bd2">public</span> <span style="color:#268bd2">class</span> <span style="color:#268bd2">CoinValue</span> <span style="color:#719e07">{</span>
+
+    <span style="color:#268bd2">public</span> <span style="color:#268bd2">static</span> <span style="color:#dc322f">void</span> <span style="color:#268bd2">main</span><span style="color:#719e07">(</span>String<span style="color:#719e07">[]</span> args<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+        <span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> arr <span style="color:#719e07">=</span> <span style="color:#719e07">{</span>1<span style="color:#719e07">,</span> 2<span style="color:#719e07">,</span> 5<span style="color:#719e07">};</span>
+        <span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> arr1 <span style="color:#719e07">=</span> <span style="color:#719e07">{</span>5<span style="color:#719e07">,</span> 1<span style="color:#719e07">,</span> 2<span style="color:#719e07">,</span> 10<span style="color:#719e07">,</span> 6<span style="color:#719e07">,</span> 2<span style="color:#719e07">};</span>
+        System<span style="color:#719e07">.</span>out<span style="color:#719e07">.</span>println<span style="color:#719e07">(</span>coinMax<span style="color:#719e07">(</span>arr<span style="color:#719e07">));</span>   <span style="color:#586e75">// 6
+</span><span style="color:#586e75"></span>        System<span style="color:#719e07">.</span>out<span style="color:#719e07">.</span>println<span style="color:#719e07">(</span>coinMax<span style="color:#719e07">(</span>arr1<span style="color:#719e07">));</span>  <span style="color:#586e75">// 17
+</span><span style="color:#586e75"></span>    <span style="color:#719e07">}</span>
+
+    <span style="color:#268bd2">public</span> <span style="color:#268bd2">static</span> <span style="color:#dc322f">int</span> <span style="color:#268bd2">coinMax</span><span style="color:#719e07">(</span><span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> coin<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+        <span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> newCoin <span style="color:#719e07">=</span> <span style="color:#719e07">new</span> <span style="color:#dc322f">int</span><span style="color:#719e07">[</span>coin<span style="color:#719e07">.</span>length <span style="color:#719e07">+</span> 1<span style="color:#719e07">];</span>
+        System<span style="color:#719e07">.</span>arraycopy<span style="color:#719e07">(</span>coin<span style="color:#719e07">,</span> 0<span style="color:#719e07">,</span> newCoin<span style="color:#719e07">,</span> 1<span style="color:#719e07">,</span> coin<span style="color:#719e07">.</span>length<span style="color:#719e07">);</span>
+        <span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> f <span style="color:#719e07">=</span> <span style="color:#719e07">new</span> <span style="color:#dc322f">int</span><span style="color:#719e07">[</span>newCoin<span style="color:#719e07">.</span>length<span style="color:#719e07">];</span>
+        f<span style="color:#719e07">[</span>1<span style="color:#719e07">]</span> <span style="color:#719e07">=</span> newCoin<span style="color:#719e07">[</span>1<span style="color:#719e07">];</span>
+        <span style="color:#719e07">for</span> <span style="color:#719e07">(</span><span style="color:#dc322f">int</span> i <span style="color:#719e07">=</span> 2<span style="color:#719e07">;</span> i <span style="color:#719e07">&lt;</span> newCoin<span style="color:#719e07">.</span>length<span style="color:#719e07">;</span> i<span style="color:#719e07">++)</span> <span style="color:#719e07">{</span>
+            f<span style="color:#719e07">[</span>i<span style="color:#719e07">]</span> <span style="color:#719e07">=</span> Math<span style="color:#719e07">.</span>max<span style="color:#719e07">(</span>f<span style="color:#719e07">[</span>i <span style="color:#719e07">-</span> 2<span style="color:#719e07">]</span> <span style="color:#719e07">+</span> newCoin<span style="color:#719e07">[</span>i<span style="color:#719e07">],</span> f<span style="color:#719e07">[</span>i <span style="color:#719e07">-</span> 1<span style="color:#719e07">]);</span>
+        <span style="color:#719e07">}</span>
+        <span style="color:#719e07">return</span> f<span style="color:#719e07">[</span>newCoin<span style="color:#719e07">.</span>length <span style="color:#719e07">-</span> 1<span style="color:#719e07">];</span>
+    <span style="color:#719e07">}</span>
+    
+<span style="color:#719e07">}</span>
+</code></pre></div><h2 id="最长上升子序列">最长上升子序列</h2>
+<p>给定一个序列，长度为$n$，求这个序列的最长上升子序列的长度。</p>
+<p>定义$F(n)$为长度为$n$的序列$A$中以第$n$项为结尾的最长上升子序列的长度，由于该问题满足最优子结构性质，则状态转移方程可表示为</p>
+<p>\begin{equation}F(n) = max \lbrace F(i) | A_i &lt; A_n, i \in (1 \dots n - 1) \rbrace + 1, n &gt; 1\end{equation}</p>
+<p>\begin{equation}F(0) = 0, F(1) = 1\end{equation}</p>
+<p>我们最终的目标是求</p>
+<p>\begin{equation}max \lbrace F(1) \dots F(n) \rbrace \end{equation}</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#268bd2">public</span> <span style="color:#268bd2">class</span> <span style="color:#268bd2">SubArr</span> <span style="color:#719e07">{</span>
+
+    <span style="color:#268bd2">public</span> <span style="color:#268bd2">static</span> <span style="color:#dc322f">void</span> <span style="color:#268bd2">main</span><span style="color:#719e07">(</span>String<span style="color:#719e07">[]</span> args<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+        <span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> arr <span style="color:#719e07">=</span> <span style="color:#719e07">{</span>1<span style="color:#719e07">,</span> 7<span style="color:#719e07">,</span> 2<span style="color:#719e07">,</span> 8<span style="color:#719e07">,</span> 3<span style="color:#719e07">,</span> 4<span style="color:#719e07">};</span>
+        System<span style="color:#719e07">.</span>out<span style="color:#719e07">.</span>println<span style="color:#719e07">(</span>longest<span style="color:#719e07">(</span>arr<span style="color:#719e07">));</span>   <span style="color:#586e75">// 4
+</span><span style="color:#586e75"></span>    <span style="color:#719e07">}</span>
+
+    <span style="color:#268bd2">public</span> <span style="color:#268bd2">static</span> <span style="color:#dc322f">int</span> <span style="color:#268bd2">longest</span><span style="color:#719e07">(</span><span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> arr<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+        <span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> newArr <span style="color:#719e07">=</span> <span style="color:#719e07">new</span> <span style="color:#dc322f">int</span><span style="color:#719e07">[</span>arr<span style="color:#719e07">.</span>length <span style="color:#719e07">+</span> 1<span style="color:#719e07">];</span>
+        <span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> f <span style="color:#719e07">=</span> <span style="color:#719e07">new</span> <span style="color:#dc322f">int</span><span style="color:#719e07">[</span>newArr<span style="color:#719e07">.</span>length<span style="color:#719e07">];</span>
+        System<span style="color:#719e07">.</span>arraycopy<span style="color:#719e07">(</span>arr<span style="color:#719e07">,</span> 0<span style="color:#719e07">,</span> newArr<span style="color:#719e07">,</span> 1<span style="color:#719e07">,</span> arr<span style="color:#719e07">.</span>length<span style="color:#719e07">);</span>
+        f<span style="color:#719e07">[</span>1<span style="color:#719e07">]</span> <span style="color:#719e07">=</span> 1<span style="color:#719e07">;</span>
+        <span style="color:#719e07">for</span> <span style="color:#719e07">(</span><span style="color:#dc322f">int</span> i <span style="color:#719e07">=</span> 2<span style="color:#719e07">;</span> i <span style="color:#719e07">&lt;</span> newArr<span style="color:#719e07">.</span>length<span style="color:#719e07">;</span> i<span style="color:#719e07">++)</span> <span style="color:#719e07">{</span>
+            f<span style="color:#719e07">[</span>i<span style="color:#719e07">]</span> <span style="color:#719e07">=</span> max<span style="color:#719e07">(</span>f<span style="color:#719e07">,</span> newArr<span style="color:#719e07">,</span> i<span style="color:#719e07">)</span> <span style="color:#719e07">+</span> 1<span style="color:#719e07">;</span>
+        <span style="color:#719e07">}</span>
+        <span style="color:#719e07">return</span> max<span style="color:#719e07">(</span>f<span style="color:#719e07">);</span>
+    <span style="color:#719e07">}</span>
+
+    <span style="color:#268bd2">private</span> <span style="color:#268bd2">static</span> <span style="color:#dc322f">int</span> <span style="color:#268bd2">max</span><span style="color:#719e07">(</span><span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> f<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+        <span style="color:#dc322f">int</span> rst <span style="color:#719e07">=</span> 0<span style="color:#719e07">;</span>
+        <span style="color:#719e07">for</span> <span style="color:#719e07">(</span><span style="color:#dc322f">int</span> i <span style="color:#719e07">=</span> 0<span style="color:#719e07">;</span> i <span style="color:#719e07">&lt;</span> f<span style="color:#719e07">.</span>length<span style="color:#719e07">;</span> i<span style="color:#719e07">++)</span> <span style="color:#719e07">{</span>
+            <span style="color:#719e07">if</span> <span style="color:#719e07">(</span>f<span style="color:#719e07">[</span>i<span style="color:#719e07">]</span> <span style="color:#719e07">&gt;</span> rst<span style="color:#719e07">)</span> rst <span style="color:#719e07">=</span> f<span style="color:#719e07">[</span>i<span style="color:#719e07">];</span>
+        <span style="color:#719e07">}</span>
+        <span style="color:#719e07">return</span> rst<span style="color:#719e07">;</span>
+    <span style="color:#719e07">}</span>
+
+    <span style="color:#268bd2">private</span> <span style="color:#268bd2">static</span> <span style="color:#dc322f">int</span> <span style="color:#268bd2">max</span><span style="color:#719e07">(</span><span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> f<span style="color:#719e07">,</span> <span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> arr<span style="color:#719e07">,</span> <span style="color:#dc322f">int</span> n<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+        <span style="color:#dc322f">int</span> rst <span style="color:#719e07">=</span> 0<span style="color:#719e07">;</span>
+        <span style="color:#719e07">for</span> <span style="color:#719e07">(</span><span style="color:#dc322f">int</span> i <span style="color:#719e07">=</span> 1<span style="color:#719e07">;</span> i <span style="color:#719e07">&lt;</span> n<span style="color:#719e07">;</span> i<span style="color:#719e07">++)</span> <span style="color:#719e07">{</span>
+            <span style="color:#719e07">if</span> <span style="color:#719e07">(</span>f<span style="color:#719e07">[</span>i<span style="color:#719e07">]</span> <span style="color:#719e07">&gt;</span> rst <span style="color:#719e07">&amp;&amp;</span> arr<span style="color:#719e07">[</span>i<span style="color:#719e07">]</span> <span style="color:#719e07">&lt;</span> arr<span style="color:#719e07">[</span>n<span style="color:#719e07">])</span> rst <span style="color:#719e07">=</span> f<span style="color:#719e07">[</span>i<span style="color:#719e07">];</span>
+        <span style="color:#719e07">}</span>
+        <span style="color:#719e07">return</span> rst<span style="color:#719e07">;</span>
+    <span style="color:#719e07">}</span>
+    
+<span style="color:#719e07">}</span>
+</code></pre></div><h2 id="找零问题">找零问题</h2>
+<p>现有面额为$d_1, d_2, \dots, d_m$的硬币，其满足$d_1 &lt; d_2 &lt; \dots &lt; d_m$，对于需找零金额$n$，最少需要几枚硬币？</p>
+<p>一种解决办法是使用贪心算法，每次都对$n$减去最大的面值，直至$n = 0$时停止，代码如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#268bd2">public</span> <span style="color:#268bd2">class</span> <span style="color:#268bd2">Coin</span> <span style="color:#719e07">{</span>
+
+    <span style="color:#268bd2">public</span> <span style="color:#268bd2">static</span> <span style="color:#dc322f">void</span> <span style="color:#268bd2">main</span><span style="color:#719e07">(</span>String<span style="color:#719e07">[]</span> args<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+        <span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> coin <span style="color:#719e07">=</span> <span style="color:#719e07">{</span>1<span style="color:#719e07">,</span> 3<span style="color:#719e07">,</span> 4<span style="color:#719e07">};</span>
+        System<span style="color:#719e07">.</span>out<span style="color:#719e07">.</span>println<span style="color:#719e07">(</span>greedy<span style="color:#719e07">(</span>coin<span style="color:#719e07">,</span> 6<span style="color:#719e07">));</span>    <span style="color:#586e75">// 3
+</span><span style="color:#586e75"></span>    <span style="color:#719e07">}</span>
+
+    <span style="color:#268bd2">public</span> <span style="color:#268bd2">static</span> <span style="color:#dc322f">int</span> <span style="color:#268bd2">greedy</span><span style="color:#719e07">(</span><span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> coin<span style="color:#719e07">,</span> <span style="color:#dc322f">int</span> n<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+        <span style="color:#dc322f">int</span> i <span style="color:#719e07">=</span> coin<span style="color:#719e07">.</span>length <span style="color:#719e07">-</span> 1<span style="color:#719e07">;</span>
+        <span style="color:#dc322f">int</span> rst <span style="color:#719e07">=</span> 0<span style="color:#719e07">;</span>
+        <span style="color:#719e07">while</span> <span style="color:#719e07">(</span>n <span style="color:#719e07">!=</span> 0<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+            <span style="color:#719e07">if</span> <span style="color:#719e07">(</span>n <span style="color:#719e07">&gt;=</span> coin<span style="color:#719e07">[</span>i<span style="color:#719e07">])</span> <span style="color:#719e07">{</span>
+                n <span style="color:#719e07">-=</span> coin<span style="color:#719e07">[</span>i<span style="color:#719e07">];</span>
+                rst<span style="color:#719e07">++;</span>
+            <span style="color:#719e07">}</span> <span style="color:#719e07">else</span> i<span style="color:#719e07">--;</span>
+        <span style="color:#719e07">}</span>
+        <span style="color:#719e07">return</span> rst<span style="color:#719e07">;</span>
+    <span style="color:#719e07">}</span>
+    
+<span style="color:#719e07">}</span>
+</code></pre></div><p>贪心算法的解为$3$，显然不是最优解，因为如果使用面值为$3$的硬币对$n = 6$找零的话，只需要$2$枚即可。该问题的全局最优解适合用动态规划来求，我们定义$F(n)$为总金额为$n$的数量最少的硬币数目，显然获得$n$的途径为：在总金额为$n - d_j$的一堆硬币上加入一个面值为$d_j$的硬币，其中$j = 1, 2, \dots, m$，并且$n \ge d_j$。因此，我们只需要考虑所有满足要求的$d_j$并选择使得$F(n - d_j) + 1$最小的$d_j$即可，由于$1$是常量，所以我们先找出最小的$F(n - d_j)$，然后加$1$即可。即状态转移方程为</p>
+<p>\begin{equation}F(n) = min \lbrace F(n - d_j) | n \ge d_j \rbrace + 1, n &gt; 0\end{equation}</p>
+<p>\begin{equation}F(0) = 0 \end{equation}</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#268bd2">public</span> <span style="color:#268bd2">class</span> <span style="color:#268bd2">Coin</span> <span style="color:#719e07">{</span>
+
+    <span style="color:#268bd2">public</span> <span style="color:#268bd2">static</span> <span style="color:#dc322f">void</span> <span style="color:#268bd2">main</span><span style="color:#719e07">(</span>String<span style="color:#719e07">[]</span> args<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+        <span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> coin <span style="color:#719e07">=</span> <span style="color:#719e07">{</span>1<span style="color:#719e07">,</span> 3<span style="color:#719e07">,</span> 4<span style="color:#719e07">};</span>
+        System<span style="color:#719e07">.</span>out<span style="color:#719e07">.</span>println<span style="color:#719e07">(</span>dp<span style="color:#719e07">(</span>coin<span style="color:#719e07">,</span> 6<span style="color:#719e07">));</span>    <span style="color:#586e75">// 2
+</span><span style="color:#586e75"></span>    <span style="color:#719e07">}</span>
+
+    <span style="color:#268bd2">public</span> <span style="color:#268bd2">static</span> <span style="color:#dc322f">int</span> <span style="color:#268bd2">dp</span><span style="color:#719e07">(</span><span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> coin<span style="color:#719e07">,</span> <span style="color:#dc322f">int</span> n<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+        <span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> newCoin <span style="color:#719e07">=</span> <span style="color:#719e07">new</span> <span style="color:#dc322f">int</span><span style="color:#719e07">[</span>coin<span style="color:#719e07">.</span>length <span style="color:#719e07">+</span> 1<span style="color:#719e07">];</span>
+        <span style="color:#dc322f">int</span><span style="color:#719e07">[]</span> f <span style="color:#719e07">=</span> <span style="color:#719e07">new</span> <span style="color:#dc322f">int</span><span style="color:#719e07">[</span>n <span style="color:#719e07">+</span> 1<span style="color:#719e07">];</span>
+        System<span style="color:#719e07">.</span>arraycopy<span style="color:#719e07">(</span>coin<span style="color:#719e07">,</span> 0<span style="color:#719e07">,</span> newCoin<span style="color:#719e07">,</span> 1<span style="color:#719e07">,</span> coin<span style="color:#719e07">.</span>length<span style="color:#719e07">);</span>
+        <span style="color:#719e07">for</span> <span style="color:#719e07">(</span><span style="color:#dc322f">int</span> i <span style="color:#719e07">=</span> 1<span style="color:#719e07">;</span> i <span style="color:#719e07">&lt;=</span> n<span style="color:#719e07">;</span> i<span style="color:#719e07">++)</span> <span style="color:#719e07">{</span>
+            <span style="color:#dc322f">int</span> temp <span style="color:#719e07">=</span> Integer<span style="color:#719e07">.</span>MAX_VALUE<span style="color:#719e07">,</span> j <span style="color:#719e07">=</span> 1<span style="color:#719e07">;</span>
+            <span style="color:#719e07">while</span> <span style="color:#719e07">(</span>j <span style="color:#719e07">&lt;</span> newCoin<span style="color:#719e07">.</span>length <span style="color:#719e07">&amp;&amp;</span> i <span style="color:#719e07">&gt;=</span> newCoin<span style="color:#719e07">[</span>j<span style="color:#719e07">])</span> <span style="color:#719e07">{</span>
+                temp <span style="color:#719e07">=</span> Math<span style="color:#719e07">.</span>min<span style="color:#719e07">(</span>f<span style="color:#719e07">[</span>i <span style="color:#719e07">-</span> newCoin<span style="color:#719e07">[</span>j<span style="color:#719e07">++]],</span> temp<span style="color:#719e07">);</span>
+            <span style="color:#719e07">}</span>
+            f<span style="color:#719e07">[</span>i<span style="color:#719e07">]</span> <span style="color:#719e07">=</span> temp <span style="color:#719e07">+</span> 1<span style="color:#719e07">;</span>
+        <span style="color:#719e07">}</span>
+        <span style="color:#719e07">return</span> f<span style="color:#719e07">[</span>n<span style="color:#719e07">];</span>
+    <span style="color:#719e07">}</span>
+    
+<span style="color:#719e07">}</span>
+</code></pre></div>
+		</div>
+
+		<div class="post-tags">
+			
+				
+					<nav class="nav tags">
+							<ul class="flat">
+								
+								<li><a href="/tags/dynamic-programming">Dynamic programming</a></li>
+								
+							</ul>
+					</nav>
+				
+			
+		</div>
+		</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div> © Copyright feily.tech |  <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a> | Built with <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+
+<script>feather.replace()</script>
+</body>
+</html>

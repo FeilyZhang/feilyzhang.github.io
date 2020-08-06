@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Design of seven kinds of singleton patterns - Feily Zhang</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="Design of seven kinds of singleton patterns" />
+<meta property="og:description" content="单例模式提供了一种在多线程情况下保证实例唯一性的解决方案，单例模式设计的标准是：懒加载、高性能、线程安全。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://feily.tech/posts/design-of-seven-kinds-of-singleton-patterns/" />
+<meta property="article:published_time" content="2019-04-20T15:07:23+08:00" />
+<meta property="article:modified_time" content="2019-04-20T15:07:23+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Design of seven kinds of singleton patterns"/>
+<meta name="twitter:description" content="单例模式提供了一种在多线程情况下保证实例唯一性的解决方案，单例模式设计的标准是：懒加载、高性能、线程安全。"/>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:200,300" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" media="screen" href="https://feily.tech/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://feily.tech/css/main.css" /><link rel="stylesheet" type="text/css" href="https://feily.tech/css/dark.css" media="(prefers-color-scheme: dark)" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+	<script src="https://feily.tech/js/main.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+	<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+	<script>
+	  document.addEventListener("DOMContentLoaded", function() {
+	    renderMathInElement( document.body, {
+	      delimiters: [
+	        {left: "$$", right: "$$", display: true},
+	        {left: "[%", right: "%]", display: true},
+	        {left: "$", right: "$", display: false}
+	      ]}
+	    );
+	  });
+	</script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title"><a href="https://feily.tech/">Feily Zhang</a></h1>
+	<div class="site-description"><h2>Software Developer, Machine Learning, Astronomy Enthusiast.</h2><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/FeilyZhang" title="Github"><i data-feather="github"></i></a><a href="https://twitter.com/FeilyZhang" title="Twitter"><i data-feather="twitter"></i></a><a href="/index.xml" title="RSS"><i data-feather="rss"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/">Home</a>
+			</li>
+			
+			<li>
+				<a href="/posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="/about">About</a>
+			</li>
+			
+			<li>
+				<a href="/tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h1 class="title">Design of seven kinds of singleton patterns</h1>
+			<div class="meta">Posted at &mdash; Apr 20, 2019</div>
+		</div>
+
+		<div class="markdown">
+			<p>单例模式提供了一种在多线程情况下保证实例唯一性的解决方案，单例模式设计的标准是：懒加载、高性能、线程安全。</p>
+<h2 id="一饿汉式">一、饿汉式</h2>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#586e75">// final modifier, no inheritance allowed.
+</span><span style="color:#586e75"></span><span style="color:#268bd2">public</span> <span style="color:#268bd2">final</span> <span style="color:#268bd2">class</span> <span style="color:#268bd2">Singleton</span> <span style="color:#719e07">{</span>
+
+    <span style="color:#586e75">// Some business code.
+</span><span style="color:#586e75"></span>    
+    <span style="color:#268bd2">private</span> <span style="color:#268bd2">static</span> Singleton instance <span style="color:#719e07">=</span> <span style="color:#719e07">new</span> Singleton<span style="color:#719e07">();</span>
+    
+    <span style="color:#586e75">// Private constructor, no external `new` is allowed.
+</span><span style="color:#586e75"></span>    <span style="color:#268bd2">private</span> <span style="color:#268bd2">Singleton</span><span style="color:#719e07">()</span> <span style="color:#719e07">{</span>
+        
+    <span style="color:#719e07">}</span>
+    
+    <span style="color:#268bd2">public</span> <span style="color:#268bd2">static</span> Singleton <span style="color:#268bd2">getInstance</span><span style="color:#719e07">()</span> <span style="color:#719e07">{</span>
+        <span style="color:#719e07">return</span> instance<span style="color:#719e07">;</span>
+    <span style="color:#719e07">}</span>
+    
+<span style="color:#719e07">}</span>
+</code></pre></div><p>测试如下，我们启动10个线程测试其获得的线程实例</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#268bd2">public</span> <span style="color:#268bd2">class</span> <span style="color:#268bd2">SingletonTest</span> <span style="color:#719e07">{</span>
+
+    <span style="color:#268bd2">public</span> <span style="color:#268bd2">static</span> <span style="color:#dc322f">void</span> <span style="color:#268bd2">main</span><span style="color:#719e07">(</span>String<span style="color:#719e07">[]</span> args<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+        
+        <span style="color:#719e07">for</span> <span style="color:#719e07">(</span><span style="color:#dc322f">int</span> i <span style="color:#719e07">=</span> 0<span style="color:#719e07">;</span> i <span style="color:#719e07">&lt;</span> 10<span style="color:#719e07">;</span> i<span style="color:#719e07">++)</span> <span style="color:#719e07">{</span>
+            <span style="color:#719e07">new</span> Thread<span style="color:#719e07">(()</span> <span style="color:#719e07">-&gt;</span> <span style="color:#719e07">{</span>
+                System<span style="color:#719e07">.</span>out<span style="color:#719e07">.</span>println<span style="color:#719e07">(</span>Thread<span style="color:#719e07">.</span>currentThread<span style="color:#719e07">().</span>getName<span style="color:#719e07">()</span> <span style="color:#719e07">+</span> <span style="color:#2aa198">&#34; &#34;</span>
+                    <span style="color:#719e07">+</span> Singleton<span style="color:#719e07">.</span>getInstance<span style="color:#719e07">().</span>toString<span style="color:#719e07">());</span>
+            <span style="color:#719e07">},</span> <span style="color:#2aa198">&#34;thread-&#34;</span> <span style="color:#719e07">+</span> i<span style="color:#719e07">).</span>start<span style="color:#719e07">();</span>
+        <span style="color:#719e07">}</span>
+        
+    <span style="color:#719e07">}</span>
+
+<span style="color:#719e07">}</span>
+</code></pre></div><p>输出为</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">thread<span style="color:#719e07">-</span>0 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@df7eb94</span>
+thread<span style="color:#719e07">-</span>4 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@df7eb94</span>
+thread<span style="color:#719e07">-</span>3 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@df7eb94</span>
+thread<span style="color:#719e07">-</span>2 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@df7eb94</span>
+thread<span style="color:#719e07">-</span>7 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@df7eb94</span>
+thread<span style="color:#719e07">-</span>8 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@df7eb94</span>
+thread<span style="color:#719e07">-</span>1 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@df7eb94</span>
+thread<span style="color:#719e07">-</span>9 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@df7eb94</span>
+thread<span style="color:#719e07">-</span>6 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@df7eb94</span>
+thread<span style="color:#719e07">-</span>5 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@df7eb94</span>
+</code></pre></div><p>可见，均为相同的实例。懒汉式的关键在于<code>instance</code>作为类变量并且直接得到了初始化，即如果主动使用(使用类变量属于主动使用，会导致类的加载并初始化)Singleton类，那么instance实例将会直接完成创建并初始化。具体而言，instance作为类变量在类初始化的过程中被收集进<code>&lt;clinit&gt;()</code>方法中，该方法能够百分百保证同步，即instance在多线程环境下不可能被实例化两次，但是instance被ClassLoader加载后可能很长一段时间才被使用，那么就意味着instance实例所开辟的堆内存会驻留更久的时间。</p>
+<p>综上，这种办法的优点在于保证了多个线程下的唯一实例，在一个类中的成员属性比较少且占用的内存资源不多的情况下性能还可以，但是无法进行懒加载(即类实例在需要时再创建)。</p>
+<h2 id="二懒汉式">二、懒汉式</h2>
+<p>懒汉式就是在使用类实例的时候再去创建，这样就避免了类在初始化时提前创建，代码如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#586e75">// final modifier, no inheritance allowed.
+</span><span style="color:#586e75"></span><span style="color:#268bd2">public</span> <span style="color:#268bd2">final</span> <span style="color:#268bd2">class</span> <span style="color:#268bd2">Singleton</span> <span style="color:#719e07">{</span>
+
+    <span style="color:#586e75">// Some business code.
+</span><span style="color:#586e75"></span>    
+    <span style="color:#268bd2">private</span> <span style="color:#268bd2">static</span> Singleton instance <span style="color:#719e07">=</span> <span style="color:#cb4b16">null</span><span style="color:#719e07">;</span>
+    
+    <span style="color:#586e75">// Private constructor, no external `new` is allowed.
+</span><span style="color:#586e75"></span>    <span style="color:#268bd2">private</span> <span style="color:#268bd2">Singleton</span><span style="color:#719e07">()</span> <span style="color:#719e07">{</span>
+        
+    <span style="color:#719e07">}</span>
+    
+    <span style="color:#268bd2">public</span> <span style="color:#268bd2">static</span> Singleton <span style="color:#268bd2">getInstance</span><span style="color:#719e07">()</span> <span style="color:#719e07">{</span>
+        <span style="color:#719e07">if</span> <span style="color:#719e07">(</span><span style="color:#cb4b16">null</span> <span style="color:#719e07">==</span> instance<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+            instance <span style="color:#719e07">=</span> <span style="color:#719e07">new</span> Singleton<span style="color:#719e07">();</span>
+        <span style="color:#719e07">}</span>
+        <span style="color:#719e07">return</span> instance<span style="color:#719e07">;</span>
+    <span style="color:#719e07">}</span>
+    
+<span style="color:#719e07">}</span>
+</code></pre></div><p>这样，<code>instance</code>在初始化阶段由于为<code>null</code>，那么就不会占用内存空间，在使用时即调用<code>getInstance()</code>方法后才会被实例化。</p>
+<p>我们继续启动10个线程测试是否可以保证多线程环境下的实例唯一性，测试代码同上，输出为</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">thread<span style="color:#719e07">-</span>2 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@59e410f2</span>
+thread<span style="color:#719e07">-</span>5 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@38f983ba</span>
+thread<span style="color:#719e07">-</span>0 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@38f983ba</span>
+thread<span style="color:#719e07">-</span>4 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@38f983ba</span>
+thread<span style="color:#719e07">-</span>1 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@38f983ba</span>
+thread<span style="color:#719e07">-</span>3 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@59e410f2</span>
+thread<span style="color:#719e07">-</span>8 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@38f983ba</span>
+thread<span style="color:#719e07">-</span>7 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@38f983ba</span>
+thread<span style="color:#719e07">-</span>6 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@38f983ba</span>
+thread<span style="color:#719e07">-</span>9 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@38f983ba</span>
+</code></pre></div><p>可见，并没有保证实例唯一性，此处instance可以看作是多线程的共享变量，即多线程对instance进行操作，那么就有可能某线程在判断了<code>instance == null</code>之后CPU时间片到而进入就绪状态，待重新进入运行态时就执行了<code>new</code>操作，所以线程不安全，无法保证多线程环境下的实例唯一性。</p>
+<p>解决的办法就是加锁，即给共享变量加锁。</p>
+<h2 id="三懒汉式--同步方法">三、懒汉式 + 同步方法</h2>
+<p>通过给懒汉式<code>getInstance()</code>方法进行同步，那么就会实现线程安全即多线程环境下实例的唯一性，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#586e75">// final modifier, no inheritance allowed.
+</span><span style="color:#586e75"></span><span style="color:#268bd2">public</span> <span style="color:#268bd2">final</span> <span style="color:#268bd2">class</span> <span style="color:#268bd2">Singleton</span> <span style="color:#719e07">{</span>
+
+    <span style="color:#586e75">// Some business code.
+</span><span style="color:#586e75"></span>    
+    <span style="color:#268bd2">private</span> <span style="color:#268bd2">static</span> Singleton instance <span style="color:#719e07">=</span> <span style="color:#cb4b16">null</span><span style="color:#719e07">;</span>
+    
+    <span style="color:#586e75">// Private constructor, no external `new` is allowed.
+</span><span style="color:#586e75"></span>    <span style="color:#268bd2">private</span> <span style="color:#268bd2">Singleton</span><span style="color:#719e07">()</span> <span style="color:#719e07">{</span>
+        
+    <span style="color:#719e07">}</span>
+    
+    <span style="color:#268bd2">public</span> <span style="color:#268bd2">static</span> <span style="color:#268bd2">synchronized</span> Singleton <span style="color:#268bd2">getInstance</span><span style="color:#719e07">()</span> <span style="color:#719e07">{</span>
+        <span style="color:#719e07">if</span> <span style="color:#719e07">(</span><span style="color:#cb4b16">null</span> <span style="color:#719e07">==</span> instance<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+            instance <span style="color:#719e07">=</span> <span style="color:#719e07">new</span> Singleton<span style="color:#719e07">();</span>
+        <span style="color:#719e07">}</span>
+        <span style="color:#719e07">return</span> instance<span style="color:#719e07">;</span>
+    <span style="color:#719e07">}</span>
+    
+<span style="color:#719e07">}</span>
+</code></pre></div><p>同样的测试代码，输出为</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">thread<span style="color:#719e07">-</span>3 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@5dd54814</span>
+thread<span style="color:#719e07">-</span>2 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@5dd54814</span>
+thread<span style="color:#719e07">-</span>0 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@5dd54814</span>
+thread<span style="color:#719e07">-</span>6 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@5dd54814</span>
+thread<span style="color:#719e07">-</span>5 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@5dd54814</span>
+thread<span style="color:#719e07">-</span>9 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@5dd54814</span>
+thread<span style="color:#719e07">-</span>1 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@5dd54814</span>
+thread<span style="color:#719e07">-</span>4 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@5dd54814</span>
+thread<span style="color:#719e07">-</span>7 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@5dd54814</span>
+thread<span style="color:#719e07">-</span>8 tech<span style="color:#719e07">.</span>feily<span style="color:#719e07">.</span>doc<span style="color:#719e07">.</span>thread<span style="color:#719e07">.</span>Singleton<span style="color:#268bd2">@5dd54814</span>
+</code></pre></div><p>没毛病了。但是<code>synchronized</code>关键字又导致了<code>getInstance()</code>方法只能在同一时刻被一个线程访问，性能低下。</p>
+<h2 id="四double-check">四、Double-Check</h2>
+<p>顾名思义，这种办法就是<strong>检查两次</strong>，作为解决<strong>懒汉式 + 同步方法</strong>方法的性能低下的缺陷，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#586e75">// final modifier, no inheritance allowed.
+</span><span style="color:#586e75"></span><span style="color:#268bd2">public</span> <span style="color:#268bd2">final</span> <span style="color:#268bd2">class</span> <span style="color:#268bd2">Singleton</span> <span style="color:#719e07">{</span>
+
+    <span style="color:#586e75">// Some business code.
+</span><span style="color:#586e75"></span>    
+    <span style="color:#268bd2">private</span> <span style="color:#268bd2">static</span> Singleton instance <span style="color:#719e07">=</span> <span style="color:#cb4b16">null</span><span style="color:#719e07">;</span>
+    
+	Connection conn<span style="color:#719e07">;</span>
+	Socket socket<span style="color:#719e07">;</span>
+	
+    <span style="color:#586e75">// Private constructor, no external `new` is allowed.
+</span><span style="color:#586e75"></span>    <span style="color:#268bd2">private</span> <span style="color:#268bd2">Singleton</span><span style="color:#719e07">()</span> <span style="color:#719e07">{</span>
+	    <span style="color:#719e07">this</span><span style="color:#719e07">.</span>conn<span style="color:#719e07">;</span>
+		<span style="color:#719e07">this</span><span style="color:#719e07">.</span>socket<span style="color:#719e07">;</span>
+    <span style="color:#719e07">}</span>
+    
+    <span style="color:#268bd2">public</span> <span style="color:#268bd2">static</span> Singleton <span style="color:#268bd2">getInstance</span><span style="color:#719e07">()</span> <span style="color:#719e07">{</span>
+        <span style="color:#719e07">if</span> <span style="color:#719e07">(</span><span style="color:#cb4b16">null</span> <span style="color:#719e07">==</span> instance<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+            <span style="color:#268bd2">synchronized</span> <span style="color:#719e07">(</span>Singleton<span style="color:#719e07">.</span>class<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+                <span style="color:#719e07">if</span> <span style="color:#719e07">(</span><span style="color:#cb4b16">null</span> <span style="color:#719e07">==</span> instance<span style="color:#719e07">)</span> <span style="color:#719e07">{</span>
+                    instance <span style="color:#719e07">=</span> <span style="color:#719e07">new</span> Singleton<span style="color:#719e07">();</span>
+                <span style="color:#719e07">}</span>
+            <span style="color:#719e07">}</span>
+        <span style="color:#719e07">}</span>
+        <span style="color:#719e07">return</span> instance<span style="color:#719e07">;</span>
+    <span style="color:#719e07">}</span>
+    
+<span style="color:#719e07">}</span>
+</code></pre></div><p>这种办法很巧妙的解决了<strong>懒汉式 + 同步方法</strong>方法的性能低下的缺陷，不仅有懒汉式的懒加载，还有了同步方法带来的实例的唯一性，而且通过缩小锁的粒度提供了高效的数据同步策略，可以允许多个线程同时对getInstance()访问，但是现在的问题是，这种方式在多线程情况下可能会引起空指针异常。</p>
+<p>在Singleton的构造函数中，需要分别实例化conn和socket两个资源，还有Singtelon自身，根据JVM运行时指令重排序和Happens-Before规则，这三者之间的实例化顺序并无前后约束关系，那么极有可能是instance最先被实例化，而conn和socket并未完成实例化。以两个线程为例，第一个线程进入了同步代码块，先创建了instance实例，但是还未来得及创建conn和socket实例便进入就绪状态，线程二判断到instance已经创建便去使用conn和socket，但是实际上并未创建，这样就造成了NPE。</p>
+<h2 id="五volatile--double-check">五、Volatile + Double-Check</h2>
+<p>作为对Double-Check的NPE缺陷的改进，那么使用Volatile关键字修饰instance就可以避免这种重排序的发声，即</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#268bd2">private</span> <span style="color:#268bd2">volatile</span> <span style="color:#268bd2">static</span> Singleton instance <span style="color:#719e07">=</span> <span style="color:#cb4b16">null</span><span style="color:#719e07">;</span>
+</code></pre></div><p>这样就满足了多线程下的单例、懒加载和获取实例的高效性需求。</p>
+<h2 id="六holder方式">六、Holder方式</h2>
+<p>Holder方式完全借助了类加载的特点，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#586e75">// final modifier, no inheritance allowed.
+</span><span style="color:#586e75"></span><span style="color:#268bd2">public</span> <span style="color:#268bd2">final</span> <span style="color:#268bd2">class</span> <span style="color:#268bd2">Singleton</span> <span style="color:#719e07">{</span>
+
+    <span style="color:#586e75">// Some business code.
+</span><span style="color:#586e75"></span>    
+    <span style="color:#586e75">// Private constructor, no external `new` is allowed.
+</span><span style="color:#586e75"></span>    <span style="color:#268bd2">private</span> <span style="color:#268bd2">Singleton</span><span style="color:#719e07">()</span> <span style="color:#719e07">{</span>
+    <span style="color:#719e07">}</span>
+    
+    <span style="color:#268bd2">private</span> <span style="color:#268bd2">static</span> <span style="color:#268bd2">class</span> <span style="color:#268bd2">Holder</span> <span style="color:#719e07">{</span>
+        <span style="color:#268bd2">private</span> <span style="color:#268bd2">static</span> Singleton instance <span style="color:#719e07">=</span> <span style="color:#719e07">new</span> Singleton<span style="color:#719e07">();</span>
+    <span style="color:#719e07">}</span>
+    
+    <span style="color:#268bd2">public</span> <span style="color:#268bd2">static</span> Singleton <span style="color:#268bd2">getInstance</span><span style="color:#719e07">()</span> <span style="color:#719e07">{</span>
+        <span style="color:#719e07">return</span> Holder<span style="color:#719e07">.</span>instance<span style="color:#719e07">;</span>
+    <span style="color:#719e07">}</span>
+    
+<span style="color:#719e07">}</span>
+</code></pre></div><p>在Singleton类中并没有instance静态成员，而是将其放到了静态内部类Holder中，因此在Singleton类的初始化过程中并不会创建Singleton的实例，Holder类中定义了Singleton的静态变量，并且直接进行了实例化，当Holder被主动引用时会创建Singleton实例，Singleton实例的创建过程在Java程序编译时期收集至<code>&lt;clinit&gt;()</code>方法中，该方法又是同步方法，同步方法可以保证内存的可见性、JVM指令的顺序性和原子性，所以该模式应用较广。</p>
+
+		</div>
+
+		<div class="post-tags">
+			
+				
+					<nav class="nav tags">
+							<ul class="flat">
+								
+								<li><a href="/tags/concurrent">Concurrent</a></li>
+								
+							</ul>
+					</nav>
+				
+			
+		</div>
+		</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div> © Copyright feily.tech |  <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a> | Built with <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+
+<script>feather.replace()</script>
+</body>
+</html>

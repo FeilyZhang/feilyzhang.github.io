@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Shape manipulation in NumPy - Feily Zhang</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="Shape manipulation in NumPy" />
+<meta property="og:description" content="NumPy中，已定义好的数组可以重新调整维度，但是调整后的维度包含的元素数目应该与调整之前的相同。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://feily.tech/posts/shape-manipulation-in-numpy/" />
+<meta property="article:published_time" content="2020-07-26T12:16:05+08:00" />
+<meta property="article:modified_time" content="2020-07-26T12:16:05+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Shape manipulation in NumPy"/>
+<meta name="twitter:description" content="NumPy中，已定义好的数组可以重新调整维度，但是调整后的维度包含的元素数目应该与调整之前的相同。"/>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:200,300" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" media="screen" href="https://feily.tech/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://feily.tech/css/main.css" /><link rel="stylesheet" type="text/css" href="https://feily.tech/css/dark.css" media="(prefers-color-scheme: dark)" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+	<script src="https://feily.tech/js/main.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+	<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+	<script>
+	  document.addEventListener("DOMContentLoaded", function() {
+	    renderMathInElement( document.body, {
+	      delimiters: [
+	        {left: "$$", right: "$$", display: true},
+	        {left: "[%", right: "%]", display: true},
+	        {left: "$", right: "$", display: false}
+	      ]}
+	    );
+	  });
+	</script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title"><a href="https://feily.tech/">Feily Zhang</a></h1>
+	<div class="site-description"><h2>Software Developer, Machine Learning, Astronomy Enthusiast.</h2><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/FeilyZhang" title="Github"><i data-feather="github"></i></a><a href="https://twitter.com/FeilyZhang" title="Twitter"><i data-feather="twitter"></i></a><a href="/index.xml" title="RSS"><i data-feather="rss"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/">Home</a>
+			</li>
+			
+			<li>
+				<a href="/posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="/about">About</a>
+			</li>
+			
+			<li>
+				<a href="/tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h1 class="title">Shape manipulation in NumPy</h1>
+			<div class="meta">Posted at &mdash; Jul 26, 2020</div>
+		</div>
+
+		<div class="markdown">
+			<p>NumPy中，已定义好的数组可以重新调整维度，但是调整后的维度包含的元素数目应该与调整之前的相同。</p>
+<h2 id="改变数组的结构"><strong>改变数组的结构</strong></h2>
+<p>NumPy中改变数组结构的方式大体包含三种，一种是维度“压缩”后的数组，其本质是逐元素按行将数组组织成一个一维数组，方法为<code>ndarray.ravel()</code>；一种是数组转置；另一种是元素数目相同基础之上的尺寸调整。以下三部分分别基于下述代码</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+ram <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>random<span style="color:#719e07">.</span>default_rng(<span style="color:#2aa198">1</span>)
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>ceil(<span style="color:#2aa198">10</span> <span style="color:#719e07">*</span> ram<span style="color:#719e07">.</span>random((<span style="color:#2aa198">4</span>, <span style="color:#2aa198">4</span>), np<span style="color:#719e07">.</span>float64), dtype <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>float64)
+</code></pre></div><h3 id="数组扁平化"><strong>数组扁平化</strong></h3>
+<p>对$n$维数组进行扁平化操作（$n \ge 2$），其本质就是逐元素按行组织数组元素为一个一维数组，直接调用ndarray的ravel方法即可，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">a<span style="color:#719e07">.</span>ravel()
+</code></pre></div><p>该方法并不会在原数组上进行操作，所以想要复用其运算结果，必须开辟内存地址存储之。</p>
+<h3 id="数组转置"><strong>数组转置</strong></h3>
+<p>这个相当好理解，方法为调用ndarray的T属性即可实现转置，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">a<span style="color:#719e07">.</span>T
+</code></pre></div><p>该方法同样不会在原数组上进行修改，若想复用其运算结果，仍然需要变量存储。</p>
+<h3 id="数组维度调整"><strong>数组维度调整</strong></h3>
+<p>另一种调整数组维度的办法就是调整其尺寸，有两个方法，如下</p>
+<ul>
+<li><code>ndarray.reshape()</code>，该方法接受一个元组，该元组为新数组的尺寸信息，该方法不会在原数组上进行操作；</li>
+<li><code>ndarray.resize()</code>，该方法接受一个元组，该元组为新数组的尺寸信息，该方法会在原数组上进行操作。</li>
+</ul>
+<p>若原数组的尺寸信息可以通过元组<code>t1</code>表示，新数组的尺寸信息可以通过<code>t2</code>表示，那么<code>t1</code>诸元素之积应该等于<code>t2</code>诸元素之积，即下述代码中<code>r1 == r2</code>。</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">r1 <span style="color:#719e07">=</span> <span style="color:#2aa198">1</span>
+r2 <span style="color:#719e07">=</span> <span style="color:#2aa198">1</span>
+<span style="color:#719e07">for</span> t <span style="color:#719e07">in</span> t1:
+    r1 <span style="color:#719e07">*=</span> t
+<span style="color:#719e07">for</span> t <span style="color:#719e07">in</span> t2:
+    r2 <span style="color:#719e07">*=</span> t
+<span style="color:#719e07">print</span>(r1 <span style="color:#719e07">==</span> r2)    <span style="color:#586e75"># True</span>
+</code></pre></div><h2 id="合并数组的几种方式"><strong>合并数组的几种方式</strong></h2>
+<h3 id="垂直合并与水平合并"><strong>垂直合并与水平合并</strong></h3>
+<p>几个尺寸相同的数组可以通过不同的轴实现合并，有两种合并方式，一种是垂直合并，另一种是水平合并。</p>
+<p>对于含有$n$个轴的（$n$维）数组（$n \ge 2$），垂直合并首先创建一个$n$维数组，确保最终的结果数组与被合并数组的维数一致，然后逐个将被合并数组的第一个轴的元素（$n - 1$维）作为结果数组第一个轴的元素（$n - 1$维）加入其中。通过调用<code>np.vstack()</code>即可实现，其参数为要合并的数组的元组。对于垂直合并，合并后返回数组的第一轴的长度将是被合并数组第一轴的长度之和。示例如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+ram <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>random<span style="color:#719e07">.</span>default_rng(<span style="color:#2aa198">1</span>)
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>ceil(<span style="color:#2aa198">10</span> <span style="color:#719e07">*</span> ram<span style="color:#719e07">.</span>random((<span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>), np<span style="color:#719e07">.</span>float64), dtype <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>float64)
+<span style="color:#719e07">print</span>(a)
+b <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>ceil(<span style="color:#2aa198">10</span> <span style="color:#719e07">*</span> ram<span style="color:#719e07">.</span>random((<span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>), np<span style="color:#719e07">.</span>float64), dtype <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>float64)
+<span style="color:#719e07">print</span>(b)
+<span style="color:#719e07">print</span>(<span style="color:#2aa198">&#39;after stacking : &#39;</span>)
+<span style="color:#719e07">print</span>(np<span style="color:#719e07">.</span>vstack((a, b)))
+</code></pre></div><p>输出为</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[[[ <span style="color:#2aa198">6.</span> <span style="color:#2aa198">10.</span>]
+  [ <span style="color:#2aa198">2.</span> <span style="color:#2aa198">10.</span>]]
+
+ [[ <span style="color:#2aa198">4.</span>  <span style="color:#2aa198">5.</span>]
+  [ <span style="color:#2aa198">9.</span>  <span style="color:#2aa198">5.</span>]]]
+[[[<span style="color:#2aa198">6.</span> <span style="color:#2aa198">1.</span>]
+  [<span style="color:#2aa198">8.</span> <span style="color:#2aa198">6.</span>]]
+
+ [[<span style="color:#2aa198">4.</span> <span style="color:#2aa198">8.</span>]
+  [<span style="color:#2aa198">4.</span> <span style="color:#2aa198">5.</span>]]]
+after stacking : 
+[[[ <span style="color:#2aa198">6.</span> <span style="color:#2aa198">10.</span>]
+  [ <span style="color:#2aa198">2.</span> <span style="color:#2aa198">10.</span>]]
+
+ [[ <span style="color:#2aa198">4.</span>  <span style="color:#2aa198">5.</span>]
+  [ <span style="color:#2aa198">9.</span>  <span style="color:#2aa198">5.</span>]]
+
+ [[ <span style="color:#2aa198">6.</span>  <span style="color:#2aa198">1.</span>]
+  [ <span style="color:#2aa198">8.</span>  <span style="color:#2aa198">6.</span>]]
+
+ [[ <span style="color:#2aa198">4.</span>  <span style="color:#2aa198">8.</span>]
+  [ <span style="color:#2aa198">4.</span>  <span style="color:#2aa198">5.</span>]]]
+</code></pre></div><p>对于含有$n$个轴的（$n$维）数组（$n \ge 2$），水平合并也是首先创建一个$n$维数组，然后将被合并数组的第二个轴的元素（$n - 2$维）拼接起来然后将其包装在一个数组中，这个数组就变成了$n-1$维，然后就可以作为$n$维结果数组的元素加入其中。通过调用<code>np.hstack()</code>即可实现，其参数为要合并的数组的元组。那么合并后的结果数组第一轴的长度将会保持不变，但是第二轴的长度将会变成若干个被合并数组第二轴长度之和。示例如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+ram <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>random<span style="color:#719e07">.</span>default_rng(<span style="color:#2aa198">1</span>)
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>ceil(<span style="color:#2aa198">10</span> <span style="color:#719e07">*</span> ram<span style="color:#719e07">.</span>random((<span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>), np<span style="color:#719e07">.</span>float64), dtype <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>float64)
+<span style="color:#719e07">print</span>(a)
+b <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>ceil(<span style="color:#2aa198">10</span> <span style="color:#719e07">*</span> ram<span style="color:#719e07">.</span>random((<span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">2</span>), np<span style="color:#719e07">.</span>float64), dtype <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>float64)
+<span style="color:#719e07">print</span>(b)
+<span style="color:#719e07">print</span>(<span style="color:#2aa198">&#39;after stacking : &#39;</span>)
+<span style="color:#719e07">print</span>(np<span style="color:#719e07">.</span>hstack((a, b)))
+</code></pre></div><p>输出为</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[[[ <span style="color:#2aa198">6.</span> <span style="color:#2aa198">10.</span>]
+  [ <span style="color:#2aa198">2.</span> <span style="color:#2aa198">10.</span>]]
+
+ [[ <span style="color:#2aa198">4.</span>  <span style="color:#2aa198">5.</span>]
+  [ <span style="color:#2aa198">9.</span>  <span style="color:#2aa198">5.</span>]]]
+[[[<span style="color:#2aa198">6.</span> <span style="color:#2aa198">1.</span>]
+  [<span style="color:#2aa198">8.</span> <span style="color:#2aa198">6.</span>]]
+
+ [[<span style="color:#2aa198">4.</span> <span style="color:#2aa198">8.</span>]
+  [<span style="color:#2aa198">4.</span> <span style="color:#2aa198">5.</span>]]]
+after stacking : 
+[[[ <span style="color:#2aa198">6.</span> <span style="color:#2aa198">10.</span>]
+  [ <span style="color:#2aa198">2.</span> <span style="color:#2aa198">10.</span>]
+  [ <span style="color:#2aa198">6.</span>  <span style="color:#2aa198">1.</span>]
+  [ <span style="color:#2aa198">8.</span>  <span style="color:#2aa198">6.</span>]]
+
+ [[ <span style="color:#2aa198">4.</span>  <span style="color:#2aa198">5.</span>]
+  [ <span style="color:#2aa198">9.</span>  <span style="color:#2aa198">5.</span>]
+  [ <span style="color:#2aa198">4.</span>  <span style="color:#2aa198">8.</span>]
+  [ <span style="color:#2aa198">4.</span>  <span style="color:#2aa198">5.</span>]]]
+</code></pre></div><h3 id="column_stack与row_stack函数"><strong>column_stack与row_stack函数</strong></h3>
+<p>上述对垂直合并与水平合并的解释，附加了一个前提，即$n \ge 2$。但是如果$n = 1$呢？上述的解释就不适用了，因为不存在-1维。</p>
+<p>一维数组同样可以进行垂直合并与水平合并，对应的函数分别为</p>
+<ul>
+<li><code>np.column_stack()</code>，该函数实现列合并，它会将相同长度的待合并一维数组的同一列组织为一行；</li>
+<li><code>np.row_stack()</code>，该函数实现行合并，它会将相同长度的待合并一维数组的行作为最终结果二维数组的单独一行。</li>
+</ul>
+<p>对于相同顺序的尺寸相同的待合并一维数组，其行合并结果与列合并结果互为转置。示例如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+ram <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>random<span style="color:#719e07">.</span>default_rng(<span style="color:#2aa198">1</span>)
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>array([<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>])
+b <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>array([<span style="color:#2aa198">3</span>, <span style="color:#2aa198">4</span>])
+c <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>array([<span style="color:#2aa198">5</span>, <span style="color:#2aa198">6</span>])
+<span style="color:#719e07">print</span>(np<span style="color:#719e07">.</span>column_stack((a, b, c)))
+<span style="color:#719e07">print</span>(np<span style="color:#719e07">.</span>row_stack((a, b, c)))
+<span style="color:#719e07">print</span>(np<span style="color:#719e07">.</span>column_stack((a, b, c)) <span style="color:#719e07">==</span> np<span style="color:#719e07">.</span>row_stack((a, b, c))<span style="color:#719e07">.</span>T)
+</code></pre></div><p>结果如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[[<span style="color:#2aa198">1</span> <span style="color:#2aa198">3</span> <span style="color:#2aa198">5</span>]
+ [<span style="color:#2aa198">2</span> <span style="color:#2aa198">4</span> <span style="color:#2aa198">6</span>]]
+[[<span style="color:#2aa198">1</span> <span style="color:#2aa198">2</span>]
+ [<span style="color:#2aa198">3</span> <span style="color:#2aa198">4</span>]
+ [<span style="color:#2aa198">5</span> <span style="color:#2aa198">6</span>]]
+ [[ <span style="color:#268bd2">True</span>  <span style="color:#268bd2">True</span>  <span style="color:#268bd2">True</span>]
+ [ <span style="color:#268bd2">True</span>  <span style="color:#268bd2">True</span>  <span style="color:#268bd2">True</span>]]
+</code></pre></div><h3 id="_r和_c"><strong>_r和_c</strong></h3>
+<p><code>-r</code>可以将若干个长度相同或者不同的一维数组组织为一个一维数组，而<code>_c</code>则是将若干个长度相同的一维数组按列组织为一个二维数组，其中第二维的长度为长度相同的一维数组个数。示例如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+a <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>r_[<span style="color:#2aa198">1</span>:<span style="color:#2aa198">4</span>, <span style="color:#2aa198">0</span>, <span style="color:#2aa198">3</span>]
+b <span style="color:#719e07">=</span> np<span style="color:#719e07">.</span>c_[<span style="color:#2aa198">1</span>:<span style="color:#2aa198">4</span>,<span style="color:#2aa198">0</span>:<span style="color:#2aa198">3</span>,<span style="color:#2aa198">4</span>:<span style="color:#2aa198">7</span>]
+<span style="color:#719e07">print</span>(a)
+<span style="color:#719e07">print</span>(b)
+</code></pre></div><p>输出如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[<span style="color:#2aa198">1</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">3</span> <span style="color:#2aa198">0</span> <span style="color:#2aa198">3</span>]
+[[<span style="color:#2aa198">1</span> <span style="color:#2aa198">0</span> <span style="color:#2aa198">4</span>]
+ [<span style="color:#2aa198">2</span> <span style="color:#2aa198">1</span> <span style="color:#2aa198">5</span>]
+ [<span style="color:#2aa198">3</span> <span style="color:#2aa198">2</span> <span style="color:#2aa198">6</span>]]
+</code></pre></div><h2 id="拆分数组"><strong>拆分数组</strong></h2>
+<p>既然可以如上述合并数组，那么也可以拆分数组。主要使用到的函数为<code>hsplit()</code>与<code>vsplit()</code>。以下解释如果不特别说明，那么只涉及对一维和二维数组的操作</p>
+<ul>
+<li><code>hsplit()</code>函数，该函数按水平方向将数组拆分为若干个同维度数组。其接受两个参数，第一个为待拆分的数组，第二个参数如果是一个整数那么代表将数组等分得个数，如果是一个元组，那么就会将元组当作拆分数组的索引。</li>
+<li><code>vsplit()</code>函数，该函数按垂直方向将数组拆分为若干个同维度数组，且只能施加在二维或者更高维度的数组上。第一个为待拆分的数组，第二个参数为一个元组，表示将从第几个索引处开始对其进行拆分。</li>
+</ul>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#719e07">import</span> numpy <span style="color:#719e07">as</span> np
+
+<span style="color:#719e07">print</span>(np<span style="color:#719e07">.</span>hsplit(np<span style="color:#719e07">.</span>r_[<span style="color:#2aa198">1</span>:<span style="color:#2aa198">4</span>, <span style="color:#2aa198">0</span>, <span style="color:#2aa198">3</span>], <span style="color:#2aa198">5</span>))
+<span style="color:#719e07">print</span>(np<span style="color:#719e07">.</span>hsplit(np<span style="color:#719e07">.</span>array([[<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">4</span>], [<span style="color:#2aa198">5</span>, <span style="color:#2aa198">6</span>, <span style="color:#2aa198">7</span>, <span style="color:#2aa198">8</span>]]), <span style="color:#2aa198">2</span>))
+<span style="color:#719e07">print</span>(np<span style="color:#719e07">.</span>hsplit(np<span style="color:#719e07">.</span>array([[<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">4</span>, <span style="color:#2aa198">5</span>, <span style="color:#2aa198">6</span>], [<span style="color:#2aa198">5</span>, <span style="color:#2aa198">6</span>, <span style="color:#2aa198">7</span>, <span style="color:#2aa198">8</span>, <span style="color:#2aa198">9</span>, <span style="color:#2aa198">0</span>]]), (<span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>)))
+<span style="color:#719e07">print</span>(<span style="color:#2aa198">&#39;-&#39;</span> <span style="color:#719e07">*</span> <span style="color:#2aa198">10</span>)
+<span style="color:#719e07">print</span>(np<span style="color:#719e07">.</span>vsplit(np<span style="color:#719e07">.</span>array([[<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">4</span>], [<span style="color:#2aa198">5</span>, <span style="color:#2aa198">6</span>, <span style="color:#2aa198">7</span>, <span style="color:#2aa198">8</span>], [<span style="color:#2aa198">9</span>, <span style="color:#2aa198">10</span>, <span style="color:#2aa198">11</span>, <span style="color:#2aa198">12</span>]]), <span style="color:#2aa198">1</span>))
+<span style="color:#719e07">print</span>(np<span style="color:#719e07">.</span>vsplit(np<span style="color:#719e07">.</span>array([[<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">4</span>], [<span style="color:#2aa198">5</span>, <span style="color:#2aa198">6</span>, <span style="color:#2aa198">7</span>, <span style="color:#2aa198">8</span>], [<span style="color:#2aa198">9</span>, <span style="color:#2aa198">10</span>, <span style="color:#2aa198">11</span>, <span style="color:#2aa198">12</span>]]), (<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>)))
+</code></pre></div><p>输出如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[array([<span style="color:#2aa198">1</span>]), array([<span style="color:#2aa198">2</span>]), array([<span style="color:#2aa198">3</span>]), array([<span style="color:#2aa198">0</span>]), array([<span style="color:#2aa198">3</span>])]
+[array([[<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>],
+       [<span style="color:#2aa198">5</span>, <span style="color:#2aa198">6</span>]]), array([[<span style="color:#2aa198">3</span>, <span style="color:#2aa198">4</span>],
+       [<span style="color:#2aa198">7</span>, <span style="color:#2aa198">8</span>]])]
+[array([[<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>],
+       [<span style="color:#2aa198">5</span>, <span style="color:#2aa198">6</span>]]), array([[<span style="color:#2aa198">3</span>],
+       [<span style="color:#2aa198">7</span>]]), array([[<span style="color:#2aa198">4</span>, <span style="color:#2aa198">5</span>, <span style="color:#2aa198">6</span>],
+       [<span style="color:#2aa198">8</span>, <span style="color:#2aa198">9</span>, <span style="color:#2aa198">0</span>]])]
+<span style="color:#719e07">----------</span>
+[array([[ <span style="color:#2aa198">1</span>,  <span style="color:#2aa198">2</span>,  <span style="color:#2aa198">3</span>,  <span style="color:#2aa198">4</span>],
+       [ <span style="color:#2aa198">5</span>,  <span style="color:#2aa198">6</span>,  <span style="color:#2aa198">7</span>,  <span style="color:#2aa198">8</span>],
+       [ <span style="color:#2aa198">9</span>, <span style="color:#2aa198">10</span>, <span style="color:#2aa198">11</span>, <span style="color:#2aa198">12</span>]])]
+[array([[<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>, <span style="color:#2aa198">4</span>]]), array([[<span style="color:#2aa198">5</span>, <span style="color:#2aa198">6</span>, <span style="color:#2aa198">7</span>, <span style="color:#2aa198">8</span>]]), array([[ <span style="color:#2aa198">9</span>, <span style="color:#2aa198">10</span>, <span style="color:#2aa198">11</span>, <span style="color:#2aa198">12</span>]])]
+</code></pre></div>
+		</div>
+
+		<div class="post-tags">
+			
+				
+					<nav class="nav tags">
+							<ul class="flat">
+								
+								<li><a href="/tags/numpy">NumPy</a></li>
+								
+							</ul>
+					</nav>
+				
+			
+		</div>
+		</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div> © Copyright feily.tech |  <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a> | Built with <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+
+<script>feather.replace()</script>
+</body>
+</html>

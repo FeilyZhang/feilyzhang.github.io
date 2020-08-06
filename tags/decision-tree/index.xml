@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Decision tree on Feily Zhang</title>
+    <link>https://feily.tech/tags/decision-tree/</link>
+    <description>Recent content in Decision tree on Feily Zhang</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright feily.tech</copyright>
+    <lastBuildDate>Sat, 23 Mar 2019 15:55:25 +0800</lastBuildDate>
+    
+	<atom:link href="https://feily.tech/tags/decision-tree/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Decision tree learning algorithm</title>
+      <link>https://feily.tech/posts/decision-tree-learning-algorithm/</link>
+      <pubDate>Sat, 23 Mar 2019 15:55:25 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/decision-tree-learning-algorithm/</guid>
+      <description>简介 决策树学习算法以树形结构建立模型，类似于流程图，该模型本身包含一系列逻辑决策。几个概念如下</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Concurrent on Feily Zhang</title>
+    <link>https://feily.tech/tags/concurrent/</link>
+    <description>Recent content in Concurrent on Feily Zhang</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright feily.tech</copyright>
+    <lastBuildDate>Sat, 20 Apr 2019 15:07:23 +0800</lastBuildDate>
+    
+	<atom:link href="https://feily.tech/tags/concurrent/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Design of seven kinds of singleton patterns</title>
+      <link>https://feily.tech/posts/design-of-seven-kinds-of-singleton-patterns/</link>
+      <pubDate>Sat, 20 Apr 2019 15:07:23 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/design-of-seven-kinds-of-singleton-patterns/</guid>
+      <description>单例模式提供了一种在多线程情况下保证实例唯一性的解决方案，单例模式设计的标准是：懒加载、高性能、线程安全。</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Introduction to The Design and Analysis of Algorithms(1) - Feily Zhang</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="Introduction to The Design and Analysis of Algorithms(1)" />
+<meta property="og:description" content="欧几里得算法 假定输入的第一个参数不小于第二个参数，其递推公式为" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://feily.tech/posts/introduction-to-the-design-and-analysis-of-algorithms1/" />
+<meta property="article:published_time" content="2020-04-05T21:28:07+08:00" />
+<meta property="article:modified_time" content="2020-04-05T21:28:07+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Introduction to The Design and Analysis of Algorithms(1)"/>
+<meta name="twitter:description" content="欧几里得算法 假定输入的第一个参数不小于第二个参数，其递推公式为"/>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:200,300" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" media="screen" href="https://feily.tech/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://feily.tech/css/main.css" /><link rel="stylesheet" type="text/css" href="https://feily.tech/css/dark.css" media="(prefers-color-scheme: dark)" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+	<script src="https://feily.tech/js/main.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+	<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+	<script>
+	  document.addEventListener("DOMContentLoaded", function() {
+	    renderMathInElement( document.body, {
+	      delimiters: [
+	        {left: "$$", right: "$$", display: true},
+	        {left: "[%", right: "%]", display: true},
+	        {left: "$", right: "$", display: false}
+	      ]}
+	    );
+	  });
+	</script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title"><a href="https://feily.tech/">Feily Zhang</a></h1>
+	<div class="site-description"><h2>Software Developer, Machine Learning, Astronomy Enthusiast.</h2><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/FeilyZhang" title="Github"><i data-feather="github"></i></a><a href="https://twitter.com/FeilyZhang" title="Twitter"><i data-feather="twitter"></i></a><a href="/index.xml" title="RSS"><i data-feather="rss"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/">Home</a>
+			</li>
+			
+			<li>
+				<a href="/posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="/about">About</a>
+			</li>
+			
+			<li>
+				<a href="/tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h1 class="title">Introduction to The Design and Analysis of Algorithms(1)</h1>
+			<div class="meta">Posted at &mdash; Apr 5, 2020</div>
+		</div>
+
+		<div class="markdown">
+			<h2 id="欧几里得算法">欧几里得算法</h2>
+<p>假定输入的第一个参数不小于第二个参数，其递推公式为</p>
+<p>\begin{equation}gcd(m, n)=gcd(n, m\ mod\ n)\end{equation}</p>
+<p>当n为0时，m即为最大公约数，代码如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#268bd2">function</span> gcd(fst, scd) {
+    <span style="color:#719e07">if</span> (scd <span style="color:#719e07">==</span> <span style="color:#2aa198">0</span>) <span style="color:#719e07">return</span> fst;
+    <span style="color:#719e07">return</span> gcd(scd, fst <span style="color:#719e07">%</span> scd);
+}
+</code></pre></div><h2 id="原版欧几里得算法">原版欧几里得算法</h2>
+<p>在欧几里得的书中，欧几里得算法用的并不是除法，而是减法，其递推公式为</p>
+<p>\begin{equation}gcd(m, n)=gcd(m\ -\ n, n)\end{equation}</p>
+<p>从而在m小于等于n时，结束递归，代码如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#268bd2">function</span> gcd(fst, scd) {
+    <span style="color:#719e07">if</span> (fst <span style="color:#719e07">&lt;=</span> scd) <span style="color:#719e07">return</span> fst;
+    <span style="color:#719e07">return</span> gcd(fst <span style="color:#719e07">-</span> scd, scd);
+}
+</code></pre></div><p>另一种方法是减法实现求余操作，从而计算最大公约数，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#268bd2">function</span> mod(a, b) {
+    <span style="color:#719e07">while</span> (a <span style="color:#719e07">&gt;=</span> b) {
+        a <span style="color:#719e07">=</span> a <span style="color:#719e07">-</span> b;
+    }
+    <span style="color:#719e07">return</span> a;
+}
+
+<span style="color:#268bd2">function</span> gcd(fst, scd) {
+    <span style="color:#719e07">if</span> (scd <span style="color:#719e07">==</span> <span style="color:#2aa198">0</span>) <span style="color:#719e07">return</span> fst;
+    <span style="color:#719e07">return</span> gcd(scd, mod(fst, scd));
+}
+</code></pre></div><h2 id="找相同元素">找相同元素</h2>
+<p>给定两个非降序列表，输出其相同的元素，例如<code>[2, 5, 5, 5]</code>, <code>[2, 2, 3, 5, 5, 7]</code>中输出<code>2, 5, 5</code>，代码如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#268bd2">function</span> samele(arr1, arr2) {
+    <span style="color:#268bd2">var</span> i <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>, j <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>;
+    <span style="color:#719e07">while</span> (i <span style="color:#719e07">&lt;</span> arr1.length <span style="color:#719e07">||</span> j <span style="color:#719e07">&lt;</span> arr2.length) {
+        <span style="color:#719e07">if</span> (arr1[i] <span style="color:#719e07">==</span> arr2[j]) {
+            console.log(arr1[i]);
+            i<span style="color:#719e07">++</span>, j<span style="color:#719e07">++</span>;
+        } <span style="color:#719e07">else</span> <span style="color:#719e07">if</span> (arr1[i] <span style="color:#719e07">&gt;</span> arr2[j]) {
+            j<span style="color:#719e07">++</span>;
+        } <span style="color:#719e07">else</span> {
+            i<span style="color:#719e07">++</span>;
+        }
+    }
+}
+</code></pre></div><h2 id="对开方后元素取整">对开方后元素取整</h2>
+<p>首先是对开方后元素向下取整，不使用库函数，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#268bd2">function</span> floor(n) {
+    <span style="color:#719e07">if</span> (n <span style="color:#719e07">==</span> <span style="color:#2aa198">0</span>) <span style="color:#719e07">return</span> <span style="color:#2aa198">0</span>;
+    <span style="color:#719e07">if</span> (n <span style="color:#719e07">&lt;</span> <span style="color:#2aa198">4</span>) <span style="color:#719e07">return</span> <span style="color:#2aa198">1</span>;
+    <span style="color:#719e07">for</span> (<span style="color:#268bd2">var</span> i <span style="color:#719e07">=</span> <span style="color:#2aa198">2</span>, pre <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>; i <span style="color:#719e07">&lt;</span> n; i<span style="color:#719e07">++</span>) {
+        <span style="color:#719e07">if</span> (i <span style="color:#719e07">*</span> i <span style="color:#719e07">==</span> n) <span style="color:#719e07">return</span> i;
+        <span style="color:#719e07">if</span> (i <span style="color:#719e07">*</span> i <span style="color:#719e07">&lt;</span> n) pre <span style="color:#719e07">=</span> i;
+        <span style="color:#719e07">if</span> (i <span style="color:#719e07">*</span> i <span style="color:#719e07">&gt;</span> n) <span style="color:#719e07">return</span> pre;
+    }
+}
+</code></pre></div><p>其次是开方后元素向上取整，不使用库函数，如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#268bd2">function</span> ceil(n) {
+    <span style="color:#719e07">if</span> (n <span style="color:#719e07">==</span> <span style="color:#2aa198">0</span>) <span style="color:#719e07">return</span> <span style="color:#2aa198">0</span>;
+    <span style="color:#719e07">if</span> (n <span style="color:#719e07">&lt;</span> <span style="color:#2aa198">4</span>) <span style="color:#719e07">return</span> <span style="color:#2aa198">2</span>;
+    <span style="color:#719e07">for</span> (<span style="color:#268bd2">var</span> i <span style="color:#719e07">=</span> <span style="color:#2aa198">2</span>; i <span style="color:#719e07">&lt;</span> n; i<span style="color:#719e07">++</span>) {
+        <span style="color:#719e07">if</span> (i <span style="color:#719e07">*</span> i <span style="color:#719e07">==</span> n) <span style="color:#719e07">return</span> i;
+        <span style="color:#719e07">if</span> (i <span style="color:#719e07">*</span> i <span style="color:#719e07">&gt;</span> n) <span style="color:#719e07">return</span> i;
+    }
+}
+</code></pre></div><h2 id="埃拉托色尼筛选法">埃拉托色尼筛选法</h2>
+<p>该方法可能是古希腊人发明的，用以产生一个不大于给定整数n的连续质数序列。其具体方法为</p>
+<ol>
+<li>先初始化一个2 ~ n的连续整数序列，作为候选质数；</li>
+<li>分别消去序列中2 ~ n的倍数，以2为例，消去4、6、8&hellip;，但是不消去2，以此类推；</li>
+<li>最终得到质数序列。</li>
+</ol>
+<p>事实上，消去某数的倍数并不需要循环到n，因为某些数已经被消掉了，比如4、6、8已经在消除2的倍数时消掉了。更进一步地，只需要循环到<code>floor(sqrt(n))</code>即可，代码如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#268bd2">function</span> siece(n) {
+    <span style="color:#268bd2">var</span> seq <span style="color:#719e07">=</span> <span style="color:#719e07">new</span> <span style="color:#b58900">Array</span>(n <span style="color:#719e07">+</span> <span style="color:#2aa198">1</span>);
+    <span style="color:#719e07">for</span> (<span style="color:#268bd2">var</span> i <span style="color:#719e07">=</span> <span style="color:#2aa198">2</span>; i <span style="color:#719e07">&lt;=</span> n; i<span style="color:#719e07">++</span>) {
+        seq[i] <span style="color:#719e07">=</span> i;
+    }
+    <span style="color:#719e07">for</span> (<span style="color:#268bd2">var</span> j <span style="color:#719e07">=</span> <span style="color:#2aa198">2</span>, k <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>; j <span style="color:#719e07">&lt;=</span> <span style="color:#b58900">Math</span>.floor(<span style="color:#b58900">Math</span>.sqrt(n)); j<span style="color:#719e07">++</span>) {
+        k <span style="color:#719e07">=</span> j <span style="color:#719e07">*</span> j;
+        <span style="color:#719e07">while</span> (k <span style="color:#719e07">&lt;=</span> n) {
+            seq[k] <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>;
+            k <span style="color:#719e07">+=</span> j;
+        }
+    }
+    <span style="color:#268bd2">var</span> len <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>, i <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>;
+    <span style="color:#268bd2">var</span> ret <span style="color:#719e07">=</span> <span style="color:#719e07">new</span> <span style="color:#b58900">Array</span>(n <span style="color:#719e07">+</span> <span style="color:#2aa198">1</span>);
+    <span style="color:#719e07">for</span> (<span style="color:#268bd2">var</span> j <span style="color:#719e07">=</span> <span style="color:#2aa198">2</span>; j <span style="color:#719e07">&lt;=</span> n; j<span style="color:#719e07">++</span>) {
+        <span style="color:#719e07">if</span> (seq[j] <span style="color:#719e07">!=</span> <span style="color:#2aa198">0</span>) {
+            ret[i<span style="color:#719e07">++</span>] <span style="color:#719e07">=</span> seq[j];
+            len<span style="color:#719e07">++</span>;
+        }
+    }
+    <span style="color:#719e07">return</span> ret.slice(<span style="color:#2aa198">0</span>, len);
+}
+
+siece(<span style="color:#2aa198">25</span>);  <span style="color:#586e75">// (9) [2, 3, 5, 7, 11, 13, 17, 19, 23]
+</span></code></pre></div><h2 id="海伦公式计算三角形面积">海伦公式计算三角形面积</h2>
+<p>若已知三角形三边a, b, c, 那么海伦公式如下</p>
+<p>\begin{equation}S=\sqrt{p(p - a)(p - b)(p - c)},\ p = (a + b + c) / 2\end{equation}</p>
+<p>从而计算三角形面积的算法如下</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#268bd2">function</span> helen(a, b, c) {
+    <span style="color:#268bd2">var</span> p <span style="color:#719e07">=</span> (a <span style="color:#719e07">+</span> b <span style="color:#719e07">+</span> c) <span style="color:#719e07">/</span> <span style="color:#2aa198">2.0</span>;
+    <span style="color:#719e07">return</span> <span style="color:#b58900">Math</span>.sqrt(p <span style="color:#719e07">*</span> (p <span style="color:#719e07">-</span> a) <span style="color:#719e07">*</span> (p <span style="color:#719e07">-</span> b) <span style="color:#719e07">*</span> (p <span style="color:#719e07">-</span> c));
+}
+</code></pre></div><h2 id="计算序列中元素间最小值">计算序列中元素间最小值</h2>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#268bd2">function</span> minDistance(arr) {
+    <span style="color:#268bd2">var</span> min <span style="color:#719e07">=</span> <span style="color:#b58900">Number</span>.MAX_VALUE;
+    <span style="color:#719e07">for</span> (<span style="color:#268bd2">var</span> i <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>; i <span style="color:#719e07">&lt;</span> arr.length; i<span style="color:#719e07">++</span>) {
+        <span style="color:#719e07">for</span> (<span style="color:#268bd2">var</span> j <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>; j <span style="color:#719e07">&lt;</span> arr.length; j<span style="color:#719e07">++</span>) {
+            <span style="color:#719e07">if</span> ( i <span style="color:#719e07">!=</span> j <span style="color:#719e07">&amp;&amp;</span> <span style="color:#b58900">Math</span>.abs(arr[i] <span style="color:#719e07">-</span> arr[j]) <span style="color:#719e07">&lt;</span> min) {
+                min <span style="color:#719e07">=</span> <span style="color:#b58900">Math</span>.abs(arr[i] <span style="color:#719e07">-</span> arr[j]);
+            }
+        }
+    }
+    <span style="color:#719e07">return</span> min;
+}
+</code></pre></div><h2 id="非降序排列">非降序排列</h2>
+<p>该算法的思想是，先初始化一个与待排序序列同样长度的数组，然后通过双层循环扫描序列，统计小于当前元素的元素个数，然后将其记录在开头初始化的另一个数组中，扫描完毕后，根据开头初始化的数组信息进行排序。该方法在某种程度上类似于桶排序，但在空间消耗上优于桶排序。</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#268bd2">function</span> sort(arr) {
+    <span style="color:#268bd2">var</span> count <span style="color:#719e07">=</span> <span style="color:#719e07">new</span> <span style="color:#b58900">Array</span>(arr.length);
+    <span style="color:#719e07">for</span> (<span style="color:#268bd2">var</span> i <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>; i <span style="color:#719e07">&lt;</span> count.length; i<span style="color:#719e07">++</span>) {
+        count[i] <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>;
+    }
+    <span style="color:#719e07">for</span> (<span style="color:#268bd2">var</span> i <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>; i <span style="color:#719e07">&lt;</span> arr.length <span style="color:#719e07">-</span> <span style="color:#2aa198">1</span>; i<span style="color:#719e07">++</span>) {
+        <span style="color:#719e07">for</span> (<span style="color:#268bd2">var</span> j <span style="color:#719e07">=</span> i <span style="color:#719e07">+</span> <span style="color:#2aa198">1</span>; j <span style="color:#719e07">&lt;</span> arr.length; j<span style="color:#719e07">++</span>) {
+            <span style="color:#719e07">if</span> (arr[i] <span style="color:#719e07">&gt;</span> arr[j]) {
+                count[i]<span style="color:#719e07">++</span>;
+            } <span style="color:#719e07">else</span> {
+                count[j]<span style="color:#719e07">++</span>;
+            }
+        }
+    }
+    <span style="color:#268bd2">var</span> ret <span style="color:#719e07">=</span> <span style="color:#719e07">new</span> <span style="color:#b58900">Array</span>(arr.length);
+    <span style="color:#719e07">for</span> (<span style="color:#268bd2">var</span> i <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>; i <span style="color:#719e07">&lt;</span> count.length; i<span style="color:#719e07">++</span>) {
+        ret[count[i]] <span style="color:#719e07">=</span> arr[i];
+    }
+    <span style="color:#719e07">return</span> ret;
+}
+
+sort([<span style="color:#2aa198">60</span>, <span style="color:#2aa198">35</span>, <span style="color:#2aa198">81</span>, <span style="color:#2aa198">98</span>, <span style="color:#2aa198">14</span>, <span style="color:#2aa198">47</span>])  <span style="color:#586e75">// (6) [14, 35, 47, 60, 81, 98]
+</span></code></pre></div><h2 id="字符串匹配">字符串匹配</h2>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#268bd2">function</span> match(text, pattern) {
+    <span style="color:#719e07">for</span> (<span style="color:#268bd2">var</span> i <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>; i <span style="color:#719e07">&lt;=</span> text.length <span style="color:#719e07">-</span> pattern.length; i<span style="color:#719e07">++</span>) {
+        <span style="color:#719e07">for</span> (<span style="color:#268bd2">var</span> j <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>; j <span style="color:#719e07">&lt;</span> pattern.length; j<span style="color:#719e07">++</span>) {
+            <span style="color:#719e07">if</span> (text[i <span style="color:#719e07">+</span> j] <span style="color:#719e07">!=</span> pattern[j]) {
+                <span style="color:#719e07">break</span>;
+            } <span style="color:#719e07">else</span> <span style="color:#719e07">if</span> (j <span style="color:#719e07">==</span> pattern.length <span style="color:#719e07">-</span> <span style="color:#2aa198">1</span>) {
+                <span style="color:#719e07">return</span> <span style="color:#cb4b16">true</span>;
+            }
+        }
+    }
+    <span style="color:#719e07">return</span> <span style="color:#cb4b16">false</span>;
+}
+</code></pre></div>
+		</div>
+
+		<div class="post-tags">
+			
+				
+					<nav class="nav tags">
+							<ul class="flat">
+								
+								<li><a href="/tags/algorithm">Algorithm</a></li>
+								
+							</ul>
+					</nav>
+				
+			
+		</div>
+		</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div> © Copyright feily.tech |  <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a> | Built with <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+
+<script>feather.replace()</script>
+</body>
+</html>
