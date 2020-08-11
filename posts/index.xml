@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Copyright feily.tech</copyright>
-    <lastBuildDate>Thu, 06 Aug 2020 16:12:05 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 11 Aug 2020 10:09:14 +0800</lastBuildDate>
     
 	<atom:link href="https://feily.tech/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Some summaries on limit calculation</title>
+      <link>https://feily.tech/posts/some-summaries-on-limit-calculation/</link>
+      <pubDate>Tue, 11 Aug 2020 10:09:14 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/some-summaries-on-limit-calculation/</guid>
+      <description>本文是对极限计算的一些总结和摘要。在结构编排上可能与相关教材有所出入，但是内容是无差异的，本文将尽可能揭示常用极限计算的通用性方法。</description>
+    </item>
     
     <item>
       <title>Consumer equilibrium in microeconomics</title>
