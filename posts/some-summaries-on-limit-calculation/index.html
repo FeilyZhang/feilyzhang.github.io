@@ -190,7 +190,7 @@
 <p>该题属于$\frac{0}{0}$未定式，不适合泰勒展开，以为很复杂且无法抵消，自然用洛必达法则，但是分子为指数函数且经过有限次复合，求其导函数会越难越复杂，因此先换元。令$\frac{1}{x^2} = t$，则$x^2 = t^{-1}$，$x^{100} = t^{-50}$，由于$x \to 0$，那么$t \to +\infty$，从而</p>
 <p>\begin{equation}\lim_{x \to 0}\frac{e^{-\frac{1}{x^2}}}{x^{100}} = \lim_{t \to +\infty}\frac{e^{-t}}{t^{-50}} = \lim_{t \to +\infty}\frac{t^{50}}{e^t} = \lim_{t \to +\infty}\frac{50t^{49}}{e^t} = \lim_{t \to +\infty}\frac{50·49·t^{48}}{e^t} = \lim_{t \to +\infty}\frac{50!}{e^t} = 0\end{equation}</p>
 <h3 id="其余形式的未定式"><strong>其余形式的未定式</strong></h3>
-<h4 id="0infty型未定式"><strong>$0·+\infty$型未定式</strong></h4>
+<h4 id="0infty型未定式"><strong>$0·\infty$型未定式</strong></h4>
 <p>对于$0·+\infty$型未定式，可以通过变形将其转化为$\frac{0}{0}$与$\frac{\infty}{\infty}$型未定式，从而便可以使用洛必达法则，比如求</p>
 <p>\begin{equation}\lim_{x \to 0^+}x^n\ln x\ (n &gt; 0)\end{equation}</p>
 <p>这是$0·+\infty$型未定式。但是由于</p>
@@ -221,6 +221,18 @@
 <p>\begin{equation}\lim_{x \to 1^-}\ln x \ln(1 - x) = \lim_{x \to 1^-}(x - 1)\ln(1 - x)\end{equation}</p>
 <p>令$t = 1 - x$，那么$t \to 0^+$，容易求得极限</p>
 <p>\begin{equation}\lim_{x \to 1^-}\ln x \ln(1 - x) = \lim_{x \to 1^-}(x - 1)\ln(1 - x) = -\lim_{t \to 0^+}t \ln t = 0\end{equation}</p>
+<h4 id="inftyinfty型未定式"><strong>$\infty·\infty$型未定式</strong></h4>
+<p>对于$\infty·\infty$型未定式，主要思路有两种</p>
+<ol>
+<li>如果函数中存在分式，比如分式相加减等，则先通分，将加减法变形为乘除法，然后便可以使用其它技术进行进一步处理；</li>
+<li>如果函数中没有分母，则可以通过提取公因式，或者做倒代换做出分母，然后通分（如果必要的话），再进一步处理。</li>
+</ol>
+<p>示例如下，求下列极限</p>
+<p>\begin{equation}\lim_{x \to 0}(\frac{1}{\sin^2x} - \frac{\cos^2x}{x^2})\end{equation}</p>
+<p>首先通分，再根据三角恒等式及等价无穷小替换，得</p>
+<p>\begin{equation}\lim_{x \to 0}(\frac{1}{\sin^2x} - \frac{\cos^2x}{x^2}) = \lim_{x \to 0}\frac{x^2 - \sin^2x\cos^2x}{x^2\sin^2x} = \lim_{x \to 0}\frac{x^2 - (\sin x\cos x)^2}{x^2\sin^2x} = s\lim_{x \to 0}\frac{x^2 - \frac{1}{4}sin^22x}{x^4}\end{equation}</p>
+<p>然后应用洛必达法则，得</p>
+<p>\begin{equation}\lim_{x \to 0}\frac{x^2 - \frac{1}{4}sin^22x}{x^4} = \lim_{x \to 0}\frac{2x - \frac{1}{2}\sin 4x}{4x^3} = \lim_{x \to 0}\frac{1 - \cos 4x}{6x^2} = \lim_{x \to 0}\frac{\frac{1}{2}(4x)^2}{6x^2} = \frac{4}{3}\end{equation}</p>
 
 		</div>
 
