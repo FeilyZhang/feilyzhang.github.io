@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Copyright feily.tech</copyright>
-    <lastBuildDate>Fri, 14 Aug 2020 10:45:14 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 15 Aug 2020 17:42:14 +0800</lastBuildDate>
     
 	<atom:link href="https://feily.tech/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Integration by substitution of indefinite integral</title>
+      <link>https://feily.tech/posts/integration-by-substitution-of-indefinite-integral/</link>
+      <pubDate>Sat, 15 Aug 2020 17:42:14 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/integration-by-substitution-of-indefinite-integral/</guid>
+      <description>本文讨论和总结求函数的不定积分的换元积分法的一般形式。求被积函数的不定积分的本质就是求作为导函数的被积函数的原函数，即通过导函数反推原函数。</description>
+    </item>
     
     <item>
       <title>Some summaries on limit calculation</title>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Integration by substitution of indefinite integral - Feily Zhang</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="Integration by substitution of indefinite integral" />
+<meta property="og:description" content="本文讨论和总结求函数的不定积分的换元积分法的一般形式。求被积函数的不定积分的本质就是求作为导函数的被积函数的原函数，即通过导函数反推原函数。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://feily.tech/posts/integration-by-substitution-of-indefinite-integral/" />
+<meta property="article:published_time" content="2020-08-15T17:42:14+08:00" />
+<meta property="article:modified_time" content="2020-08-15T17:42:14+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Integration by substitution of indefinite integral"/>
+<meta name="twitter:description" content="本文讨论和总结求函数的不定积分的换元积分法的一般形式。求被积函数的不定积分的本质就是求作为导函数的被积函数的原函数，即通过导函数反推原函数。"/>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:200,300" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" media="screen" href="https://feily.tech/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://feily.tech/css/main.css" /><link rel="stylesheet" type="text/css" href="https://feily.tech/css/dark.css" media="(prefers-color-scheme: dark)" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+	<script src="https://feily.tech/js/main.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+	<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+	<script>
+	  document.addEventListener("DOMContentLoaded", function() {
+	    renderMathInElement( document.body, {
+	      delimiters: [
+	        {left: "$$", right: "$$", display: true},
+	        {left: "[%", right: "%]", display: true},
+	        {left: "$", right: "$", display: false}
+	      ]}
+	    );
+	  });
+	</script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title"><a href="https://feily.tech/">Feily Zhang</a></h1>
+	<div class="site-description"><h2>Software Developer, Machine Learning, Astronomy Enthusiast.</h2><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/FeilyZhang" title="Github"><i data-feather="github"></i></a><a href="https://twitter.com/FeilyZhang" title="Twitter"><i data-feather="twitter"></i></a><a href="/index.xml" title="RSS"><i data-feather="rss"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/">Home</a>
+			</li>
+			
+			<li>
+				<a href="/posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="/about">About</a>
+			</li>
+			
+			<li>
+				<a href="/tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h1 class="title">Integration by substitution of indefinite integral</h1>
+			<div class="meta">Posted at &mdash; Aug 15, 2020</div>
+		</div>
+
+		<div class="markdown">
+			<p>本文讨论和总结求函数的不定积分的换元积分法的一般形式。求被积函数的不定积分的本质就是求作为导函数的被积函数的原函数，即通过导函数反推原函数。</p>
+<p>首先从相关概念入手。</p>
+<h2 id="原函数与不定积分"><strong>原函数与不定积分</strong></h2>
+<h3 id="原函数"><strong>原函数</strong></h3>
+<p>如果在区间$I$上，可导函数$F(x)$的导函数为$f(x)$，即对任一$x \in I$，都有</p>
+<p>\begin{equation}F^{'}(x) = f(x)\ \ \ or\ \ \ dF(x) = f(x)dx,\end{equation}</p>
+<p>那么函数$F(x)$就称为$f(x)$（或$f(x)dx$）在区间$I$上的原函数.</p>
+<h3 id="原函数存在定理"><strong>原函数存在定理</strong></h3>
+<p>如果函数$f(x)$在区间$I$上连续，那么在区间$I$上存在可导函数$F(x)$，使对任一$x \in I$都有</p>
+<p>\begin{equation}F^{'}(x) = f(x),\end{equation}</p>
+<p>即<strong>连续函数一定有原函数.</strong></p>
+<h3 id="不定积分"><strong>不定积分</strong></h3>
+<p>在区间$I$上，函数$f(x)$的带有任意常数项的原函数称为$f(x)$（或$f(x)dx$）在区间$I$上的不定积分，记作</p>
+<p>\begin{equation}\int f(x)dx,\end{equation}</p>
+<p>其中记号$\int$称为积分号，$f(x)$称为被积函数，$f(x)dx$称为被积表达式，$x$称为积分变量.</p>
+<p>本文不涉及一些简单的积分计算（主要是通过基本积分表来计算的），比如幂函数$\int x^2dx$的积分，如下</p>
+<p>\begin{equation}\int x^2dx = \frac{x^3}{3} + C.\end{equation}</p>
+<h3 id="不定积分的性质"><strong>不定积分的性质</strong></h3>
+<p>性质1：设函数$f(x)$及$g(x)$的原函数存在，则</p>
+<p>\begin{equation}\int[f(x) + g(x)]dx = \int f(x)dx + \int g(x)dx.\end{equation}</p>
+<p>即，被积函数和的不定积分为被积函数不定积分之和.</p>
+<p>性质2：设函数$f(x)$的原函数存在，$k$为非零常数，则</p>
+<p>\begin{equation}\int kf(x)dx = k\int f(x)dx.\end{equation}</p>
+<p>即，被积函数数乘的不定积分为被积函数不定积分之数乘.</p>
+<p><strong>利用基本积分表以及不定积分的这两个性质，可以求一些有限个基本被积函数通过加法或数乘运算组成的被积函数的不定积分</strong>。比如，求下述不定积分</p>
+<p>\begin{equation}\int\sqrt{x}(x^2 - 5)dx = \int x^{\frac{5}{2}}dx - \int 5x^{\frac{1}{2}}dx = \frac{2}{7}x^{\frac{7}{2}} - 5·\frac{2}{3}x^{\frac{3}{2}} + C = \frac{2}{7}x^3\sqrt{x} - \frac{10}{3}x\sqrt{x} + C.\end{equation}</p>
+<h2 id="不定积分的换元积分法"><strong>不定积分的换元积分法</strong></h2>
+<p>将复合函数微分法反过来用于求不定积分，利用中间变量代换，得到复合函数积分法的方法，被称为换元积分法。共包括两类。</p>
+<h3 id="第一类换元法"><strong>第一类换元法</strong></h3>
+<p>定理：设$f(x)$具有原函数，$u = \varphi(x)$可导，则有换元公式</p>
+<p>\begin{equation}\int f[\varphi(x)]\varphi^{'}(x)dx = [\int f(u)du]_{u = \varphi(x)}\end{equation}</p>
+<p>关于上述定理的解释如下</p>
+<p>设原复合函数为$F(u),u = \varphi(x)$，那么根据复合函数微分法，该复合函数关于$x$的导函数为</p>
+<p>\begin{equation}\frac{dF(x)}{dx} = \frac{dF(x)}{du}·\frac{du}{dx} = F^{'}(u)u^{'} = f[\varphi(x)]\varphi^{'}(x)\end{equation}</p>
+<p>其微分形式为</p>
+<p>\begin{equation}dF(x) = F^{'}(u)u^{'}dx = f[\varphi(x)]\varphi^{'}(x)d(x)\tag{a}\end{equation}</p>
+<p>上式右侧即被积表达式的复合函数形式。更进一步地，由于$d\varphi(x) = \varphi^{'}(x)d(x),du = u^{'}dx$，所以上式可以变为</p>
+<p>\begin{equation}dF(u) = F^{'}(u)du = f[\varphi(x)]d\varphi(x)\tag{b}\end{equation}</p>
+<p>上述式(a)、(b)含义一致，只是表达形式上有差异。二者都表示复合函数的微分就是复合函数关于被复合函数的导数与被复合函数关于$x$的微分之积。现在就可以很容易的解释第一类换元法：</p>
+<p>由于某些被积函数形式复杂，无法通过查基本积分表得出其原函数，但是若此类函数容易找到$\varphi(x)$，通过$\varphi(x)$关于$x$的微分容易凑出$d\varphi(x)$（即(a)式等号右侧的$\varphi^{'}(x)d(x)$），那么便可以将被积表达式转化为(a)式（其本质仍然是被积函数关于$x$的不定积分），从而根据复合函数微分法容易转化为(b)式（其本质变成了被积函数关于$d\varphi(x)$的不定积分），由于被积函数得以简化，通过查基本积分表便可以得到复合函数的不定积分（即(b)式由右侧被积函数转化为左侧原函数），然后将$\varphi(x)$回代即可得到被积函数关于$x$的不定积分。</p>
+<p>所以，第一类换元法的本质就是复合函数微分法的反运用。<strong>其核心在于从被积函数中找到原函数的复合函数$\varphi(x)$，并据该被复合函数的微分凑出$d\varphi(x)$以求得被积函数的不定积分.更进一步地，我们的目标是将被积函数关于$x$的不定积分转化为关于$d\varphi(x)$的不定积分，从而简化被积函数，然后通过基本积分表就可以得到被积函数关于$d\varphi(x)$的不定积分，最后回代便可以得到被积函数关于$x$的不定积分.</strong></p>
+<p>试举一例，求下述被积函数的不定积分</p>
+<p>\begin{equation}\int 2\cos2xdx.\end{equation}</p>
+<p>令$\varphi(x) = 2x$，从而$d\varphi(x) = 2dx$，那么（本行相当于式(a)）</p>
+<p>\begin{equation}\int 2\cos2xdx = \int \cos\varphi(x)d\varphi(x) = \sin\varphi(x) + C = \sin2x + C.\end{equation}</p>
+<p>或者更直接一点</p>
+<p>\begin{equation}\int 2\cos2xdx = \int \cos2xd(2x) = \sin2x + C.\end{equation}</p>
+<p>再举一例，求下述不定积分</p>
+<p>\begin{equation}\int \frac{1}{3 + 2x}dx = \frac{1}{2}\int\frac{1}{3 + 2x}d(3 + 2x) = \frac{1}{2}\ln|3 + 2x| + C.\end{equation}</p>
+<p>对于$x$只出现一次的被积函数来说，可以直接写出由式(a)到式(b)的转化等式，进而得出不定积分，比如上述两题。但是对于$x$出现了不止一次的被积函数来说，若非复合的$x$部分与$dx$无法凑出被复合函数的微分，那么应该显式的进行换元，即写出$\varphi(x)$，因为需要导出非复合部分的$x$的$\varphi(x)$表示形式，比如下题</p>
+<p>\begin{equation}\int \frac{x^2}{(x + 2)^3}dx\end{equation}</p>
+<p>令$\varphi(x) = x + 2$，那么$x = \varphi(x) - 2$，则可得不定积分</p>
+<p>\begin{equation}\begin{aligned}&amp;\int \frac{x^2}{(x + 2)^3}dx = \int \frac{(\varphi(x) - 2)^2}{\varphi(x)^3}d\varphi(x) \newline = &amp; \int \frac{\varphi(x)^2 - 4\varphi(x) + 4}{\varphi(x)^3}d\varphi(x) = \int (\varphi(x)^{-1} - 4\varphi(x)^{-2} + 4\varphi(x)^{-3}d\varphi(x)) \newline = &amp; \ln|\varphi(x)| + 4\varphi(x)^{-1} - 2\varphi(x)^{-2} + C = \ln|x + 2| + \frac{4}{x + 2} - \frac{2}{(x + 2)^2} + C.\end{aligned}\end{equation}</p>
+<p>但是如果可以凑出被复合函数的微分，那么直接写即可，例如</p>
+<p>\begin{equation}\int 2xe^{x^{2}}dx.\end{equation}</p>
+<p>上式中，非复合的$x$部分$2x$与$dx$可以凑出$x^2$的微分，因此直接可以转化为(b)式，即求得不定积分</p>
+<p>\begin{equation}\int 2xe^{x^{2}}dx = \int e^{x^{2}}d(x^2) = e{x^{2}} + C.\end{equation}</p>
+
+		</div>
+
+		<div class="post-tags">
+			
+				
+					<nav class="nav tags">
+							<ul class="flat">
+								
+								<li><a href="/tags/calculus">Calculus</a></li>
+								
+							</ul>
+					</nav>
+				
+			
+		</div>
+		</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div> © Copyright feily.tech |  <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a> | Built with <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+
+<script>feather.replace()</script>
+</body>
+</html>
