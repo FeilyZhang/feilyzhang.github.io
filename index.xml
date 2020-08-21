@@ -13,6 +13,15 @@
     
     
     <item>
+      <title>How to understand the geometric meaning of determinant</title>
+      <link>https://feily.tech/posts/how-to-understand-the-geometric-meaning-of-determinant/</link>
+      <pubDate>Fri, 21 Aug 2020 12:42:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/how-to-understand-the-geometric-meaning-of-determinant/</guid>
+      <description>行列式的几何意义是或者本质定义为：$n$阶行列式是由$n$个$n$维向量$\alpha_1 = [a_{11}, a_{12}, \cdots, a_{1n}], \alpha_2 = [a_{21}, a_{22}, \cdots, a_{2n}],\cdots, \alpha_n = [a_{n1}, a_{n2}, \cdots, a_{nn}]$组成的，其运算规则下的结果为以这$n$个向量为邻边的$n$维图形的体积。那么如何理解行列式的这一本质定义呢？不妨以三阶行列式为例来说明之。</description>
+    </item>
+    
+    <item>
       <title>Integration by substitution of indefinite integral</title>
       <link>https://feily.tech/posts/integration-by-substitution-of-indefinite-integral/</link>
       <pubDate>Sat, 15 Aug 2020 17:42:14 +0800</pubDate>

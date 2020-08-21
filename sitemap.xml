@@ -3,17 +3,27 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://feily.tech/posts/how-to-understand-the-geometric-meaning-of-determinant/</loc>
+    <lastmod>2020-08-21T12:42:05+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://feily.tech/tags/linear-algebra/</loc>
+    <lastmod>2020-08-21T12:42:05+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://feily.tech/posts/</loc>
+    <lastmod>2020-08-21T12:42:05+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://feily.tech/tags/calculus/</loc>
     <lastmod>2020-08-15T17:42:14+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://feily.tech/posts/integration-by-substitution-of-indefinite-integral/</loc>
-    <lastmod>2020-08-15T17:42:14+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://feily.tech/posts/</loc>
     <lastmod>2020-08-15T17:42:14+08:00</lastmod>
   </url>
   
@@ -59,11 +69,6 @@
   
   <url>
     <loc>https://feily.tech/posts/how-to-understand-matrix-multiplication/</loc>
-    <lastmod>2020-07-19T19:34:05+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://feily.tech/tags/linear-algebra/</loc>
     <lastmod>2020-07-19T19:34:05+08:00</lastmod>
   </url>
   
