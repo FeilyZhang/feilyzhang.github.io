@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Backtracking on Feily Zhang</title>
+    <link>https://feily.tech/tags/backtracking/</link>
+    <description>Recent content in Backtracking on Feily Zhang</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright feily.tech</copyright>
+    <lastBuildDate>Thu, 26 Nov 2020 19:26:05 +0800</lastBuildDate>
+    
+	<atom:link href="https://feily.tech/tags/backtracking/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Love guide to backtracking algorithm</title>
+      <link>https://feily.tech/posts/love-guide-to-backtracking-algorithm/</link>
+      <pubDate>Thu, 26 Nov 2020 19:26:05 +0800</pubDate>
+      
+      <guid>https://feily.tech/posts/love-guide-to-backtracking-algorithm/</guid>
+      <description>@FeilyZhang微信未读消息累计$594$条，遂突发奇想未读消息序列能否凑成自然数$520$，以及能够凑成多少个$520$，以此tell小可爱🐕😘🐖。于是便有了这篇文章，其本质上是子集求和问题。本文采用回溯算法的思想搜索解空间，通过多种剪枝策略减少不必要的解空间搜索。</description>
+    </item>
+    
+  </channel>
+</rss>
