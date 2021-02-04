@@ -3,17 +3,32 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://feily.tech/tags/crawler/</loc>
+    <lastmod>2021-02-04T09:44:05+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://feily.tech/posts/how-to-break-through-the-risk-control-of-public-comment-interface/</loc>
+    <lastmod>2021-02-04T09:44:05+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://feily.tech/posts/</loc>
+    <lastmod>2021-02-04T09:44:05+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://feily.tech/tags/python/</loc>
+    <lastmod>2021-02-04T09:44:05+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://feily.tech/tags/backtracking/</loc>
     <lastmod>2020-11-26T19:26:05+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://feily.tech/posts/love-guide-to-backtracking-algorithm/</loc>
-    <lastmod>2020-11-26T19:26:05+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://feily.tech/posts/</loc>
     <lastmod>2020-11-26T19:26:05+08:00</lastmod>
   </url>
   
