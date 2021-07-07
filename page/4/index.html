@@ -79,51 +79,91 @@
 				
 				
 				<div class="post">
-					<div class="meta">Apr 10, 2020</div>
-					<a class="title" href="/posts/brute-force-algorithm/">Brute force algorithm</a> &mdash;
+					<div class="meta">Sep 13, 2019</div>
+					<a class="title" href="/posts/from-boot-up-to-disk-boot-program-execution/">From power up to disk boot program execution</a> &mdash;
 					<span class="description">
 						
-						选择排序 function selectionSort(arr) {var minIndex;for (var i = 0; i &lt; arr.&hellip;
+						本系列文章基于Linux 0.&hellip;
 						
 					</span>
 				</div>
 				
 				<div class="post">
-					<div class="meta">Apr 9, 2020</div>
-					<a class="title" href="/posts/introduction-to-the-design-and-analysis-of-algorithms2/">Introduction to The Design and Analysis of Algorithms(2)</a> &mdash;
+					<div class="meta">Apr 25, 2019</div>
+					<a class="title" href="/posts/garbage-collector-and-memory-allocation-strategy/">Garbage collector and memory allocation strategy</a> &mdash;
 					<span class="description">
 						
-						检查序列元素是否唯一 最简单的办法就是遍历，时间复杂度为$n^2$，如下&hellip;
+						堆中几乎存放着Java中的所有对象实例，垃圾收集器在对堆进行回收前，要做的一件事情就是判断这些对象有哪些还“或者”，哪些已经“死去（即不可能再被任何途径使用的对象）”。然后对死去的对象进行垃圾清理完成内存回收。&hellip;
 						
 					</span>
 				</div>
 				
 				<div class="post">
-					<div class="meta">Apr 5, 2020</div>
-					<a class="title" href="/posts/introduction-to-the-design-and-analysis-of-algorithms1/">Introduction to The Design and Analysis of Algorithms(1)</a> &mdash;
+					<div class="meta">Apr 24, 2019</div>
+					<a class="title" href="/posts/jvm-method-call/">JVM method call</a> &mdash;
 					<span class="description">
 						
-						欧几里得算法 假定输入的第一个参数不小于第二个参数，其递推公式为&hellip;
+						JVM执行引擎在执行方法字节码的之前最重要的一个步骤就是方法调用。方法调用阶段唯一的任务就是确定被调用方法的版本，即调用哪一个方法，并未涉及方法的运行过程。&hellip;
 						
 					</span>
 				</div>
 				
 				<div class="post">
-					<div class="meta">Apr 1, 2020</div>
-					<a class="title" href="/posts/lists-iteration-and-recursion/">Lists Iteration and Recursion</a> &mdash;
+					<div class="meta">Apr 24, 2019</div>
+					<a class="title" href="/posts/runtime-stack-frame-structure/">Runtime stack frame structure</a> &mdash;
 					<span class="description">
 						
-						Racket是Lisp语言的一种方言，Lisp最初代表的是“LISt Processor”，意为列表处理器，因此内置的这种list数据结构依然是该语言的突出特性。&hellip;
+						栈帧(Stack Frame)是用于支持虚拟机方法调用和方法执行的数据结构，它是虚拟机运行时数据区中的虚拟机栈的栈元素。栈帧中存储了方法的局部变量表、操作数栈、动态链接和方法返回出口等信息。每一个方法从调用开始到执行完成的过程，就对应着一个栈帧在虚拟机栈里面从入栈到出栈的过程。&hellip;
 						
 					</span>
 				</div>
 				
 				<div class="post">
-					<div class="meta">Mar 29, 2020</div>
-					<a class="title" href="/posts/simple-definitions-and-expressions/">Simple Definitions and Expressions</a> &mdash;
+					<div class="meta">Apr 23, 2019</div>
+					<a class="title" href="/posts/jvm-runtime-data-area/">JVM runtime data area</a> &mdash;
 					<span class="description">
 						
-						Racket标识符 Racket对于定义标识符(identifiers)的语法相当宽松，没有像Java、C之类的多个保留字，原则上除过构成数字常量的字符序列外，均可以定义为标识符，即+, -, *, /等符号可以随意组合为标识符而不受任何限制，但是数字字面量不可以定义为标识符。例如，如下定义的标识符均合法&hellip;
+						Java虚拟机在执行Java程序过程中会把它所管理的内存划分为若干个不同的数据区域，这些区域各有用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则是依赖用户线程的启动和结束而建立和销毁。Jva虚拟机所管理的内存区域将会包括以下几个运行时数据区域：&hellip;
+						
+					</span>
+				</div>
+				
+				<div class="post">
+					<div class="meta">Apr 22, 2019</div>
+					<a class="title" href="/posts/class-file-structure/">Class file structure</a> &mdash;
+					<span class="description">
+						
+						Class文件是一组以8位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑的排列在Class文件之中，中间没有任何分隔符，这使得整个Class文件中存储的内容几乎全部都是程序运行的必要数据，没有空隙存在。当遇到需要占用8为字节以上空间的数据项时，则会按照高位在前的方式分割成若干个8位字节进行存储。&hellip;
+						
+					</span>
+				</div>
+				
+				<div class="post">
+					<div class="meta">Apr 20, 2019</div>
+					<a class="title" href="/posts/design-of-seven-kinds-of-singleton-patterns/">Design of seven kinds of singleton patterns</a> &mdash;
+					<span class="description">
+						
+						单例模式提供了一种在多线程情况下保证实例唯一性的解决方案，单例模式设计的标准是：懒加载、高性能、线程安全。&hellip;
+						
+					</span>
+				</div>
+				
+				<div class="post">
+					<div class="meta">Mar 26, 2019</div>
+					<a class="title" href="/posts/artificial-neural-network/">Artificial neural network</a> &mdash;
+					<span class="description">
+						
+						一、从生物神经网络到人工神经网络 如同人脑使用一个被称为神经元的相互连接的细胞网络来创建一个巨大的并行处理器一样，人工神经网络使用人工神经元或节点的网络来解决学习问题。既然，人工神经网络基于生物神经网络，那么有必要了解一下生物神经细胞或神经元的组成。&hellip;
+						
+					</span>
+				</div>
+				
+				<div class="post">
+					<div class="meta">Mar 23, 2019</div>
+					<a class="title" href="/posts/decision-tree-learning-algorithm/">Decision tree learning algorithm</a> &mdash;
+					<span class="description">
+						
+						简介 决策树学习算法以树形结构建立模型，类似于流程图，该模型本身包含一系列逻辑决策。几个概念如下&hellip;
 						
 					</span>
 				</div>
@@ -137,8 +177,6 @@
 	
 	</li>
 	<li class="page-item page-next">
-	
-    <a href="/page/5/" class="page-link" aria-label="Next"><span aria-hidden="true">Next page →</span></a>
 	
 	</li>
 </ul>
